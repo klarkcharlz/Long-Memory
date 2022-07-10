@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# add
+.idea
+
+# frontend
+/frontend/long_memory/node_modules/
