@@ -1,0 +1,18 @@
+services:
+  db:
+    image: kartoza/postgis
+    privileged: true
+    restart: always
+    ports:
+      - 54326:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: test_db
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
