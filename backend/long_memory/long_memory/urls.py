@@ -4,8 +4,11 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 
 from users.views import CreateUserView
+from notifications.views import NotificationsViewSet
 
 router = DefaultRouter()
+
+router.register('notifications', NotificationsViewSet, basename="notifications")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
