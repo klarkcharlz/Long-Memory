@@ -134,3 +134,4 @@ dmypy.json
 # frontend
 /frontend/long_memory/node_modules/
 *.DS_Store
+*_initial.py
