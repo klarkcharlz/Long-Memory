@@ -2,6 +2,10 @@ import React from "react";
 import {Link} from "react-router-dom";
 import classes from "./Header.module.css";
 
+const logout = () => {
+    console.log('logout')
+}
+
 const Header = () => {
     return (
         <div>
@@ -14,10 +18,10 @@ const Header = () => {
                 </div>
 
                 <div>
-                    <Link to='/main'>
+                    <Link to='/registration'>
                         <button>Регистрация</button>
                     </Link>
-                    <Link to='/main'>
+                    <Link to='/authorization'>
                         <button>Авторизация</button>
                     </Link>
                 </div>

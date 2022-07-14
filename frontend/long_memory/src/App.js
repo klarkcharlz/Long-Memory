@@ -7,6 +7,9 @@ import Menu from "./components/Menu/Menu";
 import NotFound from "./components/NotFound/NotFound";
 import CreateNotification from "./components/CreateNotification/CreateNotification";
 import NotificationList from "./components/NotificationsList/NotificationsList";
+import AuthorizationForm from "./components/AuthorizationForm/AuthorizationForm";
+import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
+
 import classes from "./App.module.css";
 
 export default function App() {
@@ -28,6 +31,14 @@ export default function App() {
                             <Route
                                 path="/notifications_list"
                                 element={<NotificationList/>}
+                            />
+                            <Route
+                                path="/registration"
+                                element={<RegistrationForm/>}
+                            />
+                            <Route
+                                path="/authorization"
+                                element={<AuthorizationForm/>}
                             />
                             <Route
                                 path="*"
