@@ -12,35 +12,38 @@ import classes from "./App.module.css";
 export default function App() {
     return (
         <div className={classes.body}>
-            <Router>
-                <Header/>
-                <div className={classes.main}>
-                    <div className={classes.router}>
-                        <Routes>
-                            <Route
-                                path="/main"
-                                element={<StartPage/>}
-                            />
-                            <Route
-                                path="/create_notification"
-                                element={<CreateNotification/>}
-                            />
-                            <Route
-                                path="/notifications_list"
-                                element={<NotificationList/>}
-                            />
-                            <Route
-                                path="*"
-                                element={<NotFound/>}
-                            />
-                        </Routes>
+            <div className={classes.container}>
+                <Router>
+                    <Header/>
+                    <div className={classes.main}>
+                        <div className={classes.router}>
+                            <Routes>
+                                <Route
+                                    path="/main"
+                                    element={<StartPage/>}
+                                />
+                                <Route
+                                    path="/create_notification"
+                                    element={<CreateNotification/>}
+                                />
+                                <Route
+                                    path="/notifications_list"
+                                    element={<NotificationList/>}
+                                />
+                                <Route
+                                    path="*"
+                                    element={<NotFound/>}
+                                />
+                            </Routes>
+                        </div>
+                        <div className={classes.menu}>
+                            <Menu/>
+                        </div>
                     </div>
-                    <div className={classes.menu}>
-                        <Menu/>
-                    </div>
-                </div>
-            </Router>
-            <Footer className={classes.footer}/>
+                </Router>
+                <Footer className={classes.footer}/>
+            </div>
+
         </div>
     );
 }

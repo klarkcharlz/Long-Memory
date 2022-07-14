@@ -1,5 +1,38 @@
-.header {
+.title {
+    height: 150px;
     display: flex;
-    align-items: flex-start;
+    justify-content: left;
+    align-items: center;
+    font-size: 30px;
+    padding-top: 25px;
+}
+
+.header {
+    height: 150px;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
+    padding-top: 25px;
+}
+
+.button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+}
+
+.user_menu {
+    width: 239px;
+    height: 35px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.button_logo {
+    color: transparent;
+    border: 0;
+    width: 128px;
+    height: 128px;
+    background: url('../Static/logo.png') no-repeat;
 }

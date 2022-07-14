@@ -5,27 +5,30 @@ import classes from "./Header.module.css";
 const Header = () => {
     return (
         <div>
-
             <div className={classes.header}>
                 <div>
                     <Link to='/main'>
-                        <button>О проекте</button>
+                        <button className={classes.button_logo}>Main</button>
                     </Link>
                 </div>
 
-                <div>
+                <div className={classes.user_menu}>
                     <Link to='/main'>
-                        <button>Регистрация</button>
+                        <button className={classes.button}>Login</button>
                     </Link>
                     <Link to='/main'>
-                        <button>Авторизация</button>
+                        <button className={classes.button}>Sign up</button>
                     </Link>
                 </div>
+
+            </div>
+
+            <div className={classes.title}>
+                <h1>Long Memory</h1>
+            </div>
+
         </div>
-
-    <h1>Long Memory</h1>
-</div>
-)
+    )
 }
 
 export default Header;

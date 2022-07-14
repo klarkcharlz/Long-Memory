@@ -1,0 +1,10 @@
+.list {
+    list-style: none;
+}
+
+.start_page {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}

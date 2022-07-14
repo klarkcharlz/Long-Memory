@@ -1,9 +1,10 @@
 import React from "react";
+import classes from "./Footer.module.css";
 
 const Footer = () =>{
     return (
-        <div>
-            <h3>crazy-pythons-crew © 2020</h3>
+        <div className={classes.footer}>
+            <h5>crazy-pythons-crew © 2022</h5>
         </div>
     )
 }

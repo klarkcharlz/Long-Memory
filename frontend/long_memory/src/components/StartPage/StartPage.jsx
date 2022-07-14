@@ -1,40 +1,41 @@
 import React from "react";
+import classes from "./StartPage.module.css";
 
 
 const StartPage = () => {
     console.log('Render StartPage')
     return (
-        <div>
-            <h3>Здравствуйте. <br/>
-                Вас приветствует сайт по тренировке долгосрочной памяти.</h3>
-            <p>Запишите то что изучили сегодня.</p>
-            <p>И на сайте можете видеть напоминания о том что нужно повторить.</p>
-            <ul>
+        <div className={classes.start_page}>
+            <h3>Welcome to the long-term memory training website</h3>
+            <p>Write down what you learned today.<br/>And on the site you can see reminders of what needs to be repeated.</p>
+            <br/>
+            <ul className={classes.list}>
                 <li>
-                    <p>Через день.</p>
+                    <p>In one day.</p>
                 </li>
                 <li>
-                    <p>Через 3 дня.</p>
+                    <p>In 3 days.</p>
                 </li>
                 <li>
-                    <p>Через неделю.</p>
+                    <p>A week later.</p>
                 </li>
                 <li>
-                    <p>Через 3 недели.</p>
+                    <p>In 3 weeks.</p>
                 </li>
                 <li>
-                    <p>Через месяц.</p>
+                    <p>In a month.</p>
                 </li>
                 <li>
-                    <p>Через 3 месяца.</p>
+                    <p>In 3 months.</p>
                 </li>
                 <li>
-                    <p>Через пол года.</p>
+                    <p>After half a year.</p>
                 </li>
             </ul>
-            <p>P.S. каждое новое напоминание отсчитывает время от предыдущего.</p>
-            <p>Старайтесь каждый раз вспомнить все по памяти из головы по максимуму,
-                а то что не помните тщательно повторите.</p>
+            <br/>
+            <p>P.S. each new reminder counts down the time from the previous one.</p>
+            <p>Try every time to remember everything from memory from your head to the maximum,
+                and what you do not remember carefully repeat.</p>
         </div>
     )
 }
