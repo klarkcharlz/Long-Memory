@@ -16,7 +16,7 @@ class Notifications(models.Model):
     period_type = models.SmallIntegerField(default=0)
     next_notifications = models.DateTimeField(verbose_name="Дата следующего напоминания",
                                               default=calculate_first_notification_date())
-    is_active = models.BooleanField(verbose_name="Описание", default=True)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата регистрации')
 
     def __str__(self):
