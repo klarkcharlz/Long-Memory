@@ -1,0 +1,30 @@
+{% extends 'base_email.html' %}
+
+{% block title %}
+    <p>Пора повторить карточку "{{ title }}"</p>
+{% endblock %}
+
+{% block content %}
+
+<div style="color: black; font-size: 16px;">
+    <p>Привет, {{f_name}}!</p>
+    <p>Пришло время повторить материал:</p>
+    {% for notif in notifications %}
+        <div>
+            <p>Название: <b>{{notif.title}}</b></p>
+            <p>Описание: <br>{{notif.description}}</p>
+        </div>
+    {% endfor %}
+    <p>Твои активные карточки доступны по ссылке: <a href='#' target="_blank">Все карточки</a>
+</div>
+{% endblock %}
+
+{% block footer %}
+    <p>
+        Prepared with ❤ by "Crazy Pyton Crew"
+    </p>
+    <p>
+        <a href="#">Site</a> &copy 2022
+    </p>
+
+{% endblock %}
