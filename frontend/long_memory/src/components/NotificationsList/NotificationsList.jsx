@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import classes from "./NotificationsList.module.css";
 
 
 import {getContent} from '../../functions/api'
@@ -16,7 +17,7 @@ const testData =
 const Notification = ({notification}) => {
     const {title, description, date} = notification;
     return (
-        <div>
+        <div className={classes.container}>
             <p>{title}</p>
             <p>{description}</p>
             <p>{date}</p>

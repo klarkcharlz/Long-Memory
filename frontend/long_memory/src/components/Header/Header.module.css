@@ -22,11 +22,16 @@
     font-size: 20px;
 }
 
+.button:hover {
+    font-size: 25px;
+}
+
 .user_menu {
     width: 239px;
     height: 35px;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 .button_logo {

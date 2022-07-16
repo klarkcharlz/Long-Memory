@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
+import classes from "./CreateNotification.module.css";
 
 
 const createNotification = (title, description) => {
@@ -13,19 +14,21 @@ const CreateNotification = () => {
     const [description, setDescription] = useState('useState');
     return (
         <div>
-            <form>
-                <label> Тема(ы)
-                    <input type="text"
-                           name="title"
-                           value={title}
-                           onChange={(e) => {
-                               setTitle(e.target.value)
-                           }}
+            <form className={classes.card_form}>
+                <label className={classes.title_area}>Тема(ы)
+                    <input
+                        className={classes.title_notification}
+                        type="text"
+                        name="title"
+                        value={title}
+                        onChange={(e) => {
+                            setTitle(e.target.value)
+                        }}
                     />
                 </label>
                 <br/>
-                <label> Описание
-                    <textarea
+                <label className={classes.area_form}>Описание
+                    <textarea className={classes.theme_notification}
                         name="description"
                         value={description}
                         onChange={(e) => {
@@ -34,9 +37,9 @@ const CreateNotification = () => {
                     />
                 </label>
                 <br/>
-                <button type="button" onClick={() => {
+                <button className={classes.button} type="button" onClick={() => {
                     createNotification(title, description);
-                }}>Создать
+                }}>CREATE
                 </button>
             </form>
         </div>

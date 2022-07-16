@@ -1,0 +1,52 @@
+.title_notification {
+    width: 60%;
+    height: 3em;
+    background: #1b6d8580;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.theme_notification {
+    width: 60%;
+    height: 20em;
+    background: #1b6d8580;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.card_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.button {
+    width: 60%;
+    height: 3em;
+    background: transparent;
+    border-color: white;
+    border: solid;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.button:hover {
+    background: #1b6d8580;
+}
+
+.title_area {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.area_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
