@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import classes from "./NotificationsList.module.css";
 
 
-import {getContent} from '../../functions/api'
+import {getUserNotifications} from '../../functions/api'
 
 
 const testData =

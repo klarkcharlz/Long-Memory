@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -9,10 +9,13 @@ import CreateNotification from "./components/CreateNotification/CreateNotificati
 import NotificationList from "./components/NotificationsList/NotificationsList";
 import AuthorizationForm from "./components/AuthorizationForm/AuthorizationForm";
 import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
+import StatusModal from "./components/StatusModal/StatusModal"
 
 import classes from "./App.module.css";
 
 export default function App() {
+    const [token, setToken] = useState(false);
+    const [modalStatus, setModalStatus] = useState(false);
     return (
         <div className={classes.body}>
             <div className={classes.container}>

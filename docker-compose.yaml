@@ -10,9 +10,37 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: test_db
 
+  backend:
+    build: ./backend
+    privileged: true
+    ports:
+      - 8080:8080
+    command: bash -c "
+      python manage.py migrate &&
+      gunicorn long_memory.wsgi -b 0.0.0.0:8080
+      "
+    depends_on:
+      - db
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'
     ports:
       - 5672:5672
       - 15672:15672
+    depends_on:
+      - bd
+
+  monitoring_script:
+    build: ./notification_system/monitoring_script
+    restart: always
+    command: bash -c "python monitoring.py"
+    depends_on:
+      - rabbitmq
