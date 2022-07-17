@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -10,12 +10,24 @@ import NotificationList from "./components/NotificationsList/NotificationsList";
 import AuthorizationForm from "./components/AuthorizationForm/AuthorizationForm";
 import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
 import StatusModal from "./components/StatusModal/StatusModal"
-
+import {get_token_from_storage} from "./functions/tokenStorage"
 import classes from "./App.module.css";
+import useUserContext from "./hooks/useUserContext";
+import {getUserNotifications} from "./functions/api"
+
 
 export default function App() {
-    const [token, setToken] = useState(false);
     const [modalStatus, setModalStatus] = useState(false);
+    const {setToken} = useUserContext();
+
+    useEffect(() => {
+        const token = get_token_from_storage();
+        setToken(token);
+        if (token) {
+            getUserNotifications(token)
+        }
+    }, []);
+
     return (
         <div className={classes.body}>
             <div className={classes.container}>
@@ -46,7 +58,7 @@ export default function App() {
                                 />
                                 <Route
                                     path="*"
-                                    element={<NotFound/>}
+                                    element={<StartPage/>}
                                 />
                             </Routes>
                         </div>

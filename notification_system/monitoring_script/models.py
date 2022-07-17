@@ -1,9 +1,7 @@
-from sqlalchemy import Boolean, Column, \
-    DateTime, ForeignKey, Integer, SmallInteger, \
-    String, Text
+# coding: utf-8
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, SmallInteger, String, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-
 
 Base = declarative_base()
 metadata = Base.metadata

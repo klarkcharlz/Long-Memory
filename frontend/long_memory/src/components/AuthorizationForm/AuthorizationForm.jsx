@@ -1,16 +1,22 @@
 import React, { useState } from "react";
+import {useNavigate} from "react-router-dom";
+import useUserContext from "../../hooks/useUserContext";
+import {userAuthorization} from "../../functions/api"
 
 
-const authorization = (username, password) => {
+const authorization = (username, password, navigate, setToken) => {
     console.log('Авторизация');
     console.log(username);
     console.log(password);
+    userAuthorization(username, password, (token) => {setToken(token)}, navigate);
 }
 
 
 const AuthorizationForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const {setToken} = useUserContext();
     return (
         <div>
             <form>
@@ -40,7 +46,7 @@ const AuthorizationForm = () => {
                 <br/>
 
                 <button type="button" onClick={() => {
-                    authorization(username, password);
+                    authorization(username, password, navigate, setToken);
                 }}>Регистрация
                 </button>
 

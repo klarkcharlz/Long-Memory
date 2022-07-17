@@ -3,7 +3,6 @@ import classes from "./StartPage.module.css";
 
 
 const StartPage = () => {
-    console.log('Render StartPage')
     return (
         <div className={classes.start_page}>
             <h3>Welcome to the long-term memory training website</h3>

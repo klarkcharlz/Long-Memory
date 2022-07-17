@@ -1,14 +1,17 @@
 import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import useUserContext from "../../hooks/useUserContext";
+import {userRegistration} from "../../functions/api"
 
 
-const registration = (username, email, password1, password2) => {
+const registration = (username, email, password1, password2, navigate, setToken) => {
     console.log('Регистрация');
     console.log(username);
     console.log(email);
     console.log(password1);
     console.log(password2);
     console.log(password1 == password2);
-    // запрос на бэк(username, email, password)
+    // userRegistration(password, username, email, (token) => {setToken(token)}, navigate)
 }
 
 
@@ -17,6 +20,8 @@ const RegistrationForm = () => {
     const [email, setEmail] = useState('');
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
+    const navigate = useNavigate();
+    const {setToken} = useUserContext();
     return (
         <div>
             <form>
@@ -70,7 +75,7 @@ const RegistrationForm = () => {
                 <br/>
 
                 <button type="button" onClick={() => {
-                    registration(username, email, password1, password2);
+                    registration(username, email, password1, password2, navigate, setToken);
                 }}>Регистрация
                 </button>
 

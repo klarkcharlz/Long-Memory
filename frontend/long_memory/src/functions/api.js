@@ -1,42 +1,60 @@
 import axios from "axios";
 
-const GET_USER_NOTIFICATIONS_URL = `http://127.0.0.1:5000`;
-const CREATE_NOTIFICATIONS_URL = `http://127.0.0.1:5000`;
-const USER_REGISTRATION_URL = `http://127.0.0.1:5000`;
-const USER_AUTHORIZATION_URL = `http://127.0.0.1:5000`;
+import {set_token_to_storage} from "./tokenStorage";
 
-function getUserNotifications() {
-    axios.get(GET_USER_NOTIFICATIONS_URL)
+const GET_USER_NOTIFICATIONS_URL = `http://127.0.0.1:8000/api/notifications/`;
+const CREATE_NOTIFICATIONS_URL = `http://127.0.0.1:5000`;
+const USER_REGISTRATION_URL = `http://127.0.0.1:8000/api/register/`;
+const USER_AUTHORIZATION_URL = `http://127.0.0.1:8000/api-token-auth/`;
+
+
+function get_headers(token) {
+    let headers = {
+        'Content-Type': 'application/json'
+    }
+    if (token) {
+        headers['Authorization'] = 'token ' + token
+    }
+    return headers
+}
+
+
+function getUserNotifications(token) {
+    const headers = get_headers(token);
+    axios.get(GET_USER_NOTIFICATIONS_URL, {headers})
         .then(response => {
             console.log('response.data > ', response.data);
-            const notifications = response.data;
         }).catch(error => console.error(error))
 }
 
-function createNotification(data) {
-    // {title, description}
-    axios.post(CREATE_NOTIFICATIONS_URL, data)
+function createNotification(data, token) {
+    const headers = get_headers(token);
+    axios.post(CREATE_NOTIFICATIONS_URL, data, {headers})
         .then(response => {
             console.log(response.data);
         }).catch(error => console.error(error))
 }
 
-function userRegistration() {
-    // {username, email, password}
-    axios.get(USER_REGISTRATION_URL)
+function userRegistration(pass, username, email,  setToken, navigate) {
+    axios.post(USER_REGISTRATION_URL, {username: pass, password: username, email: email})
         .then(response => {
             console.log('response.data > ', response.data);
-            const notifications = response.data;
+            const token = response.data.token;
+            set_token_to_storage(token);
+            setToken(token);
+            navigate("/notifications_list");
         }).catch(error => console.error(error))
 }
 
-function userAuthorization() {
-    // {username, password}
-    axios.get(USER_AUTHORIZATION_URL)
+function userAuthorization(pass, username, setToken, navigate) {
+    axios.post(USER_AUTHORIZATION_URL, {username: pass, password: username})
         .then(response => {
-            console.log('response.data > ', response.data);
-            const notifications = response.data;
-        }).catch(error => console.error(error))
+            // console.log('response.data > ', response.data);
+            const token = response.data.token;
+            set_token_to_storage(token);
+            setToken(token);
+            navigate("/notifications_list");
+        }).catch(error => console.error(error));
 }
 
-export {getUserNotifications, createNotification};
+export {getUserNotifications, createNotification, userRegistration, userAuthorization};

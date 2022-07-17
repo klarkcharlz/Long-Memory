@@ -1,8 +1,4 @@
 # coding: utf-8
-"""
-sqlacodegen sqlite:////Users/nikolajpetrov/Documents/gb_lm/Long-Memory/backend/long_memory/db.sqlite3
-"""
-
 from sqlalchemy import BigInteger, Boolean, CheckConstraint, Column, DateTime, ForeignKey, Index, Integer, SmallInteger, String, Table, Text
 from sqlalchemy.sql.sqltypes import NullType
 from sqlalchemy.orm import relationship
@@ -31,7 +27,6 @@ class UsersCustomuser(Base):
     avatar = Column(String(100), nullable=False)
     created_at = Column(DateTime, nullable=False)
 
-
 class NotificationsNotification(Base):
     __tablename__ = 'notifications_notifications'
 
@@ -45,3 +40,4 @@ class NotificationsNotification(Base):
     user_id_id = Column(ForeignKey('users_customuser.id'), nullable=False, index=True)
 
     user_id = relationship('UsersCustomuser')
+
