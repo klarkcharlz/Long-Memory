@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -9,14 +9,20 @@ import CreateNotification from "./components/CreateNotification/CreateNotificati
 import NotificationList from "./components/NotificationsList/NotificationsList";
 import AuthorizationForm from "./components/AuthorizationForm/AuthorizationForm";
 import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
+import StatusModal from "./components/StatusModal/StatusModal"
+import TestComponent from "./components/TestComponent/TestComponent"
 
 import classes from "./App.module.css";
 
 export default function App() {
+    const [token, setToken] = useState(false);
+    const [modalStatus, setModalStatus] = useState(false);
     return (
         <div className={classes.body}>
             <Router>
-                <Header/>
+                {token ? <p>Вы авторизованы</p> : <p>Вы не авторизованы</p>}
+                <Header token={token} setToken={setToken}/>
+                <TestComponent/>
                 <div className={classes.main}>
                     <div className={classes.router}>
                         <Routes>
@@ -47,10 +53,11 @@ export default function App() {
                         </Routes>
                     </div>
                     <div className={classes.menu}>
-                        <Menu/>
+                        <Menu token={token}/>
                     </div>
                 </div>
             </Router>
+            <StatusModal status="Все плохо!" modalStatus={modalStatus} setModalStatus={setModalStatus}/>
             <Footer className={classes.footer}/>
         </div>
     );

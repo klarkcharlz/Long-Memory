@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import schedule
 from time import sleep
 
@@ -12,6 +14,7 @@ def job():
     data = check_db()
     print(f'Get data from db: {data}')
     for service in SERVICES:
+        print(f'{datetime.now()} - Отправил сообщение:')
         send(service, data)
 
 

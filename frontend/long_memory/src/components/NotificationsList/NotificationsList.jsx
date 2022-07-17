@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 
-import {getContent} from '../../functions/api'
+import {getUserNotifications} from '../../functions/api'
 
 
 const testData =

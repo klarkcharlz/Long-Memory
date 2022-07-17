@@ -1,12 +1,13 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import classes from "./Header.module.css";
 
 const logout = () => {
     console.log('logout')
 }
 
-const Header = () => {
+const Header = ({token, setToken}) => {
+    const navigate = useNavigate();
     return (
         <div>
 
@@ -17,19 +18,36 @@ const Header = () => {
                     </Link>
                 </div>
 
-                <div>
-                    <Link to='/registration'>
-                        <button>Регистрация</button>
-                    </Link>
-                    <Link to='/authorization'>
-                        <button>Авторизация</button>
-                    </Link>
-                </div>
-        </div>
+                {!token ?
+                    <div>
+                        <Link to='/registration'>
+                            <button onClick={() => {
+                                setToken(true);
+                            }}>Регистрация
+                            </button>
+                        </Link>
+                        <Link to='/authorization'>
+                            <button onClick={() => {
+                                setToken(true);
+                            }}>Авторизация
+                            </button>
+                        </Link>
 
-    <h1>Long Memory</h1>
-</div>
-)
+                    </div> : <div>
+                        <button onClick={() => {
+                            logout();
+                            navigate("/main");
+                            setToken(false);
+                        }
+                        }>Выход
+                        </button>
+                    </div>
+                }
+            </div>
+
+            <h1>Long Memory</h1>
+        </div>
+    )
 }
 
 export default Header;
