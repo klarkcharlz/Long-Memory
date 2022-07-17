@@ -1,0 +1,61 @@
+.title_notification {
+    height: 3em;
+    background: #1b6d8580;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding-left: 15px;
+    margin-top: 10px;
+}
+
+.theme_notification {
+    height: 20em;
+    background: #1b6d8580;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    color: white;
+    padding-top: 15px;
+    padding-left: 15px;
+    resize: none;
+}
+
+.card_form {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.button {
+    height: 3em;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 10px;
+    color: white;
+}
+
+.button:hover {
+    background: #1b6d8580;
+}
+
+.title_area {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.area_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+@media screen and (min-width: 468px) and (max-width: 809px) {
+    .card_form {
+        width: 100%;
+    }
+}

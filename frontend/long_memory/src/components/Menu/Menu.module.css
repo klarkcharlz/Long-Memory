@@ -1,11 +1,15 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
 .button {
     height: 192px;
     width: 192px;
     border-radius: 50%;
-    border: 1px;
-    margin-bottom: 20px;
+    margin: 20px;
     background-color: transparent;
-    border: solid;
+    border: 1px solid white;
     color: white;
     font-size: 25px;
     display: flex;
@@ -13,6 +17,18 @@
     align-items: center;
 }
 
+.button:hover {
+    background: #1b6d8580;
+}
+
 .link {
     text-decoration: none;
+}
+
+@media screen and (min-width: 468px) and (max-width: 809px) {
+
+    .container {
+        flex-direction: row;
+    }
+
 }
