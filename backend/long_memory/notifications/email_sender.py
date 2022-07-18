@@ -1,11 +1,14 @@
 import ssl
 import smtplib
+import time
+
 import jinja2
 
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+import schedule
 from notifications.models import Notifications
 from users.models import CustomUser
 
@@ -56,8 +59,7 @@ def get_body(username, notifications):
 
 def send_for_user():
     """
-    определяет юзеров
-        если юзер активен
+    определяет активных юзеров
             грузим его активные нотифы
         отправляем инфу на формирование тела письма, получаем тело
         отдаем тело и параметры на отправку
@@ -75,6 +77,14 @@ def send_for_user():
         send_email(sender, password, mail_add, username, body)
 
 
+schedule.every().day.at("10:00").do(send_for_user)  # запуск скрипта каждый день в 10.00
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)  # оставлено в целях тестирования
+
+
 """
-Естественно будет дорабатываться, нужно изучить Rabbir, вопрос с необходимостью SSL сертификата
+Естественно будет дорабатываться, нужно изучить Rabbit, вопрос с необходимостью SSL сертификата
+Временно перевел на schedule
 """
