@@ -1,17 +1,22 @@
 import React, {useState} from "react";
 import classes from "./CreateNotification.module.css";
+import {createNotification} from "../../functions/api"
+import useUserContext from "../../hooks/useUserContext";
 
-
-const createNotification = (title, description) => {
+const createNotification_ = (title, description, token) => {
     console.log('Создано');
-    console.log(title);
-    console.log(description);
+    const notification = {
+        title,
+        description
+    }
+    // createNotification(notification, token)
 }
 
 
 const CreateNotification = () => {
     const [title, setTitle] = useState('React hooks');
     const [description, setDescription] = useState('useState');
+    const {token} = useUserContext();
     return (
         <div>
             <form className={classes.card_form}>
@@ -38,7 +43,7 @@ const CreateNotification = () => {
                 </label>
                 <br/>
                 <button className={classes.button} type="button" onClick={() => {
-                    createNotification(title, description);
+                    createNotification_(title, description, token);
                 }}>CREATE
                 </button>
             </form>
@@ -46,5 +51,4 @@ const CreateNotification = () => {
     )
 }
 
-// export default CreateNotification;
 export default CreateNotification;
