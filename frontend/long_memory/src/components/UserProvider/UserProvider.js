@@ -8,7 +8,7 @@ const UserProvider = ({children}) => {
     const [notifications, setNotifications] = useState([]);
     return (
         <UserContext.Provider
-        value={{token, setToken}}>
+        value={{token, setToken, notifications, setNotifications}}>
             {children}
         </UserContext.Provider>
     )

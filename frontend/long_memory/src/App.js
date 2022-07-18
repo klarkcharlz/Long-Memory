@@ -18,13 +18,13 @@ import {getUserNotifications} from "./functions/api"
 
 export default function App() {
     const [modalStatus, setModalStatus] = useState(false);
-    const {setToken} = useUserContext();
+    const {setToken, setNotifications} = useUserContext();
 
     useEffect(() => {
         const token = get_token_from_storage();
         setToken(token);
         if (token) {
-            getUserNotifications(token)
+            getUserNotifications(token, setNotifications)
         }
     }, []);
 

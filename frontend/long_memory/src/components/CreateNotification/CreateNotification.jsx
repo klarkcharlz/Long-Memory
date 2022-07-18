@@ -9,6 +9,7 @@ const createNotification_ = (title, description, token) => {
         title,
         description
     }
+    console.log(notification);
     // createNotification(notification, token)
 }
 

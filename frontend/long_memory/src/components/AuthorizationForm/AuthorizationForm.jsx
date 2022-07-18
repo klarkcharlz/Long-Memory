@@ -5,11 +5,11 @@ import {userAuthorization} from "../../functions/api"
 import classes from "./AuthorizationForm.module.css";
 
 
-const authorization = (username, password, navigate, setToken) => {
+const authorization = (username, password, navigate, setToken, setNotifications) => {
     console.log('Авторизация');
     console.log(username);
     console.log(password);
-    userAuthorization(username, password, (token) => {setToken(token)}, navigate);
+    userAuthorization(username, password, (token) => {setToken(token)}, navigate, setNotifications);
 }
 
 
@@ -17,7 +17,7 @@ const AuthorizationForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const {setToken} = useUserContext();
+    const {setToken, setNotifications} = useUserContext();
     return (
         <div>
             <form className={classes.card_form}>
@@ -51,7 +51,7 @@ const AuthorizationForm = () => {
                 <br/>
 
                 <button className={classes.button} type="button" onClick={() => {
-                    authorization(username, password, navigate, setToken);
+                    authorization(username, password, navigate, setToken, setNotifications);
                 }}>LOGIN
                 </button>
 

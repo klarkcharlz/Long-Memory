@@ -19,11 +19,13 @@ function get_headers(token) {
 }
 
 
-function getUserNotifications(token) {
+function getUserNotifications(token, setNotifications) {
     const headers = get_headers(token);
     axios.get(GET_USER_NOTIFICATIONS_URL, {headers})
         .then(response => {
-            console.log('response.data > ', response.data);
+            console.log('getUserNotifications response.data > ', response.data);
+            const notifications = response.data;
+            setNotifications(notifications);
         }).catch(error => console.error(error))
 }
 
@@ -31,29 +33,31 @@ function createNotification(data, token) {
     const headers = get_headers(token);
     axios.post(CREATE_NOTIFICATIONS_URL, data, {headers})
         .then(response => {
-            console.log(response.data);
+            console.log('createNotification response.data > ', response.data);
         }).catch(error => console.error(error))
 }
 
-function userRegistration(pass, username, email,  setToken, navigate) {
+function userRegistration(pass, username, email, setToken, navigate) {
     axios.post(USER_REGISTRATION_URL, {username: pass, password: username, email: email})
         .then(response => {
-            console.log('response.data > ', response.data);
+            console.log('userRegistration response.data > ', response.data);
             const token = response.data.token;
             set_token_to_storage(token);
             setToken(token);
             navigate("/notifications_list");
+            // getUserNotifications(token, setNotifications)
         }).catch(error => console.error(error))
 }
 
 function userAuthorization(pass, username, setToken, navigate) {
     axios.post(USER_AUTHORIZATION_URL, {username: pass, password: username})
         .then(response => {
-            console.log('response.data > ', response.data);
+            console.log('userAuthorization response.data > ', response.data);
             const token = response.data.token;
             set_token_to_storage(token);
             setToken(token);
             navigate("/notifications_list");
+            // getUserNotifications(token, setNotifications)
         }).catch(error => console.error(error));
 }
 

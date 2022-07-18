@@ -1,9 +1,6 @@
 import React, {useState} from "react";
 import classes from "./NotificationsList.module.css";
-
-
-import {getUserNotifications} from '../../functions/api'
-
+import useUserContext from "../../hooks/useUserContext";
 
 const testData =
     {
@@ -16,6 +13,8 @@ const testData =
 
 const Notification = ({notification}) => {
     const {title, description, date} = notification;
+    const {notifications} = useUserContext();
+    console.log('Notification > ', notifications);
     return (
         <div className={classes.container}>
             <div className={classes.notification_container}>
@@ -34,7 +33,6 @@ const Notification = ({notification}) => {
 
 const NotificationList = () => {
     const [notifications, setNotifications] = useState([testData]);
-    console.log(notifications);
     return (
         <div>
             <h2>Ваши напоминания</h2>
