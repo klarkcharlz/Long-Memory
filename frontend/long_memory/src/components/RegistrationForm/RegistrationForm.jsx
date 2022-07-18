@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import classes from "./RegistrationForm.module.css";
 import {useNavigate} from "react-router-dom";
 import useUserContext from "../../hooks/useUserContext";
 import {userRegistration} from "../../functions/api"
@@ -24,9 +25,10 @@ const RegistrationForm = () => {
     const {setToken} = useUserContext();
     return (
         <div>
-            <form>
 
-                <label> Username
+            <form className={classes.card_form}>
+
+                <label className={classes.title_area}> Username
                     <input type="text"
                            name="username"
                            value={username}
@@ -74,12 +76,13 @@ const RegistrationForm = () => {
 
                 <br/>
 
-                <button type="button" onClick={() => {
+                <button className={classes.button} onClick={() => {
                     registration(username, email, password1, password2, navigate, setToken);
-                }}>Регистрация
+                }}>REGISTRATION
                 </button>
 
             </form>
+
         </div>
     )
 }

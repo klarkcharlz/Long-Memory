@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {useNavigate} from "react-router-dom";
 import useUserContext from "../../hooks/useUserContext";
 import {userAuthorization} from "../../functions/api"
+import classes from "./AuthorizationForm.module.css";
 
 
 const authorization = (username, password, navigate, setToken) => {
@@ -19,10 +20,12 @@ const AuthorizationForm = () => {
     const {setToken} = useUserContext();
     return (
         <div>
-            <form>
+            <form className={classes.card_form}>
 
-                <label> Username
-                    <input type="text"
+                <label className={classes.title_area}> Username
+                    <input
+                           className={classes.title_notification}
+                           type="text"
                            name="username"
                            value={username}
                            onChange={(e) => {
@@ -33,8 +36,10 @@ const AuthorizationForm = () => {
 
                 <br/>
 
-                <label> Password
-                    <input type="password"
+                <label className={classes.title_area}> Password
+                    <input
+                        className={classes.title_notification}
+                        type="password"
                         name="password"
                         value={password}
                         onChange={(e) => {
@@ -45,9 +50,9 @@ const AuthorizationForm = () => {
 
                 <br/>
 
-                <button type="button" onClick={() => {
+                <button className={classes.button} type="button" onClick={() => {
                     authorization(username, password, navigate, setToken);
-                }}>Регистрация
+                }}>LOGIN
                 </button>
 
             </form>

@@ -11,7 +11,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
 }
 
 .button {
@@ -23,6 +22,10 @@
 
 .button:hover {
     font-size: 25px;
+}
+
+.button:active {
+    color: #1b6d85;
 }
 
 .user_menu {
@@ -39,4 +42,43 @@
     width: 128px;
     height: 128px;
     background: url('../Static/logo.png') no-repeat;
+    animation: button_logo 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@media screen and (min-width: 375px) and (max-width: 809px) {
+
+    .title {
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .button {
+        font-size: 15px;
+    }
+
+    .button:hover {
+        font-size: 17px;
+    }
+
+    .user_menu {
+        width: 40%;
+    }
+
+    .button_logo {
+        width: 100px;
+        height: 100px;
+        background-size: cover;
+    }
+
+}
+
+@keyframes button_logo {
+    0% {
+        transform: translateY(-1000px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
