@@ -1,11 +1,30 @@
 .container {
+    width: 80%;
+}
+
+.notification_container {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    background: #1b6d8580;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 10px;
+}
+
+.notification_container > p {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .button {
+    display: flex;
     width: 100%;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .button > button {
@@ -16,4 +35,12 @@
     color: white;
     width: 40%;
     margin: 20px;
+}
+
+@media screen and (min-width: 375px) and (max-width: 809px) {
+
+    .container {
+        width: 100%;
+    }
+
 }

@@ -44,3 +44,29 @@
     height: 128px;
     background: url('../Static/logo.png') no-repeat;
 }
+
+@media screen and (min-width: 375px) and (max-width: 809px) {
+
+    .title {
+        font-size: 20px;
+    }
+
+    .button {
+        font-size: 15px;
+    }
+
+    .button:hover {
+        font-size: 17px;
+    }
+
+    .user_menu {
+        width: 40%;
+    }
+
+    .button_logo {
+        width: 100px;
+        height: 100px;
+        background-size: cover;
+    }
+
+}
