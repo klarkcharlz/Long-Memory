@@ -49,7 +49,7 @@ function userRegistration(pass, username, email,  setToken, navigate) {
 function userAuthorization(pass, username, setToken, navigate) {
     axios.post(USER_AUTHORIZATION_URL, {username: pass, password: username})
         .then(response => {
-            // console.log('response.data > ', response.data);
+            console.log('response.data > ', response.data);
             const token = response.data.token;
             set_token_to_storage(token);
             setToken(token);
