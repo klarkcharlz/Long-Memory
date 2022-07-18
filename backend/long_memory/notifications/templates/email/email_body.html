@@ -7,12 +7,16 @@
 {% block content %}
 
 <div style="color: black; font-size: 16px;">
-    <p>Привет, {{f_name}}!</p>
+    <p>Привет, {{username}}!</p>
     <p>Пришло время повторить материал:</p>
     {% for notif in notifications %}
         <div>
             <p>Название: <b>{{notif.title}}</b></p>
             <p>Описание: <br>{{notif.description}}</p>
+        </div>
+        <div>
+            <p>Напоминание создано: <b>{{notif.created_at}}</b></p>
+            <p>Дата повтора: <br>{{notif.next_notifications}}</p>
         </div>
     {% endfor %}
     <p>Твои активные карточки доступны по ссылке: <a href='#' target="_blank">Все карточки</a>

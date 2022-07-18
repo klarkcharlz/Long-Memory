@@ -10,13 +10,13 @@ from notifications.models import Notifications
 from users.models import CustomUser
 
 
-def send_email(sender, password, mail_add, f_name, body):
+def send_email(sender, password, mail_add, username, body):
     """
     Отправляет письмо по параметрам
     :param sender: почта сайта
     :param password: пароль от почты
     :param mail_add: адрес получателя
-    :param f_name: имя получателя
+    :param username: имя получателя
     :param body: тело письма
     :return:
     """
@@ -24,7 +24,7 @@ def send_email(sender, password, mail_add, f_name, body):
     domain = f"smtp.{sender.split('@')[1]}"  # домен нашей почты
     msg = MIMEMultipart()
     msg['From'] = 'Long Memory App'
-    msg['To'] = f_name
+    msg['To'] = username
     msg['Subject'] = f'Пора повторять карточки!'
     msg.attach(MIMEText(body, 'html'))
 
@@ -37,17 +37,17 @@ def send_email(sender, password, mail_add, f_name, body):
         print(e)
 
 
-def get_body(f_name, notifications):
+def get_body(username, notifications):
     """
     jinja2
-    :param f_name: имя пользователя (получателя)
+    :param username: имя пользователя (получателя)
     :param notifications: активные напоминания пользователя
     :return:
     """
     loader = jinja2.FileSystemLoader('templates/email')  # загружаем папку с шаблоном
     j_env = jinja2.Environment(loader=loader)
     content = {
-        'f_name': f_name,
+        'username': username,
         'notifications': notifications,
     }
     tpl = j_env.get_template('email.html')
@@ -64,16 +64,15 @@ def send_for_user():
     """
     sender = ''  # надо доставать из env
     password = ''  # надо доставать из env
-    users = CustomUser.objects.all()
+    users = CustomUser.objects.filter(is_active=True)
     for user in users:
-        if user.is_active:
-            notifications = Notifications.objects.filter(user_id=user.pk,
-                                                         is_active=True,
-                                                         next_notification__lte=datetime.now())
-            mail_add = user.email
-            f_name = user.first_name
-            body = get_body(f_name, notifications)
-            send_email(sender, password, mail_add, f_name, body)
+        notifications = Notifications.objects.filter(user_id=user.pk,
+                                                     is_active=True,
+                                                     next_notification__lte=datetime.now())
+        mail_add = user.email
+        username = user.username
+        body = get_body(username, notifications)
+        send_email(sender, password, mail_add, username, body)
 
 
 """
