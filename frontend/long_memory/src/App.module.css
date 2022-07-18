@@ -51,7 +51,11 @@
     height: 80px;
 }
 
-@media screen and (min-width: 468px) and (max-width: 809px) {
+@media screen and (min-width: 375px) and (max-width: 809px) {
+
+    .body {
+        min-height: 100vh;
+    }
 
     .container {
         width: 90%;
@@ -62,6 +66,10 @@
     }
 
     .router {
+        width: 100%;
+    }
+
+    .menu {
         width: 100%;
     }
 

@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import classes from "./RegistrationForm.module.css";
 
 
 const registration = (username, email, password1, password2) => {
@@ -19,9 +20,10 @@ const RegistrationForm = () => {
     const [password2, setPassword2] = useState('');
     return (
         <div>
-            <form>
 
-                <label> Username
+            <form className={classes.card_form}>
+
+                <label className={classes.title_area}> Username
                     <input type="text"
                            name="username"
                            value={username}
@@ -69,12 +71,13 @@ const RegistrationForm = () => {
 
                 <br/>
 
-                <button type="button" onClick={() => {
+                <button className={classes.button} onClick={() => {
                     registration(username, email, password1, password2);
-                }}>Регистрация
+                }}>REGISTRATION
                 </button>
 
             </form>
+
         </div>
     )
 }

@@ -21,7 +21,7 @@ const Notification = ({notification}) => {
             <p>{title}</p>
             <p>{description}</p>
             <p>{date}</p>
-            <div>
+            <div className={classes.button}>
                 <button>Повторил</button>
                 <button>Больше не показывать</button>
             </div>

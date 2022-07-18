@@ -8,3 +8,11 @@
     flex-direction: column;
     justify-content: space-around;
 }
+
+@media screen and (min-width: 375px) and (max-width: 809px) {
+
+    .start_page {
+        width: 100%;
+    }
+
+}

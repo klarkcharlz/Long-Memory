@@ -17,10 +17,10 @@ const Header = () => {
                 </div>
 
                 <div className={classes.user_menu}>
-                    <Link to='/registration'>
+                    <Link to='/authorization'>
                         <button className={classes.button}>Login</button>
                     </Link>
-                    <Link to='/authorization'>
+                    <Link to='/registration'>
                         <button className={classes.button}>Sign up</button>
                     </Link>
                 </div>

@@ -21,14 +21,25 @@
     background: #1b6d8580;
 }
 
+.button:active {
+    color: #1b6d85;
+}
+
 .link {
     text-decoration: none;
 }
 
-@media screen and (min-width: 468px) and (max-width: 809px) {
+@media screen and (min-width: 375px) and (max-width: 809px) {
 
     .container {
         flex-direction: row;
+        justify-content: center;
+    }
+
+    .button {
+        height:120px;
+        width: 120px;
+        font-size: 20px;
     }
 
 }

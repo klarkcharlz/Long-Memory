@@ -25,6 +25,10 @@
     font-size: 25px;
 }
 
+.button:active {
+    color: #1b6d85;
+}
+
 .user_menu {
     width: 239px;
     height: 35px;
