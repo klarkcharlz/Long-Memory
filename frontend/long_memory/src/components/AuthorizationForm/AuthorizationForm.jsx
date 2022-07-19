@@ -52,7 +52,7 @@ const AuthorizationForm = () => {
 
                 <button className={classes.button} type="button" onClick={() => {
                     authorization(username, password, navigate, setToken, setNotifications);
-                }}>LOGIN
+                }}>ВОЙТИ
                 </button>
 
             </form>

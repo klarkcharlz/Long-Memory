@@ -5,36 +5,36 @@ import classes from "./StartPage.module.css";
 const StartPage = () => {
     return (
         <div className={classes.start_page}>
-            <h3>Welcome to the long-term memory training website</h3>
-            <p>Write down what you learned today.<br/>And on the site you can see reminders of what needs to be repeated.</p>
+            <h3>Добро пожаловать на сайт по тренировке долговременной памяти.</h3>
+            <p>Запишите, что вы узнали сегодня.<br/>А на сайте можно увидеть напоминания о том, что нужно повторить.</p>
             <br/>
             <ul className={classes.list}>
                 <li>
-                    <p>In one day.</p>
+                    <p>Через день.</p>
                 </li>
                 <li>
-                    <p>In 3 days.</p>
+                    <p>Через 3 дня.</p>
                 </li>
                 <li>
-                    <p>A week later.</p>
+                    <p>Неделю спустя.</p>
                 </li>
                 <li>
-                    <p>In 3 weeks.</p>
+                    <p>Через 3 недели.</p>
                 </li>
                 <li>
-                    <p>In a month.</p>
+                    <p>Через месяц.</p>
                 </li>
                 <li>
-                    <p>In 3 months.</p>
+                    <p>Через 3 месяца.</p>
                 </li>
                 <li>
-                    <p>After half a year.</p>
+                    <p>Через пол года.</p>
                 </li>
             </ul>
             <br/>
-            <p>P.S. each new reminder counts down the time from the previous one.</p>
-            <p>Try every time to remember everything from memory from your head to the maximum,
-                and what you do not remember carefully repeat.</p>
+            <p>P.S. каждое новое напоминание отсчитывает время от предыдущего.</p>
+            <p> Старайтесь каждый раз вспоминать все по памяти из головы по максимуму, а то, что не помните, внимательно
+                повторяйте.</p>
         </div>
     )
 }

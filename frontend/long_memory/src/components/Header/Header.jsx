@@ -19,7 +19,7 @@ const Header = () => {
             <div className={classes.header}>
                 <div>
                     <Link to='/main'>
-                        <button className={classes.button_logo}>Main</button>
+                        <button className={classes.button_logo}>Главная</button>
                     </Link>
                 </div>
 

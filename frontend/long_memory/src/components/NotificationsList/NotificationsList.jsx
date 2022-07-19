@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import classes from "./NotificationsList.module.css";
 import useUserContext from "../../hooks/useUserContext";
 
+
 const testData =
     {
         id: 1,
@@ -10,12 +11,32 @@ const testData =
         date: new Date().toString()
     }
 
+// const Notification = ({notification}) => {
+//     const {title, description, date} = notification;
+//     const {notifications} = useUserContext();
+//     console.log('Notification > ', notifications);
+//     return (
+//         <div className={classes.container}>
+//             <div className={classes.notification_container}>
+//                 <p>{title}</p>
+//                 <p>{description}</p>
+//                 <p>{date}</p>
+//             </div>
+//             <div className={classes.button}>
+//                 <button>Повторил</button>
+//                 <button>Больше не показывать</button>
+//             </div>
+//         </div>
+//     )
+// }
 
 const Notification = ({notification}) => {
     const {title, description, date} = notification;
     const {notifications} = useUserContext();
+    const n = 10;
     console.log('Notification > ', notifications);
     return (
+        [...Array(n)].map((e, i) =>
         <div className={classes.container}>
             <div className={classes.notification_container}>
                 <p>{title}</p>
@@ -27,9 +48,8 @@ const Notification = ({notification}) => {
                 <button>Больше не показывать</button>
             </div>
         </div>
-    )
+    ))
 }
-
 
 const NotificationList = () => {
     const [notifications, setNotifications] = useState([testData]);
