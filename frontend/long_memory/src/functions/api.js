@@ -3,7 +3,7 @@ import axios from "axios";
 import {set_token_to_storage} from "./tokenStorage";
 
 const GET_USER_NOTIFICATIONS_URL = `http://127.0.0.1:8000/api/notifications/`;
-const CREATE_NOTIFICATIONS_URL = `http://127.0.0.1:5000`;
+const CREATE_NOTIFICATIONS_URL = `http://127.0.0.1:8000/api/notifications/`;
 const USER_REGISTRATION_URL = `http://127.0.0.1:8000/api/register/`;
 const USER_AUTHORIZATION_URL = `http://127.0.0.1:8000/api-token-auth/`;
 

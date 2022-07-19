@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 
 from users.views import CreateUserView
-from notifications.views import NotificationsListCreate, NotificationsRetriveUpdateDestroy
+from notifications.views import NotificationsListCreate, NotificationsRetrieveUpdateDestroy
 
 router = DefaultRouter()
 
@@ -14,6 +14,6 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/register/', CreateUserView.as_view()),
     path('api-token-auth/', views.obtain_auth_token),
-    path('notifications/', NotificationsListCreate.as_view()),
-    path('notifications/<int:pk>/', NotificationsRetriveUpdateDestroy.as_view())
+    path('api/notifications/', NotificationsListCreate.as_view()),
+    path('api/notifications/<int:pk>/', NotificationsRetrieveUpdateDestroy.as_view())
 ]
