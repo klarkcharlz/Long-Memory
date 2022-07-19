@@ -5,7 +5,6 @@ import useUserContext from "../../hooks/useUserContext";
 import {set_token_to_storage} from "../../functions/tokenStorage"
 
 const logout = (setToken, navigate) => {
-    console.log('logout');
     navigate("/main");
     setToken("");
     set_token_to_storage("");

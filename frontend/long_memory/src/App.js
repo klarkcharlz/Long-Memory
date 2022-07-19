@@ -13,23 +13,20 @@ import StatusModal from "./components/StatusModal/StatusModal"
 import {get_token_from_storage} from "./functions/tokenStorage"
 import classes from "./App.module.css";
 import useUserContext from "./hooks/useUserContext";
-import {getUserNotifications} from "./functions/api"
 
 
 export default function App() {
-    const [modalStatus, setModalStatus] = useState(false);
-    const {setToken, setNotifications} = useUserContext();
+    const [modalStatus, setModalStatus] = useState(true);
+    const {setToken} = useUserContext();
 
     useEffect(() => {
         const token = get_token_from_storage();
         setToken(token);
-        if (token) {
-            getUserNotifications(token, setNotifications)
-        }
     }, []);
 
     return (
         <div className={classes.body}>
+            <StatusModal modalStatus={modalStatus} setModalStatus={setModalStatus} status={"Все отлично!"}/>
             <div className={classes.container}>
                 <Router>
                     <Header/>

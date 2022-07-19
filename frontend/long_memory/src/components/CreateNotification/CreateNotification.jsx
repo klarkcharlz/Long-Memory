@@ -4,12 +4,10 @@ import {createNotification} from "../../functions/api"
 import useUserContext from "../../hooks/useUserContext";
 
 const createNotification_ = (title, description, token, clearForm) => {
-    console.log('Создано');
     const notification = {
         title,
         description
     }
-    console.log(notification);
     createNotification(notification, token);
     clearForm();
 }

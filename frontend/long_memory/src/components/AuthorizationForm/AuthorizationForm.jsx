@@ -6,9 +6,6 @@ import classes from "./AuthorizationForm.module.css";
 
 
 const authorization = (username, password, navigate, setToken, setNotifications) => {
-    console.log('Авторизация');
-    console.log(username);
-    console.log(password);
     userAuthorization(username, password, (token) => {setToken(token)}, navigate, setNotifications);
 }
 

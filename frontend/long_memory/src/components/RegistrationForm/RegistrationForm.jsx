@@ -7,10 +7,6 @@ import {userRegistration} from "../../functions/api"
 
 const registration = (username, email, password1, password2, navigate, setToken, setNotifications) => {
     console.log('Регистрация');
-    console.log(username);
-    console.log(email);
-    console.log(password1);
-    console.log(password2);
     console.log(password1 == password2);
     // userRegistration(password, username, email, (token) => {setToken(token)}, navigate, setNotifications)
 }
