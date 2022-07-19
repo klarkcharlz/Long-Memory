@@ -28,7 +28,7 @@ def send_email(sender, password, mail_add, username, body):
     msg = MIMEMultipart()
     msg['From'] = 'Long Memory App'
     msg['To'] = username
-    msg['Subject'] = f'Пора повторять карточки!'
+    msg['Subject'] = f'Пора повторять материал!'
     msg.attach(MIMEText(body, 'html'))
 
     try:
@@ -84,7 +84,6 @@ while True:
     time.sleep(1)  # оставлено в целях тестирования
 
 
-"""
-Естественно будет дорабатываться, нужно изучить Rabbit, вопрос с необходимостью SSL сертификата
-Временно перевел на schedule
-"""
+
+# Естественно будет дорабатываться, нужно изучить Rabbit, вопрос с необходимостью SSL сертификата
+# Временно перевел на schedule
