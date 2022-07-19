@@ -50,7 +50,7 @@ const CreateNotification = () => {
                 <br/>
                 <button className={classes.button} type="button" onClick={() => {
                     createNotification_(title, description, token, clearForm);
-                }}>CREATE
+                }}>СОЗДАТЬ
                 </button>
             </form>
         </div>

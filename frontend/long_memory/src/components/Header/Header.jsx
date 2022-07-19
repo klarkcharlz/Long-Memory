@@ -19,22 +19,22 @@ const Header = () => {
             <div className={classes.header}>
                 <div>
                     <Link to='/main'>
-                        <button className={classes.button_logo}>Main</button>
+                        <button className={classes.button_logo}>Главная</button>
                     </Link>
                 </div>
 
                 {!token ?
                     <div className={classes.user_menu}>
                         <Link to='/registration'>
-                            <button className={classes.button}>Login</button>
+                            <button className={classes.button}>Регистрация</button>
                         </Link>
                         <Link to='/authorization'>
-                            <button className={classes.button}>Sign up</button>
+                            <button className={classes.button}>Войти</button>
                         </Link>
                     </div>
                     :
                     <div>
-                        <button onClick={() => {
+                        <button className={classes.button} onClick={() => {
                             logout(setToken, navigate);
                         }
                         }>Выход

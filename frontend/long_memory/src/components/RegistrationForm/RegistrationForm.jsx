@@ -28,7 +28,7 @@ const RegistrationForm = () => {
 
             <form className={classes.card_form}>
 
-                <label className={classes.title_area}> Username
+                <label className={classes.title_area}>Username
                     <input type="text"
                            name="username"
                            value={username}
@@ -52,7 +52,7 @@ const RegistrationForm = () => {
 
                 <br/>
 
-                <label> Password
+                <label>Password
                     <input type="password"
                            name="password1"
                            value={password1}
@@ -64,7 +64,7 @@ const RegistrationForm = () => {
 
                 <br/>
 
-                <label> Password
+                <label>Password
                     <input type="password"
                            name="password2"
                            value={password2}
@@ -78,7 +78,7 @@ const RegistrationForm = () => {
 
                 <button className={classes.button} onClick={() => {
                     registration(username, email, password1, password2, navigate, setToken, setNotifications);
-                }}>REGISTRATION
+                }}>РЕГИСТРАЦИЯ
                 </button>
 
             </form>

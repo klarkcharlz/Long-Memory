@@ -22,6 +22,8 @@
     width: 100%;
     min-height: 100vh;
     background-image: url("components/Static/background.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: white;
     font-family: Inter, sans-serif;
 }
@@ -41,6 +43,8 @@
 
 .menu {
     text-decoration: none;
+    position: sticky;
+    top: 2em;
 }
 
 .footer {
