@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import {set_token_to_storage} from "./tokenStorage";
+import {parseResponse} from "../functions/utils"
 
 const GET_USER_NOTIFICATIONS_URL = `http://127.0.0.1:8000/api/notifications/`;
 const CREATE_NOTIFICATIONS_URL = `http://127.0.0.1:8000/api/notifications/`;
@@ -29,12 +30,15 @@ function getUserNotifications(token, setNotifications) {
         }).catch(error => console.error(error))
 }
 
-function createNotification(data, token) {
+function createNotification(data, token, setStatus) {
     const headers = get_headers(token);
     axios.post(CREATE_NOTIFICATIONS_URL, data, {headers})
         .then(response => {
             console.log('createNotification response.data > ', response.data);
-        }).catch(error => console.error(error))
+            setStatus("Напоминание создано успешно.");
+        }).catch((error) => {
+        setStatus(parseResponse(error.response.data));
+    })
 }
 
 function userRegistration(pass, username, email, setToken, navigate) {

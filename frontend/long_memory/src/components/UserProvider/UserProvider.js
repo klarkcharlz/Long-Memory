@@ -5,9 +5,12 @@ const UserContext = createContext({});
 
 const UserProvider = ({children}) => {
     const [token, setToken] = useState("");
+    const [modalStatus, setModalStatus] = useState(false);
+    const [statusText, setStatusText] = useState("");
+
     return (
         <UserContext.Provider
-        value={{token, setToken}}>
+        value={{token, setToken, modalStatus, setModalStatus, statusText, setStatusText}}>
             {children}
         </UserContext.Provider>
     )

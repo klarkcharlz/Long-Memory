@@ -3,13 +3,13 @@
 ## Backend:
 
 + Перейти в каталог:
-    + cd backend/long_memory/long_memory/
+    + cd backend/long_memory/
 
 + Перед работой установите все зависимости из requirements.txt:
     + pip install -r requirements.txt
 
 + Устанавливая новые пакеты добавляйте их в requirements.txt:
-    + pip freeze > requirements.txt
+    + pip freeze > requirements.txt (лучше конечно подчищать от лишних зависимостей, которые подтягиваются самими модулями нужными для их работы.)
 
 + Скачав проект создайте и примените миграции, так же создайте суперпользователя.
     + python manage.py makemigrations

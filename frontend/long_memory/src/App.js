@@ -16,8 +16,7 @@ import useUserContext from "./hooks/useUserContext";
 
 
 export default function App() {
-    const [modalStatus, setModalStatus] = useState(true);
-    const {setToken} = useUserContext();
+    const {setToken, modalStatus, setModalStatus, statusText} = useUserContext();
 
     useEffect(() => {
         const token = get_token_from_storage();
@@ -26,7 +25,7 @@ export default function App() {
 
     return (
         <div className={classes.body}>
-            <StatusModal modalStatus={modalStatus} setModalStatus={setModalStatus} status={"Все отлично!"}/>
+            <StatusModal open={modalStatus} setOpen={setModalStatus} status={statusText}/>
             <div className={classes.container}>
                 <Router>
                     <Header/>

@@ -1,4 +1,4 @@
-function formatDate(date_) {
+const formatDate = (date_) => {
 
     let date = new Date(date_);
 
@@ -14,4 +14,12 @@ function formatDate(date_) {
     return dd + '.' + mm + '.' + yy;
 }
 
-export {formatDate};
+const parseResponse = (data) => {
+    let status = [];
+    for(const key in data){
+        status.push(`${key}: ${data[key]}`)
+    }
+    return status.join("\n");
+}
+
+export {formatDate, parseResponse};

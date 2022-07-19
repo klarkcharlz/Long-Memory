@@ -3,12 +3,12 @@ import classes from "./CreateNotification.module.css";
 import {createNotification} from "../../functions/api"
 import useUserContext from "../../hooks/useUserContext";
 
-const createNotification_ = (title, description, token, clearForm) => {
+const createNotification_ = (title, description, token, clearForm, setStatus) => {
     const notification = {
         title,
         description
     }
-    createNotification(notification, token);
+    createNotification(notification, token, setStatus);
     clearForm();
 }
 
@@ -16,10 +16,14 @@ const createNotification_ = (title, description, token, clearForm) => {
 const CreateNotification = () => {
     const [title, setTitle] = useState('React hooks');
     const [description, setDescription] = useState('useState');
-    const {token} = useUserContext();
+    const {token, setStatusText, setModalStatus} = useUserContext();
     const clearForm = () =>{
         setTitle("");
-        setDescription("")
+        setDescription("");
+    }
+    const setStatus = (text) =>{
+        setStatusText(text)
+        setModalStatus(true);
     }
     return (
         <div>
@@ -47,7 +51,7 @@ const CreateNotification = () => {
                 </label>
                 <br/>
                 <button className={classes.button} type="button" onClick={() => {
-                    createNotification_(title, description, token, clearForm);
+                    createNotification_(title, description, token, clearForm, setStatus);
                 }}>СОЗДАТЬ
                 </button>
             </form>
