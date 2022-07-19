@@ -134,4 +134,7 @@ dmypy.json
 # frontend
 /frontend/long_memory/node_modules/
 *.DS_Store
-*migrations
+
+#migrations
+/backend/long_memory/notifications/migrations/
+/backend/long_memory/users/migrations/

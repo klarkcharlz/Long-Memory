@@ -1,29 +1,27 @@
 from rest_framework import mixins
 from rest_framework.permissions import DjangoModelPermissions
 from rest_framework import viewsets
-from rest_framework.response import Response
 
 from .serializers import NotificationsSerializer
 from .models import Notifications
 
 
-class NotificationsViewSet(mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.ListModelMixin,
-                           mixins.RetrieveModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet
-                           ):
-    permission_classes = [DjangoModelPermissions]
+class NotificationsListCreate(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Notifications.objects.all()
     serializer_class = NotificationsSerializer
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
+    def get_queryset(self):
+        """Возвращает все напоминания для авторизованного пользователя, происходит выборка записей по полям:
+            user_id - это user полученный из request.user,
+            is_active - активное напоминание, должно быть True, если напоминание больше не актуально - False,
+            next_notifications -  все актуальные напоминания на текущее время
+        """
+        user = self.request.user
+        return Notifications.objects.filter(user_id=user, is_active=True, next_notifications__gte=datetime.now())
 
-        print(request.user.id)
 
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            print('tut')
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+class NotificationsRetriveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Notifications.objects.all()
+    serializer_class = NotificationsSerializer
