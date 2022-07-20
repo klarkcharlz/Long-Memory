@@ -13,6 +13,7 @@ session = Session()
 
 
 def check_db():
+    """Сбор данных для отправителей"""
     data = defaultdict(list)
 
     subscribers = session.query(UsersCustomuser.id)

@@ -5,7 +5,7 @@ from time import sleep
 import pika
 from pika.exceptions import AMQPConnectionError
 
-SERVICE = 'email'
+SERVICE = 'email'  # тут имя вашего сервиса email, telegram или vk
 
 
 def main():
@@ -24,6 +24,7 @@ def main():
         body = loads(body)
         print(type(body))
         print(body)
+        # дальше ваша логика по рассылке
 
     channel.queue_declare(queue=SERVICE)
     channel.basic_consume(queue=SERVICE, on_message_callback=callback, auto_ack=True)
