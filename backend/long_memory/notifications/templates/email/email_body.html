@@ -1,0 +1,38 @@
+{% extends 'base_email.html' %}
+
+{% block title %}
+    <p>Пора повторять материал!</p>
+{% endblock %}
+
+{% block content %}
+
+<div style="color: black; font-size: 16px;">
+    <p>Привет, {{username}}!</p>
+    {% if len(notifications) > 0 %}
+        <p>Пришло время повторить:</p>
+        {% for notif in notifications %}
+            <div>
+                <p>Название: <b>{{notif.title}}</b></p>
+                <p>Описание: <br>{{notif.description}}</p>
+            </div>
+            <div>
+                <p>Напоминание создано: <b>{{notif.created_at}}</b></p>
+                <p>Дата повтора: <br>{{notif.next_notifications}}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Сегодня тебе нечего повторять. Можешь отдохнуть или начать изучать что-то новое!</p>
+    {% endif %}
+    <p>Твои активные карточки доступны по ссылке: <a href='#' target="_blank">Все карточки</a>
+</div>
+{% endblock %}
+
+{% block footer %}
+    <p>
+        Prepared with ❤ by "Crazy Pyton Crew"
+    </p>
+    <p>
+        <a href="#">Site</a> &copy 2022
+    </p>
+
+{% endblock %}
