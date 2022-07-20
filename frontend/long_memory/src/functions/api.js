@@ -42,14 +42,13 @@ function createNotification(data, token, setStatus) {
 }
 
 function userRegistration(pass, username, email, setToken, navigate) {
-    axios.post(USER_REGISTRATION_URL, {username: pass, password: username, email: email})
+    axios.post(USER_REGISTRATION_URL, {username: username, password: pass, email: email})
         .then(response => {
             console.log('userRegistration response.data > ', response.data);
             const token = response.data.token;
             set_token_to_storage(token);
             setToken(token);
             navigate("/notifications_list");
-            // getUserNotifications(token, setNotifications)
         }).catch(error => console.error(error))
 }
 

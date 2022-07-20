@@ -27,7 +27,7 @@ class NotificationsListCreate(generics.ListCreateAPIView):
             next_notifications -  все актуальные напоминания на текущее время
         """
         user = self.request.user
-        return Notifications.objects.filter(user_id=user, is_active=True, next_notifications__lte=datetime.now())
+        return Notifications.objects.filter(user_id=user, is_active=True, next_notifications__gte=datetime.now())
 
 
 class NotificationsRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):

@@ -5,10 +5,13 @@ import useUserContext from "../../hooks/useUserContext";
 import {userRegistration} from "../../functions/api"
 
 
-const registration = (username, email, password1, password2, navigate, setToken, setNotifications) => {
-    console.log('Регистрация');
-    console.log(password1 == password2);
-    // userRegistration(password, username, email, (token) => {setToken(token)}, navigate, setNotifications)
+const registration = (username, email, password1, password2, navigate, setToken) => {
+    if (password1 === password2) {
+        console.log("Регистрация")
+        userRegistration(password1, username, email, (token) => {
+            setToken(token)
+        }, navigate)
+    }
 }
 
 
@@ -18,7 +21,7 @@ const RegistrationForm = () => {
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
     const navigate = useNavigate();
-    const {setToken, setNotifications} = useUserContext();
+    const {setToken} = useUserContext();
     return (
         <div>
 
@@ -72,8 +75,9 @@ const RegistrationForm = () => {
 
                 <br/>
 
-                <button className={classes.button} onClick={() => {
-                    registration(username, email, password1, password2, navigate, setToken, setNotifications);
+                <button className={classes.button} onClick={(e) => {
+                    e.preventDefault();
+                    registration(username, email, password1, password2, navigate, setToken);
                 }}>РЕГИСТРАЦИЯ
                 </button>
 

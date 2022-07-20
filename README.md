@@ -15,6 +15,9 @@
     + python manage.py makemigrations
     + python manage.py migrate
     + python manage.py createsuperuser
+  
++ Запуск сервера:
+    + python manage.py runserver
 
 Если у вас какие-то проблемы с миграциями попробуйте удалить все файлы из папок с миграциями кроме __init__.py
 и удалите базу данных если у вас sqlite, если у вас postgresql в контейнере удалите контейнер и запустите заново,
