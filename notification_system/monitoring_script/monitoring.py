@@ -14,7 +14,7 @@ def job():
     data = check_db()
     print(f'Get data from db: {data}')
     for service in SERVICES:
-        print(f'{datetime.now()} - Отправил сообщение:')
+        print(f'{datetime.now()} - send message to {service}:')
         send(service, data)
 
 

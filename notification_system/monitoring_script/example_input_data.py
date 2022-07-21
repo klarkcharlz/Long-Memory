@@ -40,6 +40,7 @@ for user in data:
     for notification in user['notifications']:
         message += "\U0000272A " + notification['title'] + '\n'
     print(message)
+    # функция для отправки (message, id)
 
 """
 Подумайте как вы можете использовать поля description, created_at, next_notification

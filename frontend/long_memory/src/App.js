@@ -13,6 +13,7 @@ import StatusModal from "./components/StatusModal/StatusModal"
 import {get_token_from_storage} from "./functions/tokenStorage"
 import classes from "./App.module.css";
 import useUserContext from "./hooks/useUserContext";
+import PersonalArea from './components/PersonalArea/PersonalArea'
 
 
 export default function App() {
@@ -51,6 +52,10 @@ export default function App() {
                                 <Route
                                     path="/authorization"
                                     element={<AuthorizationForm/>}
+                                />
+                                <Route
+                                    path="/pa"
+                                    element={<PersonalArea/>}
                                 />
                                 <Route
                                     path="*"
