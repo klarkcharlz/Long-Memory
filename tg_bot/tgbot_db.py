@@ -1,7 +1,7 @@
 import sqlite3
 
 class Database:
-    def __int__(self, db_file):
+    def __init__(self, db_file):
         #Инициализация базы данных
         self.connection = sqlite3.connect(db_file)
         self.cursor = self.connection.cursor()
@@ -23,6 +23,6 @@ class Database:
             return self.cursor.execute("UPDATE 'users' SET 'active' = ? WHERE 'user_id' = ?", (active, user_id,))
 
     #Параметр для рассылки
-    def get_user(self):
+    def get_users(self):
         with self.connection:
             return self.cursor.execute("SELECT 'user_id', 'active' FROM 'users'").fetchall()

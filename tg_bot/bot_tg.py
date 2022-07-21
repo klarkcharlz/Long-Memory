@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token="5490911968:AAFLjoW47LS68g8HF7xNLHhSFLDx-jUP16Q")
 dp = Dispatcher(bot)
-db = Database()
+db = Database('database.db')
 
 
 #Команда старт:
@@ -29,7 +29,7 @@ async def sendall(message: types.Message):
         #############################
         if message.from_user.id == 833000525:
             text = message.text[9:]
-            users = db.get_user()
+            users = db.get_users()
             for row in users:
                 try:
                     await bot.send_message(row[0], text)
