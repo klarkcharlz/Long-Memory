@@ -7,12 +7,13 @@ ext_mess = [{'user_id': 638224708},
             {'user_name': 'Aidyn'},
             {'title': 'Programming'},
             {'description': 'Hello guys, if you want '
-            'to learn Python in 2022 and looking for '
-            'some Free Websites and free Python tutorials '             
-            'then you have come to the right place.'}]
+                            'to learn Python in 2022 and looking for '
+                            'some Free Websites and free Python tutorials '
+                            'then you have come to the right place.'}]
+
 
 def write_msg(user_id, message):
-    vk.method('messages.send', {'user_id': user_id, 'message': message, "random_id":randint(11111, 99999)})
+    vk.method('messages.send', {'user_id': user_id, 'message': message, "random_id": randint(11111, 99999)})
 
 
 # API-ключ, потом куда-нибудь спрячу подальше

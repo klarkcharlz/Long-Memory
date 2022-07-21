@@ -2,18 +2,28 @@ from json import loads
 from asyncio import get_event_loop
 from datetime import datetime
 
+from dotenv import dotenv_values
 import aio_pika
 from aiogram import Bot, Dispatcher, executor, types
 
 SERVICE = 'email'  # тут имя вашего сервиса email, telegram или vk
 
 
-TG_TOKEN = "5427293360:AAFd4qDNL9DD_Q5WSM4pqrDFqtdTQqNK1bs"
 NAME = 'test_rabbit'
 USERNAME = 'test_rabbit_lm_bot'
+ID = 1286858830
+
+config = dotenv_values(".env")
+
+TG_TOKEN = config['TOKEN']
+
 
 bot = Bot(token=TG_TOKEN)
 dp = Dispatcher(bot)
+
+
+async def send_message(chat_id, message):
+    await bot.send_message(chat_id, message)
 
 
 @dp.message_handler(commands=['start'])
@@ -40,6 +50,7 @@ async def listen_rabbit_mq(loop):
                     data = loads(message.body)
                     print(type(data))
                     print(data)
+                    await send_message(ID, data)
                     if queue.name in message.body.decode():
                         break
 
