@@ -1,7 +1,7 @@
 from datetime import datetime
 
 data = [
-    {'id': 1234567,
+    {'id': 1234567,  # для почты будет поле email
      'name': 'SuperMan',
      'notifications': [
          {'title': 'React Hooks',

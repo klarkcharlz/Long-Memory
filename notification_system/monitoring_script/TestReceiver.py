@@ -29,7 +29,7 @@ def main():
     channel.queue_declare(queue=SERVICE)
     channel.basic_consume(queue=SERVICE, on_message_callback=callback, auto_ack=True)
 
-    print(f'Start script {SERVICE}.\nWaiting for messages.')
+    print(f'Start consumer {SERVICE}.\nWaiting for messages.')
     try:
         channel.start_consuming()
     except KeyboardInterrupt:

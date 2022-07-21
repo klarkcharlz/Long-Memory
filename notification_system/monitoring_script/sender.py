@@ -12,7 +12,7 @@ def send(receiver_name, data):
     channel.confirm_delivery()
     channel.basic_publish(exchange='',
                           routing_key=receiver_name,
-                          body=dumps(data),
+                          body=dumps(data, default=str),
                           # properties=pika.BasicProperties(
                           #     expiration='10000'),
                           )
