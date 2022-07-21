@@ -36,7 +36,6 @@ const PersonalArea = () => {
                             <input className={classes.input_area} type="text" placeholder="email"/>
                         </div>
                     </div>
-                    <button>Сохранить</button>
                 </div>
 
                 <div className={classes.container}>
@@ -47,17 +46,14 @@ const PersonalArea = () => {
                         <div>
                             <p>Ваше имя</p>
                             <input type="text"/>
-                            <button>Сохранить</button>
                         </div>
                         <div>
                             <p>Аватар</p>
                             <input type="file"/>
-                            <button>Сохранить</button>
                         </div>
                     </div>
-
+                    <button className={classes.button}>Сохранить</button>
                 </div>
-
             </div>
         </div>
     )
