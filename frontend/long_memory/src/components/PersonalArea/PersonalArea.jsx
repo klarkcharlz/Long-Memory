@@ -1,75 +1,64 @@
 import React from "react";
+import classes from "./PersonalArea.module.css";
 
 
 const PersonalArea = () => {
     return (
         <div>
-            <div>
+
+            <div className={classes.avatar}>
                 <img src="https://mir-avatarok.3dn.ru/_si/0/43720430.jpg" alt="Аватар"/>
             </div>
-            <div>
-                <table>
-                    <caption>Настройка уведомлений</caption>
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Согласие на рассылку</th>
-                        <th>id/email</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Telegram</td>
-                        <td><input type="checkbox"/></td>
-                        <td><input type="text"/></td>
-                        <td>
+
+            <div className={classes.notification_settings}>
+
+                <h3>Настройка уведомлений</h3>
+
+                <div className={classes.container}>
+                    <div className={classes.inner_container}>
+                        <p>Telegram</p>
+                        <div>
+                            <input type="checkbox"/>
+                            <input className={classes.input_area} type="text" placeholder="id/email"/>
+                        </div>
+                    </div>
+                    <div className={classes.inner_container}>
+                        <p>Vkontakte</p>
+                        <div>
+                            <input type="checkbox"/>
+                            <input className={classes.input_area} type="text" placeholder="id/email"/>
+                        </div>
+                    </div>
+                    <div className={classes.inner_container}>
+                        <p>Email</p>
+                        <div>
+                            <input type="checkbox"/>
+                            <input className={classes.input_area} type="text" placeholder="email"/>
+                        </div>
+                    </div>
+                    <button>Сохранить</button>
+                </div>
+
+                <div className={classes.container}>
+
+                    <h3>Дополнительные данные</h3>
+
+                    <div className={classes.container}>
+                        <div>
+                            <p>Ваше имя</p>
+                            <input type="text"/>
                             <button>Сохранить</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Вк</td>
-                        <td><input type="checkbox"/></td>
-                        <td><input type="text"/></td>
-                        <td>
+                        </div>
+                        <div>
+                            <p>Аватар</p>
+                            <input type="file"/>
                             <button>Сохранить</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Электронная почта</td>
-                        <td><input type="checkbox"/></td>
-                        <td><input type="email"/></td>
-                        <td>
-                            <button>Сохранить</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
-            <hr/>
-            <div>
-                <table>
-                    <caption>Дополнительные данные</caption>
-                    <tbody>
-                    <tr>
-                        <td>Ваше Имя</td>
-                        <td><input type="text"/></td>
-                        <td>
-                            <button>Сохранить</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Аватар</td>
-                        <td><input type="file"/></td>
-                        <td>
-                            <button>Сохранить</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
         </div>
     )
 }
