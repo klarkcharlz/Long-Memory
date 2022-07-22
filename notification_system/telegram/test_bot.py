@@ -11,7 +11,7 @@ SERVICE = 'email'  # тут имя вашего сервиса email, telegram �
 
 NAME = 'test_rabbit'
 USERNAME = 'test_rabbit_lm_bot'
-ID = 1286858830
+ID = 1286858830  # наш с ботом чат
 
 config = dotenv_values(".env")
 

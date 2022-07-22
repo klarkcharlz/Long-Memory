@@ -3,7 +3,6 @@ import logging
 from aiogram import Bot, executor, Dispatcher, types
 from tgbot_db import Database
 
-
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token="5490911968:AAFLjoW47LS68g8HF7xNLHhSFLDx-jUP16Q")
@@ -11,7 +10,7 @@ dp = Dispatcher(bot)
 db = Database('database.db')
 
 
-#Команда старт:
+# Команда старт:
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
     if message.chat.type == "private":
@@ -21,7 +20,7 @@ async def start(message: types.Message):
         await bot.send_message(message.from_user.id, "Добро пожаловать!")
 
 
-#Команда "отправить всем":
+# Команда "отправить всем":
 @dp.message_handler(commands=['sendall'])
 async def sendall(message: types.Message):
     if message.chat.type == 'private':
@@ -41,6 +40,5 @@ async def sendall(message: types.Message):
             await bot.send_message(message.from_user.id, "Успешная рассылка")
 
 
-
 if __name__ == "__main__":
-    executor.start_polling(dp, skip_updates= True)
+    executor.start_polling(dp, skip_updates=True)
