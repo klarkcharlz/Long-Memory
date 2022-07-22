@@ -6,7 +6,7 @@ from dotenv import dotenv_values
 import aio_pika
 from aiogram import Bot, Dispatcher, executor, types
 
-SERVICE = 'email'  # тут имя вашего сервиса email, telegram или vk
+SERVICE = 'telegram'  # тут имя вашего сервиса email, telegram или vk
 
 
 NAME = 'test_rabbit'
@@ -50,7 +50,7 @@ async def listen_rabbit_mq(loop):
                     data = loads(message.body)
                     print(type(data))
                     print(data)
-                    await send_message(ID, data)
+                    await send_message(ID, data[:3])
                     if queue.name in message.body.decode():
                         break
 

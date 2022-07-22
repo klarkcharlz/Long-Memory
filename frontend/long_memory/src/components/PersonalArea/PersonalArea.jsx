@@ -19,14 +19,14 @@ const PersonalArea = () => {
                         <p>Telegram</p>
                         <div>
                             <input type="checkbox"/>
-                            <input className={classes.input_area} type="text" placeholder="id/email"/>
+                            <input className={classes.input_area} type="text" placeholder="id"/>
                         </div>
                     </div>
                     <div className={classes.inner_container}>
                         <p>Vkontakte</p>
                         <div>
                             <input type="checkbox"/>
-                            <input className={classes.input_area} type="text" placeholder="id/email"/>
+                            <input className={classes.input_area} type="text" placeholder="id"/>
                         </div>
                     </div>
                     <div className={classes.inner_container}>
