@@ -29,13 +29,15 @@
 }
 
 .button {
-    width: 50%;
-    height: 3em;
+    width: 100%;
+    height: 40px;
     background: transparent;
-    border: 1px solid white;
     border-radius: 10px;
-    color: white;
-    margin: 3% 0 3%;
+    color: #fff;
+    text-align: center;
+    border: 1px solid;
+    margin-top: 30px;
+    font-size: 20px;
 }
 
 .input_area {
@@ -46,6 +48,56 @@
     border: 1px solid #1b6d85;
     margin-left: 15px;
     width: 350px;
+}
+
+.name_container > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 3% 0 3%;
+    align-items: center;
+}
+
+.file_upload input[type="file"] {
+    display: none; /* скрываем input file */
+}
+
+/* задаем стили кнопки выбора файла*/
+.file_upload {
+    position: relative;
+    overflow: hidden;
+    width: 365px;
+    height: 40px;
+    background: transparent;
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+    border: 1px solid;
+    font-size: 20px;
+}
+
+.file_upload:hover {
+    background: #1b6d8580;
+}
+
+.button:hover {
+    background: #1b6d8580;
+}
+
+/* Растягиваем label на всю область блока .file-upload */
+.file_upload label {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* стиль текста на кнопке*/
+.file_upload span {
+    line-height: 40px;
 }
 
 @media screen and (min-width: 375px) and (max-width: 809px) {

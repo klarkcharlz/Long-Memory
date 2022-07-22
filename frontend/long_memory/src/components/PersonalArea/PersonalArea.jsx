@@ -42,17 +42,23 @@ const PersonalArea = () => {
 
                     <h3>Дополнительные данные</h3>
 
-                    <div className={classes.container}>
+                    <div className={classes.name_container}>
                         <div>
                             <p>Ваше имя</p>
-                            <input type="text"/>
+                            <input className={classes.input_area} type="text"/>
                         </div>
                         <div>
                             <p>Аватар</p>
-                            <input type="file"/>
+                            <div className={classes.file_upload}>
+                                <label>
+                                    <input type="file" name="file" id="uploade-file"/>
+                                    <span>Выберите файл</span>
+                                </label>
+                            </div>
                         </div>
+                        <button className={classes.button}>Сохранить</button>
                     </div>
-                    <button className={classes.button}>Сохранить</button>
+
                 </div>
             </div>
         </div>
