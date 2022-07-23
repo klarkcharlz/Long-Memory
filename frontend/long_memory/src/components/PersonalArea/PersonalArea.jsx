@@ -15,27 +15,27 @@ const PersonalArea = () => {
                 <h3>Настройка уведомлений</h3>
 
                 <div className={classes.container}>
-                    <div className={classes.inner_container}>
-                        <p>Telegram</p>
+                    <label className={classes.inner_container}>
+                        <span>Telegram</span>
                         <div>
                             <input type="checkbox"/>
                             <input className={classes.input_area} type="text" placeholder="id"/>
                         </div>
-                    </div>
-                    <div className={classes.inner_container}>
-                        <p>Vkontakte</p>
+                    </label>
+                    <label className={classes.inner_container}>
+                        <span>Vkontakte</span>
                         <div>
                             <input type="checkbox"/>
                             <input className={classes.input_area} type="text" placeholder="id"/>
                         </div>
-                    </div>
-                    <div className={classes.inner_container}>
-                        <p>Email</p>
+                    </label>
+                    <label className={classes.inner_container}>
+                        <span>Email</span>
                         <div>
                             <input type="checkbox"/>
                             <input className={classes.input_area} type="text" placeholder="email"/>
                         </div>
-                    </div>
+                    </label>
                 </div>
 
                 <div className={classes.container}>
