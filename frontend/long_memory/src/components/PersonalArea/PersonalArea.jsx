@@ -1,5 +1,23 @@
 import React from "react";
 import classes from "./PersonalArea.module.css";
+import {Tooltip} from "@mui/material";
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import {blue} from '@mui/material/colors';
+
+
+const Helper = () => {
+    return (
+        <div>
+            <h2>Телеграм</h2>
+            <h3>Чтобы получить свой id в телеграм,
+                напишите <a href="https://t.me/long_memory_bot" target="_blank">нашему боту</a>,
+                введите команду /start или нажмите кнопку старт
+                и получите свой id в телеграм, после чего можете сохранить его здесь.</h3>
+            <h2>ВК</h2>
+            <h3>Чтобы получать сообщения в ВК вступите в <a href="https://vk.com/public214673853" target="_blank">нашу группу</a> и напишите любое сообщение в личное сообщение группы.</h3>
+        </div>
+    )
+}
 
 
 const PersonalArea = () => {
@@ -10,9 +28,15 @@ const PersonalArea = () => {
                 <img src="https://mir-avatarok.3dn.ru/_si/0/43720430.jpg" alt="Аватар"/>
             </div>
 
+
             <div className={classes.notification_settings}>
 
-                <h3>Настройка уведомлений</h3>
+                <h3>Настройка уведомлений &nbsp;<Tooltip title={
+                    <Helper/>
+                }>
+                    <HelpOutlineIcon sx={{color: blue[100]}}/>
+                </Tooltip></h3>
+
 
                 <div className={classes.container}>
                     <div className={classes.inner_container}>
