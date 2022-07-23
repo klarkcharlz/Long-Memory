@@ -42,6 +42,10 @@
     margin: 20px;
 }
 
+.button > button:hover {
+    background: #1b6d8580;
+}
+
 @media screen and (min-width: 375px) and (max-width: 809px) {
 
     .container {
