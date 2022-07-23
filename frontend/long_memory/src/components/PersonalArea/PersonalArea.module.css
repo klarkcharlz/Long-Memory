@@ -1,3 +1,7 @@
+.main {
+    animation: container 3s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+}
+
 .avatar > img {
     border-radius: 50%;
     margin: 0 0 5%;
@@ -98,7 +102,6 @@
 }
 
 
-
 /* стиль текста на кнопке*/
 .file_upload span {
     line-height: 40px;
@@ -123,4 +126,15 @@
         margin: 5% 0 5%;
     }
 
+}
+
+@keyframes container {
+    0% {
+        transform: translateZ(-1400px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateZ(0);
+        opacity: 1;
+    }
 }

@@ -4,7 +4,7 @@ import classes from "./PersonalArea.module.css";
 
 const PersonalArea = () => {
     return (
-        <div>
+        <div className={classes.main}>
 
             <div className={classes.avatar}>
                 <img src="https://mir-avatarok.3dn.ru/_si/0/43720430.jpg" alt="Аватар"/>
