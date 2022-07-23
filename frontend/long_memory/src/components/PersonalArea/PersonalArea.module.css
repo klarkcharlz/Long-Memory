@@ -8,7 +8,7 @@
 }
 
 .container {
-    display: flex;
+    display: table-row-group;
     flex-direction: column;
     width: 60%;
     margin: 3% 0 3%;
@@ -24,8 +24,10 @@
 
 .inner_container > div {
     display: flex;
-    flex-direction: row;
-    align-self: flex-end;
+}
+
+.inner_container > div > input {
+    margin-right: 10px;
 }
 
 .button {
@@ -85,7 +87,7 @@
 }
 
 /* Растягиваем label на всю область блока .file-upload */
-.file_upload label {
+.file_upload > label {
     display: block;
     position: absolute;
     top: 0;
@@ -94,6 +96,8 @@
     height: 100%;
     cursor: pointer;
 }
+
+
 
 /* стиль текста на кнопке*/
 .file_upload span {
@@ -104,6 +108,19 @@
 
     .input_area {
         width: 200px;
+    }
+
+    .container {
+        width: 100%;
+        display: flex;
+    }
+
+    .notification_settings {
+        width: 100%;
+    }
+
+    .avatar {
+        margin: 5% 0 5%;
     }
 
 }

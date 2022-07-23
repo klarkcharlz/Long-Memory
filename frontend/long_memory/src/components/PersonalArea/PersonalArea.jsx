@@ -13,34 +13,32 @@ const PersonalArea = () => {
             <div className={classes.notification_settings}>
 
                 <h3>Настройка уведомлений</h3>
-
-                <div className={classes.container}>
-                    <label className={classes.inner_container}>
-                        <span>Telegram</span>
-                        <div>
-                            <input type="checkbox"/>
-                            <input className={classes.input_area} type="text" placeholder="id"/>
-                        </div>
-                    </label>
-                    <label className={classes.inner_container}>
-                        <span>Vkontakte</span>
-                        <div>
-                            <input type="checkbox"/>
-                            <input className={classes.input_area} type="text" placeholder="id"/>
-                        </div>
-                    </label>
-                    <label className={classes.inner_container}>
-                        <span>Email</span>
-                        <div>
-                            <input type="checkbox"/>
-                            <input className={classes.input_area} type="text" placeholder="email"/>
-                        </div>
-                    </label>
-                </div>
-
+                <br/>
                 <div className={classes.container}>
 
-                    <h3>Дополнительные данные</h3>
+                    <label className={classes.inner_container}>
+                        <div>
+                            <input type="checkbox"/>
+                            <span>Telegram</span>
+                        </div>
+                        <input className={classes.input_area} type="text" placeholder="id"/>
+                    </label>
+                    <label className={classes.inner_container}>
+                        <div>
+                            <input type="checkbox"/>
+                            <span>Vkontakte</span>
+                        </div>
+                        <input className={classes.input_area} type="text" placeholder="id"/>
+                    </label>
+                    <label className={classes.inner_container}>
+                        <div>
+                            <input type="checkbox"/>
+                            <span>Email</span>
+                        </div>
+                        <input className={classes.input_area} type="text" placeholder="email"/>
+                    </label>
+
+                    <h4>Дополнительные данные</h4>
 
                     <div className={classes.name_container}>
                         <div>
