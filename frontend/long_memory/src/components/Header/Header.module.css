@@ -41,7 +41,7 @@
     border: 0;
     width: 128px;
     height: 128px;
-    background: url('../Static/logo.png') no-repeat;
+    background: url('../../Static/logo.png') no-repeat;
     animation: button_logo 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
@@ -55,6 +55,14 @@
     height: 128px;
     background: url('../Static/logo_mat.png') no-repeat;
 
+}
+
+.button_logo:hover {
+    filter: brightness(150%);
+}
+
+.button_logo:active {
+    animation: rotate-center 0.6s ease-in-out both;
 }
 
 @media screen and (min-width: 375px) and (max-width: 809px) {
@@ -92,5 +100,14 @@
     100% {
         transform: translateY(0);
         opacity: 1;
+    }
+}
+
+@keyframes button_logo {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
     }
 }

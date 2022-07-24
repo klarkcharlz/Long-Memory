@@ -38,13 +38,13 @@
 + Сборка проекта:
     + npm run build
   
-##SQLAlchemy.
+## SQLAlchemy.
 + Автоматическая генерация моделей для SQLAlchemy:
     + Необходима утилита sqlacodegen.
     + В терминале: sqlacodegen <PATH> > models.py 
     + Открыть файл и убрать ручками лишнее.
 
-##Docker Compose.
+## Docker Compose.
 + Команды:
     + docker-compose ps - список всех контейнеров
     + docker-compose stop <имя контейнера> - остановить контейнер
