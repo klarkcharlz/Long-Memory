@@ -77,8 +77,8 @@ const NotificationList = () => {
 
     return (
             <FixedSizeList
-                height={window.innerHeight / 1.5}
-                width={window.innerWidth / 1.5}
+                height={window.innerHeight / 1.6}
+                width={window.innerWidth / 1.6}
                 itemCount={1}
                 itemSize={1}
                 overscanCount={2}
