@@ -3,14 +3,19 @@ import classes from "./RegistrationForm.module.css";
 import {useNavigate} from "react-router-dom";
 import useUserContext from "../../hooks/useUserContext";
 import {userRegistration} from "../../functions/api"
+import useStatusModalHook from "../../hooks/useStatusModalHook";
 
 
-const registration = (username, email, password1, password2, navigate, setToken) => {
+
+const registration = (username, email, password1, password2, navigate, setToken, setStatus) => {
     if (password1 === password2) {
         console.log("Регистрация")
         userRegistration(password1, username, email, (token) => {
             setToken(token)
-        }, navigate)
+        }, navigate, setStatus)
+    }
+    else{
+        setStatus('Пароли не совпадают.')
     }
 }
 
@@ -22,6 +27,7 @@ const RegistrationForm = () => {
     const [password2, setPassword2] = useState('');
     const navigate = useNavigate();
     const {setToken} = useUserContext();
+    const setStatus = useStatusModalHook();
     return (
         <div>
 
@@ -77,7 +83,7 @@ const RegistrationForm = () => {
 
                 <button className={classes.button} onClick={(e) => {
                     e.preventDefault();
-                    registration(username, email, password1, password2, navigate, setToken);
+                    registration(username, email, password1, password2, navigate, setToken, setStatus);
                 }}>РЕГИСТРАЦИЯ
                 </button>
 

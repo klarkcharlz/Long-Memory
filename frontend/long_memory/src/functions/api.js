@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import {set_token_to_storage} from "./tokenStorage";
-import {parseResponse} from "../functions/utils"
+import {parseResponse} from "./utils"
 
 const GET_USER_NOTIFICATIONS_URL = `http://127.0.0.1:8000/api/notifications/`;
 const CREATE_NOTIFICATIONS_URL = `http://127.0.0.1:8000/api/notifications/`;
@@ -37,11 +37,12 @@ function createNotification(data, token, setStatus) {
             console.log('createNotification response.data > ', response.data);
             setStatus("Напоминание создано успешно.");
         }).catch((error) => {
+        console.log(error);
         setStatus(parseResponse(error.response.data));
     })
 }
 
-function userRegistration(pass, username, email, setToken, navigate) {
+function userRegistration(pass, username, email, setToken, navigate, setStatus) {
     axios.post(USER_REGISTRATION_URL, {username: username, password: pass, email: email})
         .then(response => {
             console.log('userRegistration response.data > ', response.data);
@@ -49,11 +50,14 @@ function userRegistration(pass, username, email, setToken, navigate) {
             set_token_to_storage(token);
             setToken(token);
             navigate("/notifications_list");
-        }).catch(error => console.error(error))
+        }).catch((error) => {
+        console.log(error);
+        setStatus(parseResponse(error.response.data))
+    })
 }
 
-function userAuthorization(pass, username, setToken, navigate) {
-    axios.post(USER_AUTHORIZATION_URL, {username: pass, password: username})
+function userAuthorization(username, pass, setToken, navigate, setStatus) {
+    axios.post(USER_AUTHORIZATION_URL, {username: username, password: pass})
         .then(response => {
             console.log('userAuthorization response.data > ', response.data);
             const token = response.data.token;
@@ -61,7 +65,10 @@ function userAuthorization(pass, username, setToken, navigate) {
             setToken(token);
             navigate("/notifications_list");
             // getUserNotifications(token, setNotifications)
-        }).catch(error => console.error(error));
+        }).catch((error) => {
+        console.log(error);
+        setStatus(parseResponse(error.response.data));
+    });
 }
 
 export {getUserNotifications, createNotification, userRegistration, userAuthorization};

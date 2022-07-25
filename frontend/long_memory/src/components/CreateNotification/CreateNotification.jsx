@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import classes from "./CreateNotification.module.css";
 import {createNotification} from "../../functions/api"
 import useUserContext from "../../hooks/useUserContext";
+import useStatusModalHook from "../../hooks/useStatusModalHook";
 
 const createNotification_ = (title, description, token, clearForm, setStatus) => {
     const notification = {
@@ -21,10 +22,7 @@ const CreateNotification = () => {
         setTitle("");
         setDescription("");
     }
-    const setStatus = (text) =>{
-        setStatusText(text)
-        setModalStatus(true);
-    }
+    const setStatus = useStatusModalHook();
     return (
         <div>
             <form className={classes.card_form}>

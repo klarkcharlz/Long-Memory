@@ -3,7 +3,8 @@ import classes from "./PersonalArea.module.css";
 import {Tooltip} from "@mui/material";
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import {blue} from '@mui/material/colors';
-
+import useUserContext from "../../hooks/useUserContext";
+import useStatusModalHook from "../../hooks/useStatusModalHook";
 
 const Helper = () => {
     return (
@@ -14,13 +15,20 @@ const Helper = () => {
                 введите команду /start или нажмите кнопку старт
                 и получите свой id в телеграм, после чего можете сохранить его здесь.</h3>
             <h2>ВК</h2>
-            <h3>Чтобы получать сообщения в ВК вступите в <a href="https://vk.com/public214673853" target="_blank">нашу группу</a> и напишите любое сообщение в личное сообщение группы.</h3>
+            <h3>Чтобы получать сообщения в ВК вступите в <a href="https://vk.com/public214673853" target="_blank">нашу
+                группу</a> и напишите любое сообщение в личное сообщение группы.</h3>
         </div>
     )
 }
 
+const updateUser = (setStatus, token) => {
+    setStatus('Информация обновлена');
+}
+
 
 const PersonalArea = () => {
+    const {token} = useUserContext();
+    const setStatus = useStatusModalHook();
     return (
         <div className={classes.main}>
 
@@ -77,7 +85,11 @@ const PersonalArea = () => {
                                 </label>
                             </div>
                         </div>
-                        <button className={classes.button}>Сохранить</button>
+                        <button className={classes.button} onClick={(e) => {
+                            e.preventDefault();
+                            updateUser(setStatus, token);
+                        }}>Сохранить
+                        </button>
                     </div>
 
                 </div>

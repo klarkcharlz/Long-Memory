@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 UserModel = get_user_model()
 
 
-class UserSerializer(serializers.ModelSerializer):
+class CreateUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     def create(self, validated_data):
@@ -19,3 +19,18 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ("id", "username", "password", "email")
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = (
+            "email",
+            'telegram_id',
+            'vk_id',
+            'email_reminders',
+            'vk_reminders',
+            'telegram_reminders',
+            'avatar',
+            'first_name'
+        )

@@ -3,10 +3,11 @@ import {useNavigate} from "react-router-dom";
 import useUserContext from "../../hooks/useUserContext";
 import {userAuthorization} from "../../functions/api"
 import classes from "./AuthorizationForm.module.css";
+import useStatusModalHook from "../../hooks/useStatusModalHook";
 
 
-const authorization = (username, password, navigate, setToken, setNotifications) => {
-    userAuthorization(username, password, (token) => {setToken(token)}, navigate, setNotifications);
+const authorization = (username, password, navigate, setToken, setNotifications, setStatus) => {
+    userAuthorization(username, password, (token) => {setToken(token)}, navigate, setStatus);
 }
 
 
@@ -15,6 +16,7 @@ const AuthorizationForm = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const {setToken, setNotifications} = useUserContext();
+    const setStatus = useStatusModalHook();
     return (
         <div>
             <form className={classes.card_form}>
@@ -48,7 +50,7 @@ const AuthorizationForm = () => {
                 <br/>
 
                 <button className={classes.button} type="button" onClick={() => {
-                    authorization(username, password, navigate, setToken, setNotifications);
+                    authorization(username, password, navigate, setToken, setNotifications, setStatus);
                 }}>ВОЙТИ
                 </button>
 

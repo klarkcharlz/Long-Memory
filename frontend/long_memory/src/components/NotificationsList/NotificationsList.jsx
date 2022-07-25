@@ -15,15 +15,17 @@ const testData = [
         next_notifications: new Date().toString(),
     }]
 
-const repeated = (id) => {
+const repeated = (id, setStatus) => {
     console.log('Повторил > ', id);
+    setStatus('Повторил');
 }
 
-const disable = (id) => {
+const disable = (id, setStatus) => {
     console.log('Больше не показывать > ', id);
+    setStatus('Убрал');
 }
 
-const Notification = ({notification}) => {
+const Notification = ({notification, setStatus}) => {
     const {title, description, created_at, next_notifications, id} = notification;
     return (
         <div className={classes.container}>
@@ -36,12 +38,12 @@ const Notification = ({notification}) => {
             <div className={classes.button}>
                 <button onClick={(e) => {
                     e.preventDefault();
-                    repeated(id);
+                    repeated(id, setStatus);
                 }}>Повторил
                 </button>
                 <button onClick={(e) => {
                     e.preventDefault();
-                    disable(id);
+                    disable(id, setStatus);
                 }}>Больше не показывать
                 </button>
             </div>
@@ -51,8 +53,11 @@ const Notification = ({notification}) => {
 
 const NotificationList = () => {
     const [notifications, setNotifications] = useState([]);
-    const {token} = useUserContext();
-
+    const {token, setStatusText, setModalStatus} = useUserContext();
+    const setStatus = (text) => {
+        setStatusText(text);
+        setModalStatus(true);
+    }
     useEffect(() => {
         if (token) {
             getUserNotifications(token, setNotifications)
@@ -66,6 +71,7 @@ const NotificationList = () => {
                     <h2>Ваши напоминания</h2>
                     {notifications.map((notification) =>
                         <Notification notification={notification}
+                                      setStatus={setStatus}
                                       key={notification.id}
                         />)
                     }

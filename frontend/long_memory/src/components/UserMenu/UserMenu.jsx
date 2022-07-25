@@ -1,9 +1,9 @@
 import {Link} from "react-router-dom";
 import React from "react";
-import classes from "./Menu.module.css";
+import classes from "./UserMenu.module.css";
 import useUserContext from "../../hooks/useUserContext"
 
-const Menu = () => {
+const UserMenu = () => {
     const {token} = useUserContext();
     if(!token){
         return (
@@ -19,4 +19,4 @@ const Menu = () => {
     )
 }
 
-export default Menu;
+export default UserMenu;
