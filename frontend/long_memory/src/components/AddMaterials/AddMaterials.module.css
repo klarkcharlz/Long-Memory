@@ -1,0 +1,10 @@
+.add_materials a {
+    text-decoration: none;
+    font-size: 18px;
+    background-color: transparent;
+    color: #2ddfff;
+}
+
+.add_materials li {
+    margin: 20px 20px;
+}

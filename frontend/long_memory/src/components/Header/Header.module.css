@@ -53,8 +53,7 @@
     position: absolute;
     width: 128px;
     height: 128px;
-    background: url('../Static/logo_mat.png') no-repeat;
-
+    background: url('../../Static/logo_book.png') no-repeat;
 }
 
 .button_logo:hover {
@@ -64,6 +63,7 @@
 .button_logo:active {
     animation: rotate-center 0.6s ease-in-out both;
 }
+
 
 @media screen and (min-width: 375px) and (max-width: 809px) {
 
@@ -88,6 +88,9 @@
         width: 100px;
         height: 100px;
         background-size: cover;
+    }
+    .button_logo_materials {
+        margin-top: 15px;
     }
 
 }
