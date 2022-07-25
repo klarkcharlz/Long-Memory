@@ -76,15 +76,15 @@ const NotificationList = () => {
     }
 
     return (
-        <FixedSizeList
-            height={window.innerHeight / 1.6}
-            width={window.innerWidth / 2}
-            itemCount={1}
-            itemSize={1}
-            overscanCount={2}
-        >
-            {NotificationListRaw}
-        </FixedSizeList>
+            <FixedSizeList
+                height={window.innerHeight / 1.5}
+                width={window.innerWidth / 1.5}
+                itemCount={1}
+                itemSize={1}
+                overscanCount={2}
+            >
+                {NotificationListRaw}
+            </FixedSizeList>
     )
 
     // return NotificationListRaw();
