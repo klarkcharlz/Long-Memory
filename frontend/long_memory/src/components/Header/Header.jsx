@@ -23,9 +23,7 @@ const Header = () => {
                     <Link to='/materials'>
                         <button className={classes.button_logo_materials}>Доп. <br/> материалы</button>
                     </Link>
-                    <div className={classes.title}>
-                        <h1>Long Memory</h1>
-                    </div>
+
                 </div>
 
                 {!token ?
