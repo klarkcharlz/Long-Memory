@@ -26,8 +26,8 @@
                                 <span style="display:inline-block; width:300px;">
                                     <p>✪ Название: {{notif.title}}</p>
                                     <p>Описание: {{notif.description}}</p>
-                                    <p>Напоминание создано: {{notif.created_at.strftime('%d.%m.%Y')}}</p>
-                                    <p>Дата повтора: {{notif.next_notification.strftime('%d.%m.%Y')}}</p>
+                                    <p>Напоминание создано: {{notif.created_at}}</p>
+                                    <p>Дата повтора: {{notif.next_notification}}</p>
                                 </span>
                                 {% endfor %}
                             </center>
