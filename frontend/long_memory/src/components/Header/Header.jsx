@@ -14,12 +14,15 @@ const Header = () => {
     const navigate = useNavigate();
     const {token, setToken} = useUserContext();
     return (
-        <div>
+        <div className={classes.container}>
             <div className={classes.header}>
-                <div>
+                <div className={classes.logo_title}>
                     <Link to='/main'>
                         <button className={classes.button_logo}>Главная</button>
                     </Link>
+                    <div className={classes.title}>
+                        <h1>Long Memory</h1>
+                    </div>
                 </div>
 
                 {!token ?
@@ -39,13 +42,7 @@ const Header = () => {
                         }>Выход
                         </button>
                     </div>}
-
             </div>
-
-            <div className={classes.title}>
-                <h1>Long Memory</h1>
-            </div>
-
         </div>
     )
 }

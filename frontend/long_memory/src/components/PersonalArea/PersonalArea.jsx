@@ -37,13 +37,11 @@ const PersonalArea = () => {
             </div>
 
             <div className={classes.notification_settings}>
-
                 <h3>Настройка уведомлений &nbsp;<Tooltip title={
                     <Helper/>
                 }>
                     <HelpOutlineIcon sx={{color: blue[100]}}/>
-                </Tooltip></h3>
-
+                </Tooltip></h3><br/>
 
                 <div className={classes.container}>
 
