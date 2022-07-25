@@ -14,11 +14,12 @@
 
 .container {
     width: 80%;
+    align-self: center;
 }
 
 .body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     width: 100%;
     min-height: 100vh;
     background-image: url("Static/background.jpg");

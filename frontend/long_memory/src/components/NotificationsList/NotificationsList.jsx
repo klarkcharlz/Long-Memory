@@ -75,18 +75,19 @@ const NotificationList = () => {
         return <h2>У вас пока не ин одного активного напоминания.</h2>
     }
 
-    // return (
-    //     <FixedSizeList
-    //         height={window.innerHeight}
-    //         width={window.innerWidth / 2}
-    //         itemCount={notifications.length}
-    //         itemSize={25}
-    //     >
-    //         {NotificationListRaw}
-    //     </FixedSizeList>
-    // )
+    return (
+        <FixedSizeList
+            height={window.innerHeight / 1.6}
+            width={window.innerWidth / 2}
+            itemCount={1}
+            itemSize={1}
+            overscanCount={2}
+        >
+            {NotificationListRaw}
+        </FixedSizeList>
+    )
 
-    return NotificationListRaw();
+    // return NotificationListRaw();
 }
 
 

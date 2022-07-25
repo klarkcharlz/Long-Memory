@@ -27,9 +27,9 @@ export default function App() {
     return (
         <div className={classes.body}>
             <StatusModal open={modalStatus} setOpen={setModalStatus} status={statusText}/>
-            <div className={classes.container}>
-                <Router>
-                    <Header/>
+            <Router>
+                <Header/>
+                <div className={classes.container}>
                     <div className={classes.main}>
                         <div className={classes.router}>
                             <Routes>
@@ -67,7 +67,9 @@ export default function App() {
                             <Menu/>
                         </div>
                     </div>
-                </Router>
+                </div>
+            </Router>
+            <div>
                 <Footer className={classes.footer}/>
             </div>
         </div>

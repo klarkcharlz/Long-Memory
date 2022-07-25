@@ -1,3 +1,10 @@
+.logo_title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 30px;
+}
+
 .title {
     height: 150px;
     display: flex;
@@ -11,6 +18,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 30px;
+    background: linear-gradient(#043168, #0b1d41);
 }
 
 .button {
@@ -18,6 +27,7 @@
     border: none;
     color: white;
     font-size: 20px;
+    margin-right: 30px;
 }
 
 .button:hover {
@@ -39,9 +49,11 @@
 .button_logo {
     color: transparent;
     border: 0;
-    width: 128px;
-    height: 128px;
+    width: 100px;
+    height: 100px;
     background: url('../../Static/logo.png') no-repeat;
+    background-size: cover;
+    margin-right: 20px;
     animation: button_logo 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
@@ -73,9 +85,17 @@
     }
 
     .button_logo {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
         background-size: cover;
+    }
+
+    .title {
+        display: none;
+    }
+
+    .header {
+        height: 90px;
     }
 
 }
