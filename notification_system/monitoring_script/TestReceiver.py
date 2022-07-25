@@ -1,11 +1,11 @@
 from json import loads
 from datetime import datetime
 from time import sleep
-
+from task1 import write_msg
 import pika
 from pika.exceptions import AMQPConnectionError
 
-SERVICE = 'email'  # тут имя вашего сервиса email, telegram или vk
+SERVICE = 'vk'  # тут имя вашего сервиса email, telegram или vk
 
 
 def main():
@@ -24,6 +24,16 @@ def main():
         body = loads(body)
         print(type(body))
         print(body)
+        for dic in body:
+            if len(dic["notifications"]) > 1:
+                for i in range(len(dic["notifications"])):
+                    write_msg(dic['id'], f'Hey lazy asshole {dic["name"]}, '
+                                         f'\nyou need to do: {dic["notifications"][i]["title"]}'
+                                         f'\nspecifically: {dic["notifications"][i]["description"]}...')
+            else:
+                write_msg(dic['id'], f'Hey lazy asshole {dic["name"]}, '
+                                     f'\nyou need to do: {dic["notifications"][0]["title"]}'
+                                     f'\nspecifically: {dic["notifications"][0]["description"]}...')
         # дальше ваша логика по рассылке
 
     channel.queue_declare(queue=SERVICE)
