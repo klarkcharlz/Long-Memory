@@ -20,6 +20,9 @@ const Header = () => {
                     <Link to='/main'>
                         <button className={classes.button_logo}>Главная</button>
                     </Link>
+                    <Link to='/materials'>
+                        <button className={classes.button_logo_materials}>Доп. <br/> материалы</button>
+                    </Link>
                     <div className={classes.title}>
                         <h1>Long Memory</h1>
                     </div>
@@ -33,6 +36,7 @@ const Header = () => {
                         <Link to='/authorization'>
                             <button className={classes.button}>Войти</button>
                         </Link>
+
                     </div>
                     :
                     <div>
@@ -42,7 +46,13 @@ const Header = () => {
                         }>Выход
                         </button>
                     </div>}
+
             </div>
+
+            <div className={classes.title}>
+                <h1>Long Memory</h1>
+            </div>
+
         </div>
     )
 }

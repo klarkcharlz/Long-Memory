@@ -56,6 +56,7 @@
     border: 1px solid #1b6d85;
     margin-left: 15px;
     width: 350px;
+    color: white;
 }
 
 .name_container > div {
@@ -108,10 +109,45 @@
     line-height: 40px;
 }
 
+.helper {
+    padding: 10px 10px 15px;
+    color: white;
+}
+
+.helper > h2 {
+    color: transparent;
+}
+
+.logo_telegram {
+    width: 30px;
+    height: 20px;
+    background: no-repeat;
+    background-image: url("../../Static/logo_telegram.png");
+    display: inline;
+    color: transparent;
+}
+
+.logo_vk {
+    width: 30px;
+    height: 20px;
+    background: no-repeat;
+    background-image: url("../../Static/logo_vk.png");
+    display: inline;
+    color: transparent;
+}
+
+.link_helper {
+    color: #0ce1cf;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+
 @media screen and (min-width: 375px) and (max-width: 809px) {
 
     .input_area {
         width: 200px;
+        color: white;
     }
 
     .container {

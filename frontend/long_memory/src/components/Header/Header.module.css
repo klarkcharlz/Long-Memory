@@ -62,6 +62,17 @@
     animation: button_logo 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
+.button_logo_materials {
+    color: transparent;
+    border: 0;
+    margin-top: 30px;
+    margin-left: 30px;
+    position: absolute;
+    width: 128px;
+    height: 128px;
+    background: url('../../Static/logo_book.png') no-repeat;
+}
+
 .button_logo:hover {
     filter: brightness(150%);
 }
@@ -69,6 +80,7 @@
 .button_logo:active {
     animation: rotate-center 0.6s ease-in-out both;
 }
+
 
 @media screen and (min-width: 375px) and (max-width: 809px) {
 
@@ -93,6 +105,9 @@
         width: 80px;
         height: 80px;
         background-size: cover;
+    }
+    .button_logo_materials {
+        margin-top: 15px;
     }
 
     .title {

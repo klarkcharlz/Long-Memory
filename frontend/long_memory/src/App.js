@@ -14,7 +14,7 @@ import {get_token_from_storage} from "./functions/tokenStorage"
 import classes from "./App.module.css";
 import useUserContext from "./hooks/useUserContext";
 import PersonalArea from './components/PersonalArea/PersonalArea'
-
+import AddMaterials from './components/AddMaterials/AddMaterials'
 
 export default function App() {
     const {setToken, modalStatus, setModalStatus, statusText} = useUserContext();
@@ -57,6 +57,11 @@ export default function App() {
                                     path="/pa"
                                     element={<PersonalArea/>}
                                 />
+                                 <Route
+                                    path="/materials"
+                                    element={<AddMaterials/>}
+                                />
+
                                 <Route
                                     path="*"
                                     element={<StartPage/>}
