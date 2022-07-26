@@ -21,9 +21,11 @@ const Header = () => {
                         <button className={classes.button_logo}>Главная</button>
                     </Link>
                     <Link to='/materials'>
-                        <button className={classes.button_logo_materials}>Доп. <br/> материалы</button>
+                        <button className={classes.button_logo_materials}>Доп.<br/>материалы</button>
                     </Link>
-
+                    <div className={classes.title}>
+                        <h1>Long Memory</h1>
+                    </div>
                 </div>
 
                 {!token ?
@@ -46,11 +48,6 @@ const Header = () => {
                     </div>}
 
             </div>
-
-            <div className={classes.title}>
-                <h1>Long Memory</h1>
-            </div>
-
         </div>
     )
 }
