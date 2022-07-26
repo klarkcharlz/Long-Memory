@@ -6,6 +6,7 @@ import {formatDate} from "../../functions/utils";
 import {FixedSizeList} from "react-window";
 import Pagination from '@mui/material/Pagination';
 import usePagination from '../../hooks/usePagination';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const testData = [
     {
@@ -64,7 +65,7 @@ const NotificationList = () => {
     const [notifications, setNotifications] = useState([]);
     const {token, setStatusText, setModalStatus} = useUserContext();
     let [page, setPage] = useState(1);
-    const PER_PAGE = 3;
+    const PER_PAGE = 2;
     const count = Math.ceil(notifications.length / PER_PAGE);
     const _DATA = usePagination(notifications, PER_PAGE);
     const setStatus = (text) => {
@@ -83,21 +84,29 @@ const NotificationList = () => {
         _DATA.jump(p);
     };
 
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+        },
+    });
+
     const NotificationListRaw = () => {
         if (notifications.length !== 0) {
             return (
                 <div>
-                    <h2>Ваши напоминания</h2>
-                    <Pagination
-                        count={count}
-                        page={page}
-                        size="large"
-                        color="primary"
-                        variant="text"
-                        shape="rounded"
-                        onChange={handleChange}
-                        sx={style}
-                    />
+                    <h2>Ваши напоминания</h2><br/>
+                    <ThemeProvider theme={darkTheme}>
+                        <Pagination
+                            count={count}
+                            page={page}
+                            size="large"
+                            color="primary"
+                            variant="outlined"
+                            // shape="rounded"
+                            onChange={handleChange}
+                            sx={style}
+                        />
+                    </ThemeProvider>
                     {_DATA.currentData().map((notification) =>
                         <Notification notification={notification}
                                       setStatus={setStatus}
