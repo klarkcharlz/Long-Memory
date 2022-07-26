@@ -7,8 +7,6 @@ from pika.exceptions import AMQPConnectionError
 
 SERVICE = 'vk'  # тут имя вашего сервиса email, telegram или vk
 
-
-
 def main():
     while True:
         try:

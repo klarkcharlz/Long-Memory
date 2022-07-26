@@ -59,7 +59,6 @@ import vk_api
 #     'email': []
 # }
 
-
 def write_msg(user_id, message):
     vk.method('messages.send', {'user_id': user_id, 'message': message, "random_id": randint(11111, 99999)})
 
