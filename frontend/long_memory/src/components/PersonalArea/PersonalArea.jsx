@@ -51,8 +51,7 @@ const PersonalArea = () => {
                 }>
                     <HelpOutlineIcon sx={{color: blue[100]}}/>
                 </Tooltip></h3>
-
-
+                <br/>
                 <div className={classes.container}>
 
                     <label className={classes.inner_container}>
