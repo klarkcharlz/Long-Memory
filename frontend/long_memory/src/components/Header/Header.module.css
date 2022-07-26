@@ -97,6 +97,10 @@
         font-size: 20px;
     }
 
+    .logo_title {
+        margin-left: 5px;
+    }
+
     .button {
         font-size: 15px;
     }
