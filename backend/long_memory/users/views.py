@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -23,3 +23,21 @@ class CreateUserView(CreateAPIView):
         headers = self.get_success_headers(serializer.data)
         token, created = Token.objects.get_or_create(user=serializer.instance)
         return Response({'token': token.key}, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class RetrieveUserAPIView(RetrieveAPIView):
+    model = get_user_model()
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = UserSerializer
+    queryset = CustomUser.objects.all()
+
+
+class UpdateUserAPIView(UpdateAPIView):
+    model = get_user_model()
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = UserSerializer
+    queryset = CustomUser.objects.all()
