@@ -66,7 +66,7 @@ def write_msg(user_id, message):
 
 
 # API-ключ, потом куда-нибудь спрячу подальше
-token = "vk1.a.-7JetwuZpvfBmV-LctJ3gc-0Ko79he-YZHHFjGpwwrG5eaSv1jOVXrS732ayalq_BDxEbQktcUFxCsevIBoEXl8BPjJJAqCRE1e4Ae0upvrOes0__bWESNiZn6FlZovADCUjpp4l6Pf59sef7_3cwwTmb-53etqvdwYj4tgHL1hIa2EBbjqMin9-r-oKasNN"
+token = "vk1.a.C8q2p03gCKgjKEC3FSncwX2GKUfmkddd84rQ1oMY704unb67dkb0C35sAphHX_Oz-cMFo8rzGbmTlggPw3dtO9n38955CVnHhRXsZXwE9De3QTPFXH34fLk7Q6lfN3FT8zxjmIKxvbPQ0Yss0MsZjbL8ihBZWur7-qVJWg-oHAaBkpB_9f7wlCUzGj2UEBmr"
 
 # Авторизуемся
 vk = vk_api.VkApi(token=token)
