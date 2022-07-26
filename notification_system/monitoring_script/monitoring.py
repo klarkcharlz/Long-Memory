@@ -11,8 +11,11 @@ def job():
     data = check_db()
     print(f'Get data from db: {data}')
     for service, data in data.items():
-        print(f'{datetime.now()} - send message to {service}:')
-        send(service, data)
+        if data:
+            print(f'{datetime.now()} - send message to {service}:')
+            send(service, data)
+        else:
+            print(f'{datetime.now()} - empty data to {service}:')
 
 
 schedule.every(5).seconds.do(job)

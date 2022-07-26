@@ -1,5 +1,5 @@
 from pprint import pprint
-from json import dump
+from datetime import datetime
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -13,11 +13,12 @@ session = Session()
 
 
 def check_db():
-    """Сбор данных для отправителей"""
+    """Сбор данных для потребителей-отправителей"""
     telegram_data = []
     vk_data = []
     email_data = []
 
+    # сбор всех кто подписался хоть на одну рассылку
     subscribers = session.query(UsersCustomuser).filter(
         (UsersCustomuser.vk_reminders == True)
         | (UsersCustomuser.telegram_reminders == True)
@@ -25,7 +26,9 @@ def check_db():
     for user in subscribers:
         id = user.id
         name = user.first_name if user.first_name else user.username
-        notifications = session.query(NotificationsNotification).filter(NotificationsNotification.user_id_id == id)
+        notifications = session.query(NotificationsNotification).filter((NotificationsNotification.user_id_id == id)
+                                                                        & (NotificationsNotification.next_notifications
+                                                                           <= datetime.now()))
         notifications_list = []
         for notification in notifications:
             notifications_list.append({'title': notification.title,
@@ -33,19 +36,19 @@ def check_db():
                                        'created_at': notification.created_at,
                                        'next_notifications': notification.next_notifications,
                                        })
-
-        if user.vk_reminders:
-            vk_data.append({'id': user.vk_id,
-                            'name': name,
-                            'notifications': notifications_list})
-        if user.telegram_reminders:
-            telegram_data.append({'id': user.telegram_id,
-                                  'name': name,
-                                  'notifications': notifications_list})
-        if user.email_reminders:
-            email_data.append({'email': user.email,
-                               'name': name,
-                               'notifications': notifications_list})
+        if notifications_list:
+            if user.vk_reminders:
+                vk_data.append({'id': user.vk_id,
+                                'name': name,
+                                'notifications': notifications_list})
+            if user.telegram_reminders:
+                telegram_data.append({'id': user.telegram_id,
+                                      'name': name,
+                                      'notifications': notifications_list})
+            if user.email_reminders:
+                email_data.append({'email': user.email,
+                                   'name': name,
+                                   'notifications': notifications_list})
 
     services_data = {
         'vk': vk_data,

@@ -4,7 +4,8 @@ import useUserContext from "../../hooks/useUserContext";
 import {getUserNotifications} from "../../functions/api";
 import {formatDate} from "../../functions/utils";
 import {FixedSizeList} from "react-window";
-
+import Pagination from '@mui/material/Pagination';
+import usePagination from '../../hooks/usePagination';
 
 const testData = [
     {
@@ -14,6 +15,14 @@ const testData = [
         created_at: new Date().toString(),
         next_notifications: new Date().toString(),
     }]
+
+
+const style = {
+    root: {
+        bgcolor: 'background.paper',
+    },
+};
+
 
 const repeated = (id, setStatus) => {
     console.log('Повторил > ', id);
@@ -54,6 +63,10 @@ const Notification = ({notification, setStatus}) => {
 const NotificationList = () => {
     const [notifications, setNotifications] = useState([]);
     const {token, setStatusText, setModalStatus} = useUserContext();
+    let [page, setPage] = useState(1);
+    const PER_PAGE = 3;
+    const count = Math.ceil(notifications.length / PER_PAGE);
+    const _DATA = usePagination(notifications, PER_PAGE);
     const setStatus = (text) => {
         setStatusText(text);
         setModalStatus(true);
@@ -64,12 +77,28 @@ const NotificationList = () => {
         }
     }, [token]);
 
+    const handleChange = (e, p) => {
+        console.log(p);
+        setPage(p);
+        _DATA.jump(p);
+    };
+
     const NotificationListRaw = () => {
         if (notifications.length !== 0) {
             return (
                 <div>
                     <h2>Ваши напоминания</h2>
-                    {notifications.map((notification) =>
+                    <Pagination
+                        count={count}
+                        page={page}
+                        size="large"
+                        color="primary"
+                        variant="text"
+                        shape="rounded"
+                        onChange={handleChange}
+                        sx={style}
+                    />
+                    {_DATA.currentData().map((notification) =>
                         <Notification notification={notification}
                                       setStatus={setStatus}
                                       key={notification.id}
@@ -81,19 +110,20 @@ const NotificationList = () => {
         return <h2>У вас пока нет активного напоминания.</h2>
     }
 
-    return (
-            <FixedSizeList
-                height={window.innerHeight / 1.6}
-                width={window.innerWidth / 1.6}
-                itemCount={1}
-                itemSize={1}
-                overscanCount={2}
-            >
-                {NotificationListRaw}
-            </FixedSizeList>
-    )
+    // return (
+    //         <FixedSizeList
+    //             height={window.innerHeight / 1.6}
+    //             width={window.innerWidth / 1.6}
+    //             itemCount={1}
+    //             itemSize={1}
+    //             overscanCount={2}
+    //         >
+    //             {NotificationListRaw}
+    //         </FixedSizeList>
+    // )
 
-    // return NotificationListRaw();
+    return NotificationListRaw();
+
 }
 
 
