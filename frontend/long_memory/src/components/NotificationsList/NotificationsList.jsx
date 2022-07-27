@@ -18,8 +18,8 @@ const testData = [
 
 
 const style = {
-    root: {
-        bgcolor: 'background.paper',
+    outlined: {
+        bgcolor: 'red',
     },
 };
 
