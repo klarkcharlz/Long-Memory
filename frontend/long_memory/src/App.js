@@ -28,7 +28,9 @@ export default function App() {
         <div className={classes.body}>
             <StatusModal open={modalStatus} setOpen={setModalStatus} status={statusText}/>
             <Router>
-                <Header/>
+                <div className={classes.header}>
+                    <Header/>
+                </div>
                 <div className={classes.container}>
                     <div className={classes.main}>
                         <div className={classes.router}>
@@ -57,7 +59,7 @@ export default function App() {
                                     path="/pa"
                                     element={<PersonalArea/>}
                                 />
-                                 <Route
+                                <Route
                                     path="/materials"
                                     element={<AddMaterials/>}
                                 />
