@@ -130,6 +130,7 @@ dmypy.json
 
 # add
 .idea
+*media
 
 # frontend
 /frontend/long_memory/node_modules/

@@ -1,5 +1,6 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import permissions
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView, RetrieveUpdateAPIView
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -22,7 +23,9 @@ class CreateUserView(CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         token, created = Token.objects.get_or_create(user=serializer.instance)
-        return Response({'token': token.key}, status=status.HTTP_201_CREATED, headers=headers)
+        return Response({'token': token.key,
+                         'id': serializer.instance.id
+                         }, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class UserView(RetrieveUpdateAPIView):
