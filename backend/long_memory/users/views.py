@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, get_object_or_404
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -36,3 +36,21 @@ class UserView(RetrieveUpdateAPIView):
         obj = get_object_or_404(queryset)
         self.check_object_permissions(self.request, obj)
         return obj
+
+
+class RetrieveUserAPIView(RetrieveAPIView):
+    model = get_user_model()
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = UserSerializer
+    queryset = CustomUser.objects.all()
+
+
+class UpdateUserAPIView(UpdateAPIView):
+    model = get_user_model()
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = UserSerializer
+    queryset = CustomUser.objects.all()
