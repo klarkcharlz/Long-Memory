@@ -114,34 +114,40 @@
     color: white;
 }
 
-.helper > h2 {
+.helper h2 {
     color: transparent;
 }
 
-.logo_telegram {
-    width: 30px;
-    height: 20px;
-    background: no-repeat;
-    background-image: url("../../Static/logo_telegram.png");
-    display: inline;
-    color: transparent;
-}
-
-.logo_vk {
-    width: 30px;
-    height: 20px;
-    background: no-repeat;
-    background-image: url("../../Static/logo_vk.png");
-    display: inline;
-    color: transparent;
-}
-
-.link_helper {
+.helper a {
     color: #0ce1cf;
     font-size: 15px;
     text-decoration: none;
 }
 
+.logo_telegram {
+    width: 30px;
+    height: 20px;
+    background: url("../../Static/logo_telegram.png") no-repeat;
+    /*color: transparent;*/
+    display: inline;
+    /*display: block;*/
+}
+
+.logo_telegram:hover {
+    transform: scale(1.3);
+}
+
+.logo_vk {
+    width: 30px;
+    height: 20px;
+    background: url("../../Static/logo_vk.png") no-repeat;
+    display: block;
+    /*color: transparent;*/
+}
+
+.logo_vk:hover {
+    transform: scale(1.3);
+}
 
 @media screen and (min-width: 375px) and (max-width: 809px) {
 
