@@ -26,13 +26,13 @@ def main():
         for dic in body:
             if len(dic["notifications"]) > 1:
                 for i in range(len(dic["notifications"])):
-                    write_msg(dic['id'], f'Hey lazy asshole {dic["name"]}, '
-                                         f'\nyou need to do: {dic["notifications"][i]["title"]}'
-                                         f'\nspecifically: {dic["notifications"][i]["description"]}...')
+                    write_msg(dic['id'], f'Привет {dic["name"]}, '
+                                         f'\nтебе надо сделать: {dic["notifications"][i]["title"]},'
+                                         f'\nа именно: {dic["notifications"][i]["description"]}...')
             else:
-                write_msg(dic['id'], f'Hey lazy asshole {dic["name"]}, '
-                                     f'\nyou need to do: {dic["notifications"][0]["title"]}'
-                                     f'\nspecifically: {dic["notifications"][0]["description"]}...')
+                write_msg(dic['id'], f'Привет {dic["name"]}, '
+                                     f'\nтебе надо сделать: {dic["notifications"][0]["title"]},'
+                                     f'\nа именно: {dic["notifications"][0]["description"]}...')
 
     channel.queue_declare(queue=SERVICE)
     channel.basic_consume(queue=SERVICE, on_message_callback=callback, auto_ack=True)
@@ -44,7 +44,6 @@ def main():
         channel.stop_consuming()
     except Exception:
         channel.stop_consuming()
-
 
 if __name__ == '__main__':
     main()
