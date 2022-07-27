@@ -10,21 +10,27 @@ const Helper = () => {
     return (
         <div className={classes.helper}>
             <span>
-                <svg className={classes.logo_telegram}> <h2>Телеграм</h2></svg>
-
+                <a href="https://t.me/long_memory_bot" rel="noreferrer" target="_blank">
+                    <svg className={classes.logo_telegram}></svg>
+                </a>
             </span>
-            <h3>Чтобы получить свой id в телеграм,
-                напишите <a href="https://t.me/long_memory_bot" className={classes.link_helper} target="_blank">нашему
-                    боту</a>,
-                введите команду /start или нажмите кнопку старт
-                и получите свой id в телеграм, после чего можете сохранить его здесь.</h3>
+            {/*<h2>Телеграм</h2>*/}
+            <h3>Чтобы получить свой id в телеграм, напишите
+                <a href="https://t.me/long_memory_bot" rel="noreferrer" target="_blank"> нашему боту</a>
+                , введите команду /start или нажмите кнопку старт и получите свой id в телеграм, после чего можете сохранить его здесь.
+            </h3>
             <br/>
             <span>
-                <svg className={classes.logo_vk}><h2>ВК</h2></svg>
+                <a href="https://vk.com/public214673853" rel="noreferrer" target="_blank">
+                    <svg className={classes.logo_vk}></svg>
+                </a>
+                {/*<h2>ВК</h2>*/}
             </span>
-            <h3>Чтобы получать сообщения в ВК вступите в <a href="https://vk.com/public214673853"
-                                                            className={classes.link_helper} target="_blank">нашу
-                группу</a> и напишите любое сообщение в личное сообщение группы.</h3>
+            <h3>Чтобы получать сообщения в ВК
+                вступите в <a href="https://vk.com/public214673853" rel="noreferrer"
+                   target="_blank"> нашу группу
+                </a> и напишите любое сообщение в личное сообщение группы.
+            </h3>
         </div>
     )
 }
