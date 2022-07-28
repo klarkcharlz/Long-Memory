@@ -18,4 +18,26 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserModel
-        fields = '__all__'
+        fields = (
+            "id",
+            "username",
+            "password",
+            "email",
+        )
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = (
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'avatar',
+            'telegram_id',
+            'telegram_reminders',
+            'vk_id',
+            'vk_reminders',
+            'email_reminders',
+        )

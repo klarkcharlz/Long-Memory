@@ -54,5 +54,5 @@ def fill_test_notifications(total: int):
 if __name__ == "__main__":
     # Раскомментировать нужное
     # create_superuser('admin', 'admin@admin.ru', 'admin')
-    # fill_test_users(10)
-    fill_test_notifications(100)
+    fill_test_users(10)
+    # fill_test_notifications(100)

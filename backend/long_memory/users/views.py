@@ -1,10 +1,10 @@
-from rest_framework import permissions
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework import permissions, viewsets
+from rest_framework.generics import CreateAPIView
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework import status
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserDetailSerializer
 from .models import CustomUser
 
 
@@ -25,19 +25,27 @@ class CreateUserView(CreateAPIView):
         return Response({'token': token.key}, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class RetrieveUserAPIView(RetrieveAPIView):
-    model = get_user_model()
+class DetailUpdateUserView(viewsets.ModelViewSet):
     permission_classes = [
         permissions.IsAuthenticated
     ]
-    serializer_class = UserSerializer
+    serializer_class = UserDetailSerializer
     queryset = CustomUser.objects.all()
 
+    def get_queryset(self):
+        user_id = self.request.user.id
+        user = CustomUser.objects.all()
+        if user_id:
+            user = user.filter(pk=user_id)
+        return user
 
-class UpdateUserAPIView(UpdateAPIView):
-    model = get_user_model()
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
-    serializer_class = UserSerializer
-    queryset = CustomUser.objects.all()
+    def patch(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        partial = True
+        instance = self.request.user
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
