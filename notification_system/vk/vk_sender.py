@@ -7,6 +7,7 @@ from pika.exceptions import AMQPConnectionError
 
 SERVICE = 'vk'  # тут имя вашего сервиса email, telegram или vk
 
+
 def main():
     while True:
         try:
@@ -44,6 +45,7 @@ def main():
         channel.stop_consuming()
     except Exception:
         channel.stop_consuming()
+
 
 if __name__ == '__main__':
     main()

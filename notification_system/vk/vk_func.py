@@ -2,6 +2,7 @@ from random import randint
 from settings import SECRET_KEY
 import vk_api
 
+
 # Примерный формат входящего сообщения
 
 # external_mess = {
@@ -62,10 +63,6 @@ import vk_api
 def write_msg(user_id, message):
     vk.method('messages.send', {'user_id': user_id, 'message': message, "random_id": randint(11111, 99999)})
 
+
 # Авторизуемся
 vk = vk_api.VkApi(token=SECRET_KEY)
-
-
-
-
-

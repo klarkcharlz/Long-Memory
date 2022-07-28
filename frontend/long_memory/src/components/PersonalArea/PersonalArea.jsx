@@ -173,6 +173,22 @@ const PersonalArea = () => {
                                     });
                                 }}/>
                         </div>
+
+                        <div>
+                            <p>Username</p>
+                            <input
+                                value={userData.username}
+                                className={classes.input_area}
+                                type="text"
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    setUserData({
+                                        ...userData,
+                                        username: e.target.value
+                                    });
+                                }}/>
+                        </div>
+
                         <div>
                             <p>Аватар</p>
                             <div className={classes.file_upload}>

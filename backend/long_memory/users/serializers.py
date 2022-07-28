@@ -25,6 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = (
+            "username",
             "email",
             'telegram_id',
             'vk_id',

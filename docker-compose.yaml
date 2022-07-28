@@ -17,7 +17,9 @@ services:
     ports:
       - 8080:8080
     command: bash -c "
+      python manage.py makemigrations &&
       python manage.py migrate &&
+      python create_super_user_admin.py &&
       gunicorn long_memory.wsgi -b 0.0.0.0:8080
       "
     depends_on:
@@ -36,6 +38,8 @@ services:
     ports:
       - 5673:5672
       - 15673:15672
+    depends_on:
+      - db
 
   monitoring_script:
     build: ./notification_system/monitoring_script
@@ -43,3 +47,10 @@ services:
     command: bash -c "python monitoring.py"
     depends_on:
       - rabbitmq
+
+  frontend:
+      build: ./frontend
+      ports:
+        - 80:80
+      depends_on:
+        - nginx
