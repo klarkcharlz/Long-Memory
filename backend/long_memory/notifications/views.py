@@ -23,6 +23,19 @@ class NotificationsListCreate(generics.ListCreateAPIView):
 
 
 class NotificationsRetriveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
     queryset = Notifications.objects.all()
     serializer_class = NotificationsSerializer
+
+    def patch(self, request, *args, **kwargs):
+        """ Метод patch переопределен для изменения поля is_active, по умолчанию при создании напоминания is_active
+            присвоено True, когда пользователи решил, что это напоминание больше не нужно показывать, то нужно is_active
+            присвоить False. Механизм следующий: с front-end должно прийти id напоминания через url,
+            например:
+                метод PATCH,  http://host/notifications/id/
+        """
+        notify = Notifications.objects.get(pk=kwargs['pk'])
+        notify.is_active = False
+        notify.save()
+        return self.partial_update(request, *args, **kwargs)
+
