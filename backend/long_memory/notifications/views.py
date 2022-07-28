@@ -8,7 +8,7 @@ from .models import Notifications
 
 
 class NotificationsListCreate(generics.ListCreateAPIView):
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Notifications.objects.all()
     serializer_class = NotificationsSerializer
 
@@ -23,7 +23,7 @@ class NotificationsListCreate(generics.ListCreateAPIView):
 
 
 class NotificationsRetriveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Notifications.objects.all()
     serializer_class = NotificationsSerializer
 
@@ -45,7 +45,7 @@ class NotificationsRetriveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
                 метод PATCH, http://host/notifications/id/
         """
         notify = Notifications.objects.get(pk=kwargs['pk'])
-        notify.calculate_first_notification_date()
+        notify.calculate_next_notification_date()
         notify.save()
         return self.partial_update(request, *args, **kwargs)
 

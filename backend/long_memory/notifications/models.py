@@ -18,5 +18,5 @@ class Notifications(models.Model):
     def __str__(self):
         return f"{self.title}: {self.description[:20]}"
 
-    def calculate_first_notification_date(self):
+    def calculate_next_notification_date(self):
         self.next_notifications = datetime.utcnow() + timedelta(days=1)
