@@ -1,33 +1,34 @@
+import os
 import ssl
 import smtplib
-import time
+from json import loads
+
+import pika
+from dotenv import load_dotenv
 
 import jinja2
 
-from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-import schedule
-from notifications.models import Notifications
-from users.models import CustomUser
+load_dotenv()
 
 
-def send_email(sender, password, mail_add, username, body):
+def send_email(sender, password, domain, mail_add, name, body):
     """
     Отправляет письмо по параметрам
     :param sender: почта сайта
     :param password: пароль от почты
+    :param domain: домен почты
     :param mail_add: адрес получателя
-    :param username: имя получателя
+    :param name: имя получателя
     :param body: тело письма
     :return:
     """
 
-    domain = f"smtp.{sender.split('@')[1]}"  # домен нашей почты
     msg = MIMEMultipart()
     msg['From'] = 'Long Memory App'
-    msg['To'] = username
+    msg['To'] = name
     msg['Subject'] = f'Пора повторять материал!'
     msg.attach(MIMEText(body, 'html'))
 
@@ -40,50 +41,73 @@ def send_email(sender, password, mail_add, username, body):
         print(e)
 
 
-def get_body(username, notifications):
+def get_body(name, notifications):
     """
     jinja2
-    :param username: имя пользователя (получателя)
+    :param name: имя пользователя (получателя)
     :param notifications: активные напоминания пользователя
     :return:
     """
     loader = jinja2.FileSystemLoader('templates/email')  # загружаем папку с шаблоном
     j_env = jinja2.Environment(loader=loader)
     content = {
-        'username': username,
+        'name': name,
         'notifications': notifications,
     }
-    tpl = j_env.get_template('email.html')
+    tpl = j_env.get_template('email_body.html')
     return tpl.render(content)
 
 
-def send_for_user():
+def send_for_user(data_set):
     """
-    определяет активных юзеров
-            грузим его активные нотифы
-        отправляем инфу на формирование тела письма, получаем тело
-        отдаем тело и параметры на отправку
+    Раскладываем по полкам полученный массив данных из очереди относительно юзера
+    Формируем тело письма
+    Передаем на отправку
+
+    :param data_set: массив данных из очереди
     """
-    sender = ''  # надо доставать из env
-    password = ''  # надо доставать из env
-    users = CustomUser.objects.filter(is_active=True)
-    for user in users:
-        notifications = Notifications.objects.filter(user_id=user.pk,
-                                                     is_active=True,
-                                                     next_notification__lte=datetime.now())
-        mail_add = user.email
-        username = user.username
-        body = get_body(username, notifications)
-        send_email(sender, password, mail_add, username, body)
+
+    sender = os.getenv('SENDER')
+    password = os.getenv('PASSWORD')
+    domain = os.getenv('DOMAIN')
+
+    for item in data_set:
+        email_add = item['email']
+        name = item['name']
+        notifications = item['notifications']
+
+        body = get_body(name, notifications)  # собираем тело письма
+        send_email(sender, password, domain, email_add, name, body)  # передаем данные для отправки
+
+        # Если напоминаний нет, нужна ли заглушка, типа
+        # "вам нечего повторять сегодня, отдохните или начните изучать что-то новое
+        # или почитайте статьи на нашем сайте"
+        # Или просто письмо не отправлять?
+
+    # print(f'[INFO] {len(data_set)} messages sent')
 
 
-schedule.every().day.at("10:00").do(send_for_user)  # запуск скрипта каждый день в 10.00
+def main():
+    connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('SERVER')))
+    channel = connection.channel()
+    channel.queue_declare(queue='email')
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)  # оставлено в целях тестирования
+    def callback(ch, method, properties, msg):
+        body = loads(msg)
+        # print(f'--> Received message {body}')
+
+        send_for_user(body)
+
+    channel.basic_consume(queue='email',
+                          auto_ack=True,
+                          on_message_callback=callback)
+
+    print('--- Waiting for messages --- CTRL+C for exit')
+    channel.start_consuming()
 
 
-
-# Естественно будет дорабатываться, нужно изучить Rabbit, вопрос с необходимостью SSL сертификата
-# Временно перевел на schedule
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('Interrupted')
