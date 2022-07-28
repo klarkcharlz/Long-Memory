@@ -3,10 +3,10 @@ import classes from "./NotificationsList.module.css";
 import useUserContext from "../../hooks/useUserContext";
 import {getUserNotifications} from "../../functions/api";
 import {formatDate} from "../../functions/utils";
-import {FixedSizeList} from "react-window";
 import Pagination from '@mui/material/Pagination';
 import usePagination from '../../hooks/usePagination';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import {disableNotification, repeatNotification} from '../../functions/api'
 
 const testData = [
     {
@@ -18,24 +18,25 @@ const testData = [
     }]
 
 
-const style = {
-    outlined: {
-        bgcolor: 'red',
-    },
-};
-
-
-const repeated = (id, setStatus) => {
-    console.log('Повторил > ', id);
-    setStatus('Повторил');
+const repeated = (id, setStatus, filterNotifications, token) => {
+    console.log('Повторил');
+    const clear = () => {
+        filterNotifications(id);
+    }
+    clear();
+    //repeatNotification(token, setStatus, clear);
 }
 
-const disable = (id, setStatus) => {
-    console.log('Больше не показывать > ', id);
-    setStatus('Убрал');
+const disable = (id, setStatus, filterNotifications, token) => {
+    console.log('Убрал');
+    const clear = () => {
+        filterNotifications(id);
+    }
+    clear();
+    // disableNotification(token, setStatus, clear)
 }
 
-const Notification = ({notification, setStatus}) => {
+const Notification = ({notification, setStatus, filterNotifications, token}) => {
     const {title, description, created_at, next_notifications, id} = notification;
     return (
         <div className={classes.container}>
@@ -48,12 +49,12 @@ const Notification = ({notification, setStatus}) => {
             <div className={classes.button}>
                 <button onClick={(e) => {
                     e.preventDefault();
-                    repeated(id, setStatus);
+                    repeated(id, setStatus, filterNotifications, token);
                 }}>Повторил
                 </button>
                 <button onClick={(e) => {
                     e.preventDefault();
-                    disable(id, setStatus);
+                    disable(id, setStatus, filterNotifications, token);
                 }}>Больше не показывать
                 </button>
             </div>
@@ -77,6 +78,22 @@ const NotificationList = () => {
             getUserNotifications(token, setNotifications)
         }
     }, [token]);
+
+    const filterNotifications = (id) => {
+        const notification_ = notifications.filter(el => el.id !== id);
+        setNotifications(notification_);
+    }
+
+    useEffect(() => {
+        if(page > count){
+            setPage(page - 1);
+            _DATA.jump(page - 1);
+        }
+        else if(page <= 0){
+            setPage(1);
+            _DATA.jump(1);
+        }
+    }, [notifications]);
 
     const handleChange = (e, p) => {
         console.log(p);
@@ -104,13 +121,14 @@ const NotificationList = () => {
                             variant="outlined"
                             // shape="rounded"
                             onChange={handleChange}
-                            sx={style}
                         />
                     </ThemeProvider>
                     {_DATA.currentData().map((notification) =>
                         <Notification notification={notification}
                                       setStatus={setStatus}
+                                      filterNotifications={filterNotifications}
                                       key={notification.id}
+                                      token={token}
                         />)
                     }
                 </div>
@@ -118,18 +136,6 @@ const NotificationList = () => {
         }
         return <h2>У вас пока нет активного напоминания.</h2>
     }
-
-    // return (
-    //         <FixedSizeList
-    //             height={window.innerHeight / 1.6}
-    //             width={window.innerWidth / 1.6}
-    //             itemCount={1}
-    //             itemSize={1}
-    //             overscanCount={2}
-    //         >
-    //             {NotificationListRaw}
-    //         </FixedSizeList>
-    // )
 
     return NotificationListRaw();
 

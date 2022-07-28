@@ -18,7 +18,8 @@ const Helper = () => {
             {/*<h2>Телеграм</h2>*/}
             <h3>Чтобы получить свой id в телеграм, напишите
                 <a href="https://t.me/long_memory_bot" rel="noreferrer" target="_blank"> нашему боту</a>
-                , введите команду /start или нажмите кнопку старт и получите свой id в телеграм, после чего можете сохранить его здесь.
+                , введите команду /start или нажмите кнопку старт и получите свой id в телеграм, после чего можете
+                сохранить его здесь.
             </h3>
             <br/>
             <span>
@@ -29,7 +30,7 @@ const Helper = () => {
             </span>
             <h3>Чтобы получать сообщения в ВК
                 вступите в <a href="https://vk.com/public214673853" rel="noreferrer"
-                   target="_blank"> нашу группу
+                              target="_blank"> нашу группу
                 </a> и напишите любое сообщение в личное сообщение группы.
             </h3>
         </div>
@@ -48,14 +49,6 @@ const getUserInfo = (setStatus, token, setUserData) => {
 const defaultAvatar = "https://mir-avatarok.3dn.ru/_si/0/43720430.jpg";
 
 const PersonalArea = () => {
-    /*avatar: null
-    email: "admin@admin.ru"
-    email_reminders: false
-    first_name: "Николай"
-    telegram_id: ""
-    telegram_reminders: false
-    vk_id: "12345"
-    vk_reminders: false*/
     const {token} = useUserContext();
     const setStatus = useStatusModalHook();
     const [userData, setUserData] = useState({});
@@ -70,7 +63,7 @@ const PersonalArea = () => {
         <div className={classes.main}>
 
             <div className={classes.avatar}>
-                <img src={userData.avatar ? userData.avatar: defaultAvatar} alt="Аватар"/>
+                <img src={userData.avatar ? userData.avatar : defaultAvatar} alt="Аватар"/>
             </div>
 
             <div className={classes.notification_settings}>
@@ -188,6 +181,10 @@ const PersonalArea = () => {
                                         type="file"
                                         name="file"
                                         id="uploade-file"
+                                        onChange={(event) => {
+                                            event.preventDefault();
+                                            console.log(event.target.files);
+                                        }}
                                     />
                                     <span>Выберите файл</span>
                                 </label>
