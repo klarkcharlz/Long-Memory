@@ -6,9 +6,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from users.views import CreateUserView, UserView,  RetrieveUserAPIView, UpdateUserAPIView
+from users.views import CreateUserView, DetailUpdateUserView
 from notifications.views import NotificationsListCreate, NotificationsRetrieveUpdateDestroy
 
-router = DefaultRouter()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -16,11 +16,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('user/<pk>/', RetrieveUserAPIView.as_view()),
     path('update/user/<pk>/', UpdateUserAPIView.as_view()),
-    path('api/', include(router.urls)),
     path('api/register/', CreateUserView.as_view()),
     path('api-token-auth/', views.obtain_auth_token),
     path('api/notifications/', NotificationsListCreate.as_view()),
-    path('api/notifications/<int:pk>/', NotificationsRetrieveUpdateDestroy.as_view())
 ]
 
 if settings.DEBUG:
