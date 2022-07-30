@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from django.db import models
 
 from users.models import CustomUser
+from .constants import TIME_DELTA_MAP
 
 
 class Notifications(models.Model):
@@ -19,4 +20,6 @@ class Notifications(models.Model):
         return f"{self.title}: {self.description[:20]}"
 
     def calculate_next_notification_date(self):
-        self.next_notifications = datetime.utcnow() + timedelta(days=1)
+        if self.period_type < 6:
+            self.period_type += 1
+        self.next_notifications = datetime.utcnow() + TIME_DELTA_MAP[self.period_type]

@@ -7,7 +7,7 @@ from .serializers import NotificationsSerializer
 from .models import Notifications
 
 
-class NotificationsListCreate(generics.ListCreateAPIView):
+class NotificationsListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = NotificationsSerializer
 
@@ -27,33 +27,34 @@ class NotificationsListCreate(generics.ListCreateAPIView):
             next_notifications -  все актуальные напоминания на текущее время
         """
         user = self.request.user
-        return Notifications.objects.filter(user_id=user, is_active=True, next_notifications__lte=datetime.now())
+        return Notifications.objects.filter(user_id=user, is_active=True, next_notifications__gte=datetime.now())
 
 
-class NotificationsRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class NotificationsDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Notifications.objects.all()
     serializer_class = NotificationsSerializer
 
-    def delete(self, request, *args, **kwargs):
-        """ Метод delete переопределен для изменения поля is_active, по умолчанию при создании напоминания is_active
-            присвоено True, когда пользователь решил, что это напоминание больше не нужно показывать, то нужно is_active
-            присвоить False. Механизм следующий: с front-end должно прийти id напоминания через url.
-            Пример:
-                метод DELETE,  http://host/notifications/id/
-        """
-        notify = Notifications.objects.get(pk=kwargs['pk'])
-        notify.is_active = False
-        notify.save()
-        return self.partial_update(request, *args, **kwargs)
+    def get_queryset(self):
+        user = self.request.user
+        return Notifications.objects.filter(user_id=user, is_active=True, next_notifications__gte=datetime.now())
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.user.id == instance.user_id.id:
+            instance.is_active = False
+            instance.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
     def patch(self, request, *args, **kwargs):
         """ Метод path обновляет время следующего напоминания. Меняет дату и время в поле next_next_notifications
-            Пример:
-                метод PATCH, http://host/notifications/id/
+         а так же period_type
         """
         notify = Notifications.objects.get(pk=kwargs['pk'])
-        notify.calculate_next_notification_date()
-        notify.save()
-        return self.partial_update(request, *args, **kwargs)
-
+        if request.user.id == notify.user_id.id:
+            notify.calculate_next_notification_date()
+            notify.save()
+            return self.partial_update(request, *args, **kwargs)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)

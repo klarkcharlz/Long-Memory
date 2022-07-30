@@ -5,20 +5,21 @@ from rest_framework.authtoken import views
 from django.conf.urls.static import static
 from django.conf import settings
 
-from users.views import CreateUserView, UserView,  RetrieveUserAPIView, UpdateUserAPIView
-from users.views import CreateUserView, DetailUpdateUserView
-from notifications.views import NotificationsListCreate, NotificationsRetrieveUpdateDestroy
+from users.views import CreateUserView, UserView, CustomAuthentication
+from notifications.views import NotificationsListCreateView, NotificationsDeleteUpdateView
 
+router = DefaultRouter()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
     path('api/user_data/', UserView.as_view()),
     path('api-auth/', include('rest_framework.urls')),
-    path('user/<pk>/', RetrieveUserAPIView.as_view()),
-    path('update/user/<pk>/', UpdateUserAPIView.as_view()),
+    path('api-custom-auth/', CustomAuthentication.as_view()),
     path('api/register/', CreateUserView.as_view()),
     path('api-token-auth/', views.obtain_auth_token),
-    path('api/notifications/', NotificationsListCreate.as_view()),
+    path('api/notifications/', NotificationsListCreateView.as_view()),
+    path('api/notifications/<int:pk>', NotificationsDeleteUpdateView.as_view()),
 ]
 
 if settings.DEBUG:

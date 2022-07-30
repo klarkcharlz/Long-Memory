@@ -1,14 +1,12 @@
-from rest_framework import permissions, viewsets
-from rest_framework.generics import CreateAPIView
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions
-from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import status
 from .serializers import CreateUserSerializer, UserSerializer
-from .serializers import UserSerializer, UserDetailSerializer
 from .models import CustomUser
 
 
@@ -31,10 +29,21 @@ class CreateUserView(CreateAPIView):
                          }, status=status.HTTP_201_CREATED, headers=headers)
 
 
+class CustomAuthentication(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key,
+                         'id': user.id})
+
+
 class UserView(RetrieveUpdateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
+    model = get_user_model()
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserSerializer
 
     def get_object(self):
         user_id = self.request.user.id
@@ -42,29 +51,3 @@ class UserView(RetrieveUpdateAPIView):
         obj = get_object_or_404(queryset)
         self.check_object_permissions(self.request, obj)
         return obj
-
-
-class DetailUpdateUserView(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
-    serializer_class = UserDetailSerializer
-    queryset = CustomUser.objects.all()
-
-    def get_queryset(self):
-        user_id = self.request.user.id
-        user = CustomUser.objects.all()
-        if user_id:
-            user = user.filter(pk=user_id)
-        return user
-
-    def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def update(self, request, *args, **kwargs):
-        partial = True
-        instance = self.request.user
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)

@@ -3,13 +3,13 @@ import axios from "axios";
 import {set_token_to_storage} from "./tokenStorage";
 import {parseResponse} from "./utils"
 
-const GET_USER_NOTIFICATIONS_URL = `http://127.0.0.1:8000/api/notifications/`;
-const CREATE_NOTIFICATIONS_URL = `http://127.0.0.1:8000/api/notifications/`;
-const USER_REGISTRATION_URL = `http://127.0.0.1:8000/api/register/`;
-const USER_AUTHORIZATION_URL = `http://127.0.0.1:8000/api-token-auth/`;
-const GET_USER_DATA_URL = `http://127.0.0.1:8000/api/user_data/`;
-const DISABLE_NOTIFICATION_URL = ``
-const REPEAT_NOTIFICATION_URL = ``
+const GET_USER_NOTIFICATIONS_URL = "http://127.0.0.1:8000/api/notifications/";
+const CREATE_NOTIFICATIONS_URL = "http://127.0.0.1:8000/api/notifications/";
+const USER_REGISTRATION_URL = "http://127.0.0.1:8000/api/register/";
+const USER_AUTHORIZATION_URL = "http://127.0.0.1:8000/api-token-auth/";
+const GET_USER_DATA_URL = "http://127.0.0.1:8000/api/user_data/";
+const DISABLE_NOTIFICATION_URL = "http://127.0.0.1:8000/api/notifications/";
+const REPEAT_NOTIFICATION_URL = "http://127.0.0.1:8000/api/notifications/";
 
 
 function get_headers(token) {
@@ -103,12 +103,9 @@ function userAuthorization(username, pass, setToken, navigate, setStatus) {
     });
 }
 
-function disableNotification(token, setStatus, clear) {
+function disableNotification(token, id, setStatus, clear) {
     const headers = get_headers(token);
-    const data = {
-        is_active: false
-    }
-    axios.patch(DISABLE_NOTIFICATION_URL, data, {headers})
+    axios.delete(`${DISABLE_NOTIFICATION_URL}${id}`, {headers})
         .then(response => {
             console.log('disableNotification response.data > ', response.data);
             clear();
@@ -118,9 +115,9 @@ function disableNotification(token, setStatus, clear) {
     })
 }
 
-function repeatNotification(token, setStatus, clear) {
+function repeatNotification(token, id, setStatus, clear) {
     const headers = get_headers(token);
-    axios.get(REPEAT_NOTIFICATION_URL, {headers})
+    axios.patch(`${REPEAT_NOTIFICATION_URL}${id}`, {}, {headers})
         .then(response => {
             console.log('repeatNotification response.data > ', response.data);
             clear();
@@ -130,4 +127,13 @@ function repeatNotification(token, setStatus, clear) {
     })
 }
 
-export {repeatNotification, disableNotification, getUserData, updateUser, getUserNotifications, createNotification, userRegistration, userAuthorization};
+export {
+    repeatNotification,
+    disableNotification,
+    getUserData,
+    updateUser,
+    getUserNotifications,
+    createNotification,
+    userRegistration,
+    userAuthorization
+};

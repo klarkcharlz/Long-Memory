@@ -23,8 +23,8 @@ const repeated = (id, setStatus, filterNotifications, token) => {
     const clear = () => {
         filterNotifications(id);
     }
-    clear();
-    //repeatNotification(token, setStatus, clear);
+    // clear();
+    repeatNotification(token, id, setStatus, clear);
 }
 
 const disable = (id, setStatus, filterNotifications, token) => {
@@ -32,8 +32,8 @@ const disable = (id, setStatus, filterNotifications, token) => {
     const clear = () => {
         filterNotifications(id);
     }
-    clear();
-    // disableNotification(token, setStatus, clear)
+    // clear();
+    disableNotification(token, id, setStatus, clear)
 }
 
 const Notification = ({notification, setStatus, filterNotifications, token}) => {
