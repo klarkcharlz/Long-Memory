@@ -6,6 +6,7 @@ import {blue} from '@mui/material/colors';
 import useUserContext from "../../hooks/useUserContext";
 import useStatusModalHook from "../../hooks/useStatusModalHook";
 import {getUserData, updateUser} from "../../functions/api"
+import Avatar from 'react-avatar-edit'
 
 const Helper = () => {
     return (
@@ -33,6 +34,71 @@ const Helper = () => {
                               target="_blank"> нашу группу
                 </a> и напишите любое сообщение в личное сообщение группы.
             </h3>
+        </div>
+    )
+}
+
+class AppAvatar extends React.Component {
+
+    constructor(props) {
+        super(props)
+        const src = './example/einshtein.jpg'
+        this.state = {
+            preview: null,
+            src
+        }
+        this.onCrop = this.onCrop.bind(this)
+        this.onClose = this.onClose.bind(this)
+    }
+
+    onClose() {
+        this.setState({preview: null})
+    }
+
+    onCrop(preview) {
+        this.setState({preview})
+    }
+
+    render() {
+        return (
+            <div>
+                <Avatar
+                    width={390}
+                    height={295}
+                    onCrop={this.onCrop}
+                    onClose={this.onClose}
+                    src={this.state.src}
+                />
+                <img src={this.state.preview} alt="Preview"/>
+            </div>
+        )
+    }
+}
+
+const AvatarEditor = () => {
+
+    const [preview, setPreview] = useState(null)
+    const [src, setSrc] = useState("https://mir-avatarok.3dn.ru/_si/0/43720430.jpg")
+
+    return (
+        <div>
+            <Avatar
+                width={390}
+                height={295}
+                onCrop={() => {
+                    setPreview(preview)
+                }}
+                onClose={() => {
+                    setPreview(null)
+                }}
+                src={src}
+            />
+            <img src={preview} alt="Preview"/>
+            <button onClick={(e) => {
+                e.preventDefault()
+                setSrc(preview)
+            }}>Save
+            </button>
         </div>
     )
 }
@@ -214,6 +280,9 @@ const PersonalArea = () => {
                     </div>
 
                 </div>
+            </div>
+            <div>
+                <AvatarEditor/>
             </div>
         </div>
     )
