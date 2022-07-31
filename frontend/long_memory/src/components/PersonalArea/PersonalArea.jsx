@@ -7,6 +7,7 @@ import useUserContext from "../../hooks/useUserContext";
 import useStatusModalHook from "../../hooks/useStatusModalHook";
 import {getUserData, updateUser} from "../../functions/api"
 import Avatar from 'react-avatar-edit'
+import AvatarModal from "../AvatarModal/AvatarModal";
 
 const Helper = () => {
     return (
@@ -38,62 +39,25 @@ const Helper = () => {
     )
 }
 
-class AppAvatar extends React.Component {
-
-    constructor(props) {
-        super(props)
-        const src = './example/einshtein.jpg'
-        this.state = {
-            preview: null,
-            src
-        }
-        this.onCrop = this.onCrop.bind(this)
-        this.onClose = this.onClose.bind(this)
-    }
-
-    onClose() {
-        this.setState({preview: null})
-    }
-
-    onCrop(preview) {
-        this.setState({preview})
-    }
-
-    render() {
-        return (
-            <div>
-                <Avatar
-                    width={390}
-                    height={295}
-                    onCrop={this.onCrop}
-                    onClose={this.onClose}
-                    src={this.state.src}
-                />
-                <img src={this.state.preview} alt="Preview"/>
-            </div>
-        )
-    }
-}
-
 const AvatarEditor = () => {
 
-    const [preview, setPreview] = useState(null)
-    const [src, setSrc] = useState("https://mir-avatarok.3dn.ru/_si/0/43720430.jpg")
+    const src_ = "https://mir-avatarok.3dn.ru/_si/0/43720430.jpg";
+
+    const [preview, setPreview] = useState(src_)
+    const [src, setSrc] = useState(src_)
 
     return (
         <div>
             <Avatar
                 width={390}
                 height={295}
-                onCrop={() => {
-                    setPreview(preview)
+                onCrop={(value) => {
+                    setPreview(value)
                 }}
                 onClose={() => {
                     setPreview(null)
                 }}
-                src={src}
             />
-            <img src={preview} alt="Preview"/>
             <button onClick={(e) => {
                 e.preventDefault()
                 setSrc(preview)
@@ -118,6 +82,7 @@ const PersonalArea = () => {
     const {token} = useUserContext();
     const setStatus = useStatusModalHook();
     const [userData, setUserData] = useState({});
+    const [activeAvatarModal, setAcitveAvatarModal] = useState(false);
 
     useEffect(() => {
         if (token) {
@@ -128,9 +93,14 @@ const PersonalArea = () => {
     return (
         <div className={classes.main}>
 
-            <div className={classes.avatar}>
+            <div className={classes.avatar} onClick={(event) => {
+                event.preventDefault()
+                setAcitveAvatarModal(true)
+            }}>
                 <img src={userData.avatar ? userData.avatar : defaultAvatar} alt="Аватар"/>
             </div>
+
+            <AvatarModal open={activeAvatarModal} setOpen={setAcitveAvatarModal} children={<AvatarEditor/>}/>
 
             <div className={classes.notification_settings}>
 
@@ -280,9 +250,6 @@ const PersonalArea = () => {
                     </div>
 
                 </div>
-            </div>
-            <div>
-                <AvatarEditor/>
             </div>
         </div>
     )
