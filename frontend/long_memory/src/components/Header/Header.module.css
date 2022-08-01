@@ -56,7 +56,7 @@
     border: 0;
     width: 100px;
     height: 100px;
-    background: url('../../Static/logo.png') no-repeat;
+    background: url('../../Static/logo_new.png') no-repeat;
     background-size: cover;
     margin-right: 20px;
     animation: button_logo 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
@@ -65,9 +65,9 @@
 .button_logo_materials {
     color: transparent;
     border: 0;
-    width: 80px;
-    height: 80px;
-    background: url('../../Static/logo_book.png') no-repeat;
+    width: 100px;
+    height: 100px;
+    background: url('../../Static/new_book_logo.png') no-repeat;
     background-size: contain;
     margin-right: 40px;
     animation: button_logo_materials 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;

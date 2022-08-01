@@ -6,7 +6,8 @@ import {blue} from '@mui/material/colors';
 import useUserContext from "../../hooks/useUserContext";
 import useStatusModalHook from "../../hooks/useStatusModalHook";
 import {getUserData, updateUser} from "../../functions/api"
-import Avatar from "react-avatar-edit";
+import Avatar from 'react-avatar-edit'
+import AvatarModal from "../AvatarModal/AvatarModal";
 
 const Helper = () => {
     return (
@@ -46,10 +47,12 @@ const AvatarEditor = ({token, setStatus}) => {
     const [src, setSrc] = useState(src_)
 
     return (
-        <div>
+        <div className={classes.avatar_modal}>
+            <div className={classes.empty_area}>
             <Avatar
-                width={390}
-                height={295}
+                width={300}
+                    height={300}
+                    imageWidth={300}
                 onCrop={(value) => {
                     setPreview(value)
                 }}
@@ -57,10 +60,12 @@ const AvatarEditor = ({token, setStatus}) => {
                     setPreview(null)
                 }}
             />
+                </div>
             <button onClick={(e) => {
                 e.preventDefault()
                 setSrc(preview);
-            }}>Save
+            }}
+            className={classes.button_avatar}>Save
             </button>
             <button onClick={(e) => {
                 e.preventDefault()
@@ -87,6 +92,7 @@ const PersonalArea = () => {
     const {token} = useUserContext();
     const setStatus = useStatusModalHook();
     const [userData, setUserData] = useState({});
+    const [activeAvatarModal, setAcitveAvatarModal] = useState(false);
 
     useEffect(() => {
         if (token) {
@@ -97,14 +103,14 @@ const PersonalArea = () => {
     return (
         <div className={classes.main}>
 
-            <div className={classes.avatar}>
+            <div className={classes.avatar} onClick={(event) => {
+                event.preventDefault()
+                setAcitveAvatarModal(true)
+            }}>
                 <img src={userData.avatar ? userData.avatar : defaultAvatar} alt="Аватар"/>
-                <div>
-                    <AvatarEditor
-                        token={token}
-                        setStatus={setStatus}/>
-                </div>
             </div>
+
+            <AvatarModal open={activeAvatarModal} setOpen={setAcitveAvatarModal} children={<AvatarEditor/>}/>
 
             <div className={classes.notification_settings}>
 
