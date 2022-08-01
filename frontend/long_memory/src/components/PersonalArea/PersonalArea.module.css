@@ -9,6 +9,10 @@
     margin-top: 15px;
 }
 
+.empty_area > div > div > label {
+    color: white !important;
+}
+
 .button_avatar {
     width: 150px;
     height: 40px;
