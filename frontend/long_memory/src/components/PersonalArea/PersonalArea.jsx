@@ -52,6 +52,7 @@ const AvatarEditor = () => {
                 <Avatar
                     width={300}
                     height={300}
+                    imageWidth={300}
                     onCrop={(value) => {
                         setPreview(value)
                     }}
