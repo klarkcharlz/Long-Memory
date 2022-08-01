@@ -26,15 +26,16 @@ def check_db():
     for user in subscribers:
         id = user.id
         name = user.first_name if user.first_name else user.username
-        notifications = session.query(NotificationsNotification).filter((NotificationsNotification.user_id_id == id)
-                                                                        & (NotificationsNotification.next_notifications
-                                                                           <= datetime.now()))
+        # notifications = session.query(NotificationsNotification).filter((NotificationsNotification.user_id_id == id)
+        #                                                                 & (NotificationsNotification.next_notifications
+        #                                                                    <= datetime.now()))
+        notifications = session.query(NotificationsNotification).filter(NotificationsNotification.user_id_id == id)
         notifications_list = []
         for notification in notifications:
             notifications_list.append({'title': notification.title,
                                        'description': notification.description,
                                        'created_at': notification.created_at,
-                                       'next_notifications': notification.next_notifications,
+                                       'next_notification': notification.next_notifications,
                                        })
         if notifications_list:
             if user.vk_reminders:

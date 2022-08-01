@@ -18,12 +18,13 @@ def job():
             print(f'{datetime.now()} - empty data to {service}:')
 
 
-schedule.every(5).seconds.do(job)
+schedule.every(600).seconds.do(job)
 # schedule.every().day.at("10:30").do(job)
 
 
 if __name__ == "__main__":
     print('Start Script.')
+    job()
     while True:
         schedule.run_pending()
         sleep(1)

@@ -1,22 +1,25 @@
 import os
+from pprint import pprint
 import ssl
 import smtplib
 from json import loads
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 import pika
 from dotenv import load_dotenv
-
 import jinja2
 
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
+from settings import SERVICE, HOST
+
 
 load_dotenv()
 
 
-def send_email(sender, password, domain, mail_add, name, body):
+def send_email(sender, password, domain, port, mail_add, name, body):
     """
     Отправляет письмо по параметрам
+    :param port: порт домена почты
     :param sender: почта сайта
     :param password: пароль от почты
     :param domain: домен почты
@@ -33,7 +36,7 @@ def send_email(sender, password, domain, mail_add, name, body):
     msg.attach(MIMEText(body, 'html'))
 
     try:
-        with smtplib.SMTP(domain, port=587) as server:
+        with smtplib.SMTP(domain, port=port) as server:
             server.starttls(context=ssl.create_default_context())
             server.login(sender, password)
             server.sendmail(sender, mail_add, msg.as_string())
@@ -70,6 +73,7 @@ def send_for_user(data_set):
     sender = os.getenv('SENDER')
     password = os.getenv('PASSWORD')
     domain = os.getenv('DOMAIN')
+    port = os.getenv('PORT')
 
     for item in data_set:
         email_add = item['email']
@@ -77,7 +81,7 @@ def send_for_user(data_set):
         notifications = item['notifications']
 
         body = get_body(name, notifications)  # собираем тело письма
-        send_email(sender, password, domain, email_add, name, body)  # передаем данные для отправки
+        send_email(sender, password, domain, port, email_add, name, body)  # передаем данные для отправки
 
         # Если напоминаний нет, нужна ли заглушка, типа
         # "вам нечего повторять сегодня, отдохните или начните изучать что-то новое
@@ -88,21 +92,21 @@ def send_for_user(data_set):
 
 
 def main():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('SERVER')))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST))
     channel = connection.channel()
-    channel.queue_declare(queue='email')
+    channel.queue_declare(queue=SERVICE)
 
     def callback(ch, method, properties, msg):
         body = loads(msg)
-        # print(f'--> Received message {body}')
+        pprint(f'--> Received message {body}')
 
         send_for_user(body)
 
-    channel.basic_consume(queue='email',
+    channel.basic_consume(queue=SERVICE,
                           auto_ack=True,
                           on_message_callback=callback)
 
-    print('--- Waiting for messages --- CTRL+C for exit')
+    print(f'--- Waiting for {SERVICE} messages --- CTRL+C for exit')
     channel.start_consuming()
 
 

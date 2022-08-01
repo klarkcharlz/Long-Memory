@@ -12,9 +12,10 @@ const DISABLE_NOTIFICATION_URL = "http://127.0.0.1:8000/api/notifications/";
 const REPEAT_NOTIFICATION_URL = "http://127.0.0.1:8000/api/notifications/";
 
 
-function get_headers(token) {
+function get_headers(token=null) {
     let headers = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept-Language': 'ru-RU'
     }
     if (token) {
         headers['Authorization'] = 'token ' + token
@@ -60,8 +61,8 @@ function createNotification(data, token, setStatus) {
 }
 
 function updateUser(token, data, setStatus) {
-    const avatar = data.avatar;
-    delete data.avatar;
+    // const avatar = data.avatar;
+    // delete data.avatar;
     const headers = get_headers(token);
     axios.patch(GET_USER_DATA_URL, data, {headers})
         .then(response => {
@@ -71,12 +72,13 @@ function updateUser(token, data, setStatus) {
         console.log(error);
         setStatus(parseResponse(error.response.data));
     })
-    data.avatar = avatar;
+    // data.avatar = avatar;
 }
 
 
 function userRegistration(pass, username, email, setToken, navigate, setStatus) {
-    axios.post(USER_REGISTRATION_URL, {username: username, password: pass, email: email})
+    const headers = get_headers();
+    axios.post(USER_REGISTRATION_URL, {username: username, password: pass, email: email}, {headers})
         .then(response => {
             console.log('userRegistration response.data > ', response.data);
             const token = response.data.token;
@@ -90,7 +92,8 @@ function userRegistration(pass, username, email, setToken, navigate, setStatus) 
 }
 
 function userAuthorization(username, pass, setToken, navigate, setStatus) {
-    axios.post(USER_AUTHORIZATION_URL, {username: username, password: pass})
+    const headers = get_headers();
+    axios.post(USER_AUTHORIZATION_URL, {username: username, password: pass}, {headers})
         .then(response => {
             console.log('userAuthorization response.data > ', response.data);
             const token = response.data.token;

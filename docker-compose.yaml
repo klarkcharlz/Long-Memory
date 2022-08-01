@@ -19,6 +19,7 @@ services:
     command: bash -c "
       python manage.py makemigrations &&
       python manage.py migrate &&
+      python manage.py collectstatic &&
       python create_super_user_admin.py &&
       gunicorn long_memory.wsgi -b 0.0.0.0:8080
       "
@@ -36,16 +37,15 @@ services:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'
     ports:
-      - 5673:5672
-      - 15673:15672
-    depends_on:
-      - db
+      - 5672:5672
+      - 15672:15672
 
   monitoring_script:
     build: ./notification_system/monitoring_script
     restart: always
     command: bash -c "python monitoring.py"
     depends_on:
+      - db
       - rabbitmq
 
   frontend:

@@ -1,12 +1,8 @@
-## importing the load_dotenv from the python-dotenv module
-from dotenv import load_dotenv
+from dotenv import dotenv_values
 
-## using existing module to specify location of the .env file
-from pathlib import Path
-import os
+SERVICE = 'vk'
 
-load_dotenv()
-env_path = Path('.') / '.env'
-load_dotenv(dotenv_path=env_path)
+config = dotenv_values(".env")
 
-SECRET_KEY = os.getenv("token")
+TG_TOKEN = config['TOKEN']
+HOST = 'localhost'

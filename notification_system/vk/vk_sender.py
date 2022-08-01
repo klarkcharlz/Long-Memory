@@ -1,17 +1,19 @@
 from json import loads
 from datetime import datetime
 from time import sleep
-from vk_func import write_msg
+from pprint import pprint
+
 import pika
 from pika.exceptions import AMQPConnectionError
 
-SERVICE = 'vk'  # тут имя вашего сервиса email, telegram или vk
+from vk_func import write_msg
+from settings import SERVICE, HOST
 
 
 def main():
     while True:
         try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST))
         except AMQPConnectionError:
             print("Нет соединения с Rabbit MQ")
             sleep(5)
@@ -20,20 +22,16 @@ def main():
     channel = connection.channel()
 
     def callback(ch, method, properties, body):
-        print(f'{datetime.now()} - Принял сообщение:')
+        pprint(f'{datetime.now()} - Принял сообщение:')
         body = loads(body)
-        print(type(body))
-        print(body)
-        for dic in body:
-            if len(dic["notifications"]) > 1:
-                for i in range(len(dic["notifications"])):
-                    write_msg(dic['id'], f'Привет {dic["name"]}, '
-                                         f'\nтебе надо сделать: {dic["notifications"][i]["title"]},'
-                                         f'\nа именно: {dic["notifications"][i]["description"]}...')
-            else:
-                write_msg(dic['id'], f'Привет {dic["name"]}, '
-                                     f'\nтебе надо сделать: {dic["notifications"][0]["title"]},'
-                                     f'\nа именно: {dic["notifications"][0]["description"]}...')
+        pprint(type(body))
+        pprint(body)
+        for user in body:
+            message = f'Привет {user["name"]}!\nСегодня {datetime.now().date()} тебе нужно повторить:\n\n'
+            id = int(user['id'])
+            for notification in user["notifications"]:
+                message += f"\U0000272A {notification['title']}:\n{notification['description']}\n\n"
+            write_msg(id, message.rstrip())
 
     channel.queue_declare(queue=SERVICE)
     channel.basic_consume(queue=SERVICE, on_message_callback=callback, auto_ack=True)

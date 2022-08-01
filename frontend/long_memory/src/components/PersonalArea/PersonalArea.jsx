@@ -6,6 +6,7 @@ import {blue} from '@mui/material/colors';
 import useUserContext from "../../hooks/useUserContext";
 import useStatusModalHook from "../../hooks/useStatusModalHook";
 import {getUserData, updateUser} from "../../functions/api"
+import Avatar from "react-avatar-edit";
 
 const Helper = () => {
     return (
@@ -37,6 +38,40 @@ const Helper = () => {
     )
 }
 
+const AvatarEditor = ({token, setStatus}) => {
+
+    const src_ = "https://mir-avatarok.3dn.ru/_si/0/43720430.jpg";
+
+    const [preview, setPreview] = useState(src_)
+    const [src, setSrc] = useState(src_)
+
+    return (
+        <div>
+            <Avatar
+                width={390}
+                height={295}
+                onCrop={(value) => {
+                    setPreview(value)
+                }}
+                onClose={() => {
+                    setPreview(null)
+                }}
+            />
+            <button onClick={(e) => {
+                e.preventDefault()
+                setSrc(preview);
+            }}>Save
+            </button>
+            <button onClick={(e) => {
+                e.preventDefault()
+                console.log(src)
+                updateUser_(setStatus, token, {avatar: src});
+            }}>Сохранить
+            </button>
+        </div>
+    )
+}
+
 const updateUser_ = (setStatus, token, userData) => {
     console.log('New user data > ', userData)
     updateUser(token, userData, setStatus);
@@ -64,6 +99,11 @@ const PersonalArea = () => {
 
             <div className={classes.avatar}>
                 <img src={userData.avatar ? userData.avatar : defaultAvatar} alt="Аватар"/>
+                <div>
+                    <AvatarEditor
+                        token={token}
+                        setStatus={setStatus}/>
+                </div>
             </div>
 
             <div className={classes.notification_settings}>
@@ -187,24 +227,6 @@ const PersonalArea = () => {
                                         username: e.target.value
                                     });
                                 }}/>
-                        </div>
-
-                        <div>
-                            <p>Аватар</p>
-                            <div className={classes.file_upload}>
-                                <label>
-                                    <input
-                                        type="file"
-                                        name="file"
-                                        id="uploade-file"
-                                        onChange={(event) => {
-                                            event.preventDefault();
-                                            console.log(event.target.files);
-                                        }}
-                                    />
-                                    <span>Выберите файл</span>
-                                </label>
-                            </div>
                         </div>
                         <button className={classes.button} onClick={(e) => {
                             e.preventDefault();

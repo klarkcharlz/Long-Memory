@@ -1,0 +1,2 @@
+SERVICE = 'email'
+HOST = 'localhost'
