@@ -1,0 +1,11 @@
+.avatar_modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    color: white;
+    background-color: #1b6d8580;
+    border-radius: 25px;
+    text-align: center;
+}

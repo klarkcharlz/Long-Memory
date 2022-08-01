@@ -47,21 +47,23 @@ const AvatarEditor = () => {
     const [src, setSrc] = useState(src_)
 
     return (
-        <div>
-            <Avatar
-                width={390}
-                height={295}
-                onCrop={(value) => {
-                    setPreview(value)
-                }}
-                onClose={() => {
-                    setPreview(null)
-                }}
-            />
+        <div className={classes.avatar_modal}>
+            <div className={classes.empty_area}>
+                <Avatar
+                    width={300}
+                    height={300}
+                    onCrop={(value) => {
+                        setPreview(value)
+                    }}
+                    onClose={() => {
+                        setPreview(null)
+                    }}
+                />
+            </div>
             <button onClick={(e) => {
                 e.preventDefault()
                 setSrc(preview)
-            }}>Save
+            }} className={classes.button_avatar}>Сохранить
             </button>
         </div>
     )
@@ -225,23 +227,6 @@ const PersonalArea = () => {
                                 }}/>
                         </div>
 
-                        <div>
-                            <p>Аватар</p>
-                            <div className={classes.file_upload}>
-                                <label>
-                                    <input
-                                        type="file"
-                                        name="file"
-                                        id="uploade-file"
-                                        onChange={(event) => {
-                                            event.preventDefault();
-                                            console.log(event.target.files);
-                                        }}
-                                    />
-                                    <span>Выберите файл</span>
-                                </label>
-                            </div>
-                        </div>
                         <button className={classes.button} onClick={(e) => {
                             e.preventDefault();
                             updateUser_(setStatus, token, userData);
