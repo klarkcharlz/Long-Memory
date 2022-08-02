@@ -1,8 +1,8 @@
+import datetime
 import os
 import ssl
 import smtplib
 from json import loads
-
 import pika
 from dotenv import load_dotenv
 
@@ -11,6 +11,7 @@ import jinja2
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+SERVICE = 'email'
 load_dotenv()
 
 
@@ -50,10 +51,24 @@ def get_body(name, notifications):
     """
     loader = jinja2.FileSystemLoader('templates/email')  # загружаем папку с шаблоном
     j_env = jinja2.Environment(loader=loader)
+
+    def datetime_format(value, format='short'):
+        date = datetime.datetime.strptime(value, '%Y-%m-%d %H:%M:%S.%f')
+        if format == 'full':
+            format = "%d.%m.%Y в %H:%M"
+        elif format == 'short':
+            format = "%d.%m.%y"
+
+        date = date.strftime(format)
+        return date
+
+    j_env.filters["datetime_format"] = datetime_format
+
     content = {
         'name': name,
         'notifications': notifications,
     }
+
     tpl = j_env.get_template('email_body.html')
     return tpl.render(content)
 
@@ -84,21 +99,21 @@ def send_for_user(data_set):
         # или почитайте статьи на нашем сайте"
         # Или просто письмо не отправлять?
 
-    # print(f'[INFO] {len(data_set)} messages sent')
+    print(f'[INFO] {len(data_set)} messages sent')
 
 
 def main():
     connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('SERVER')))
     channel = connection.channel()
-    channel.queue_declare(queue='email')
+    channel.queue_declare(queue=SERVICE)
 
     def callback(ch, method, properties, msg):
         body = loads(msg)
-        # print(f'--> Received message {body}')
+        # pprint(f'--> Received message {body}')
 
         send_for_user(body)
 
-    channel.basic_consume(queue='email',
+    channel.basic_consume(queue=SERVICE,
                           auto_ack=True,
                           on_message_callback=callback)
 
