@@ -26,9 +26,9 @@ def check_db():
     for user in subscribers:
         id = user.id
         name = user.first_name if user.first_name else user.username
-        notifications = session.query(NotificationsNotification).filter((NotificationsNotification.user_id_id == id)
-                                                                        & (NotificationsNotification.next_notifications
-                                                                           <= datetime.now()))
+        notifications = session.query(NotificationsNotification).filter(NotificationsNotification.user_id_id == id)
+
+
         notifications_list = []
         for notification in notifications:
             notifications_list.append({'title': notification.title,
