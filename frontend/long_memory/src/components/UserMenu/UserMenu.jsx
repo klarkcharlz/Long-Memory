@@ -12,9 +12,9 @@ const UserMenu = () => {
     }
     return (
         <nav className={classes.container}>
-            <Link className={classes.link} to='/create_notification'><button className={classes.button}>Создать<br/>карточку</button></Link>
+            <Link className={classes.link} to='/create_notification'><button className={classes.button_add}>Создать<br/>карточку</button></Link>
             <Link className={classes.link} to='/notifications_list'><button className={classes.button}>Показать<br/>карточки</button></Link>
-            <Link className={classes.link} to='/pa'><button className={classes.button}>Личный<br/>кабинет</button></Link>
+            <Link className={classes.link} to='/pa'><button className={classes.button_personal}>Личный<br/>кабинет</button></Link>
         </nav>
     )
 }

@@ -8,10 +8,41 @@
     height: 180px;
     width: 180px;
     border-radius: 50%;
+    border-color: transparent;
     margin: 10px;
-    background-color: #1b6d8580;
-    border: 1px solid white;
-    color: white;
+    background: url('../../Static/eye-button.png') no-repeat center;
+    background-size: contain;
+    color: transparent;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button_add {
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+    border-color: transparent;
+    margin: 10px;
+    background: url('../../Static/add-button.png') no-repeat center;
+    background-size: contain;
+    color: transparent;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button_personal {
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+    border-color: transparent;
+    margin: 10px;
+    background: url('../../Static/persona-button.png') no-repeat center;
+    background-size: contain;
+    color: transparent;
     font-size: 25px;
     display: flex;
     justify-content: center;
@@ -19,11 +50,57 @@
 }
 
 .button:hover {
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+    margin: 10px;
+    border: transparent;
+    color: white;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: #1b6d85;
 }
 
+.button_add:hover {
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+    margin: 10px;
+    border: transparent;
+    color: white;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1b6d85;
+}
+
+.button_personal:hover {
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+    margin: 10px;
+    border: transparent;
+    color: white;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1b6d85;
+}
+
+.button_add:active {
+    background-color: #1b6d8580;
+}
+
+.button_personal:active {
+    background-color: #1b6d8580;
+}
+
 .button:active {
-    color: #1b6d85;
+    background-color: #1b6d8580;
 }
 
 .link {
