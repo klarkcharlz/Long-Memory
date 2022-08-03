@@ -17,7 +17,7 @@ const createNotification_ = (title, description, token, clearForm, setStatus) =>
 const CreateNotification = () => {
     const [title, setTitle] = useState('React hooks');
     const [description, setDescription] = useState('useState');
-    const {token, setStatusText, setModalStatus} = useUserContext();
+    const {token} = useUserContext();
     const clearForm = () =>{
         setTitle("");
         setDescription("");

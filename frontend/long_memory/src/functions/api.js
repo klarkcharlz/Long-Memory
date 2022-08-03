@@ -60,8 +60,12 @@ function createNotification(data, token, setStatus) {
 }
 
 function updateUser(token, data, setStatus) {
-    // const avatar = data.avatar;
-    // delete data.avatar;
+    let delAvatar = false;
+    const avatar = data.avatar;
+    if(!data.avatar.startsWith('data:image')){
+        delete data.avatar;
+        delAvatar = true;
+    }
     const headers = get_headers(token);
     axios.patch(GET_USER_DATA_URL, data, {headers})
         .then(response => {
@@ -71,7 +75,7 @@ function updateUser(token, data, setStatus) {
         console.log(error);
         setStatus(parseResponse(error.response.data));
     })
-    // data.avatar = avatar;
+    if(delAvatar) data.avatar = avatar;
 }
 
 

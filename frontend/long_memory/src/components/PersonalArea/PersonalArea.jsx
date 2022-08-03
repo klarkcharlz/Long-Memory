@@ -39,39 +39,35 @@ const Helper = () => {
     )
 }
 
-const AvatarEditor = ({token, setStatus}) => {
+const AvatarEditor = ({userData, setUserData}) => {
 
-    const src_ = "https://mir-avatarok.3dn.ru/_si/0/43720430.jpg";
-
-    const [preview, setPreview] = useState(src_)
-    const [src, setSrc] = useState(src_)
+    const [preview, setPreview] = useState('')
 
     return (
         <div className={classes.avatar_modal}>
             <div className={classes.empty_area}>
-            <Avatar
-                width={300}
+                <Avatar
+                    width={300}
                     height={300}
                     imageWidth={300}
-                onCrop={(value) => {
-                    setPreview(value)
-                }}
-                onClose={() => {
-                    setPreview(null)
-                }}
-            />
-                </div>
+                    onCrop={(value) => {
+                        setPreview(value)
+                    }}
+                    onClose={() => {
+                        setPreview(null)
+                    }}
+                />
+            </div>
             <button onClick={(e) => {
                 e.preventDefault()
-                setSrc(preview);
+                setUserData({
+                    ...userData,
+                    avatar: preview
+                })
             }}
-            className={classes.button_avatar}>Сохранить
+                    className={classes.button_avatar}>Сохранить
             </button>
-            <button onClick={(e) => {
-                e.preventDefault()
-                updateUser_(setStatus, token, {avatar: src});
-            }}>Сохранить
-            </button>
+
         </div>
     )
 }
@@ -112,8 +108,8 @@ const PersonalArea = () => {
             <AvatarModal open={activeAvatarModal}
                          setOpen={setAcitveAvatarModal}
                          children={<AvatarEditor
-                             token={token}
-                             setStatus={setStatus}
+                             setUserData={setUserData}
+                             userData={userData}
                          />}/>
 
             <div className={classes.notification_settings}>

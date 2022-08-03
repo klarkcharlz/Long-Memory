@@ -9,6 +9,7 @@ import {ThemeProvider, createTheme} from '@mui/material/styles';
 import {disableNotification, repeatNotification} from '../../functions/api'
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import useStatusModalHook from "../../hooks/useStatusModalHook";
 
 const testData = [
     {
@@ -21,20 +22,16 @@ const testData = [
 
 
 const repeated = (id, setStatus, filterNotifications, token) => {
-    console.log('Повторил');
     const clear = () => {
         filterNotifications(id);
     }
-    // clear();
     repeatNotification(token, id, setStatus, clear);
 }
 
 const disable = (id, setStatus, filterNotifications, token) => {
-    console.log('Убрал');
     const clear = () => {
         filterNotifications(id);
     }
-    // clear();
     disableNotification(token, id, setStatus, clear)
 }
 
@@ -67,17 +64,13 @@ const Notification = ({notification, setStatus, filterNotifications, token}) => 
 const NotificationList = () => {
     const [notifications, setNotifications] = useState([]);
     const [searchText, setSearchText] = useState('');
-    const {token, setStatusText, setModalStatus} = useUserContext();
+    const {token} = useUserContext();
     const [page, setPage] = useState(1);
     const [sorted, setSorted] = useState('up');
     const [arrow, setArrow] = useState(<ArrowCircleDownIcon/>);
+    const setStatus = useStatusModalHook();
 
-    const PER_PAGE = 2;
-
-    const setStatus = (text) => {
-        setStatusText(text);
-        setModalStatus(true);
-    }
+    const PER_PAGE = 2;  // количество напоминаний на странице для пагинации
 
     useEffect(() => {
         if (token) {
@@ -86,20 +79,18 @@ const NotificationList = () => {
     }, [token]);
 
     const sortedAndSearchNotifications = useMemo(() => {
-        console.log('работаем');
         return notifications.filter((el) => {
             return el.title.toLowerCase().includes(searchText.toLowerCase());
         }).sort((prev, cur) => {
-            // нужно преобразовать строку в дату и в ифах сравнивать даты
-            // const prevDate = prev.next_notifications;
-            // const curDate = cur.next_notifications;
+            const prevDate = new Date(prev.next_notifications);
+            const curDate = new Date(cur.next_notifications);
             // prev < cur
-            if (1) {
-                return -1;
+            if (prevDate < curDate) {
+                return sorted === 'up' ? -1: 1
             }
             // prev > cur
-            else if (1) {
-                return 1;
+            else if (prevDate > curDate) {
+                return sorted === 'up' ? 1: -1
             }
             // prev == cur
             return 0;
@@ -114,6 +105,7 @@ const NotificationList = () => {
             setPage(1);
             _DATA.jump(1);
         }
+        _DATA.jump(page);
     }, [sortedAndSearchNotifications]);
 
     const count = Math.ceil(sortedAndSearchNotifications.length / PER_PAGE);
@@ -125,7 +117,6 @@ const NotificationList = () => {
     }
 
     const handleChange = (e, p) => {
-        console.log(p);
         setPage(p);
         _DATA.jump(p);
     };
@@ -174,7 +165,6 @@ const NotificationList = () => {
                             size="large"
                             color="primary"
                             variant="outlined"
-                            // shape="rounded"
                             onChange={handleChange}
                         />
                     </ThemeProvider>
