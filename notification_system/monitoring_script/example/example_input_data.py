@@ -39,6 +39,7 @@ for user in data:
     id = user['id']  # тут будет нужный вам для рассылки id или почта
     for notification in user['notifications']:
         message += "\U0000272A " + notification['title'] + '\n'
+    # send(id, message)
     print(message)
     # функция для отправки (message, id)
 

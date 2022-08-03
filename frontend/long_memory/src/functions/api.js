@@ -14,8 +14,7 @@ const REPEAT_NOTIFICATION_URL = "http://127.0.0.1:8000/api/notifications/";
 
 function get_headers(token=null) {
     let headers = {
-        'Content-Type': 'application/json',
-        'Accept-Language': 'ru-RU'
+        'Content-Type': 'application/json'
     }
     if (token) {
         headers['Authorization'] = 'token ' + token

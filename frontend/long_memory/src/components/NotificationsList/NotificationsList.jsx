@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import classes from "./NotificationsList.module.css";
 import useUserContext from "../../hooks/useUserContext";
 import {getUserNotifications} from "../../functions/api";
 import {formatDate} from "../../functions/utils";
 import Pagination from '@mui/material/Pagination';
 import usePagination from '../../hooks/usePagination';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import {ThemeProvider, createTheme} from '@mui/material/styles';
 import {disableNotification, repeatNotification} from '../../functions/api'
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 const testData = [
     {
@@ -64,36 +66,63 @@ const Notification = ({notification, setStatus, filterNotifications, token}) => 
 
 const NotificationList = () => {
     const [notifications, setNotifications] = useState([]);
+    const [searchText, setSearchText] = useState('');
     const {token, setStatusText, setModalStatus} = useUserContext();
-    let [page, setPage] = useState(1);
+    const [page, setPage] = useState(1);
+    const [sorted, setSorted] = useState('up');
+    const [arrow, setArrow] = useState(<ArrowCircleDownIcon/>);
+
     const PER_PAGE = 2;
-    const count = Math.ceil(notifications.length / PER_PAGE);
-    const _DATA = usePagination(notifications, PER_PAGE);
+
     const setStatus = (text) => {
         setStatusText(text);
         setModalStatus(true);
     }
+
     useEffect(() => {
         if (token) {
             getUserNotifications(token, setNotifications)
         }
     }, [token]);
 
+    const sortedAndSearchNotifications = useMemo(() => {
+        console.log('работаем');
+        return notifications.filter((el) => {
+            return el.title.toLowerCase().includes(searchText.toLowerCase());
+        }).sort((prev, cur) => {
+            // нужно преобразовать строку в дату и в ифах сравнивать даты
+            // const prevDate = prev.next_notifications;
+            // const curDate = cur.next_notifications;
+            // prev < cur
+            if (1) {
+                return -1;
+            }
+            // prev > cur
+            else if (1) {
+                return 1;
+            }
+            // prev == cur
+            return 0;
+        });
+    }, [searchText, notifications, sorted]);
+
+    useEffect(() => {
+        if (page > count) {
+            setPage(count);
+            _DATA.jump(count);
+        } else if (page <= 0) {
+            setPage(1);
+            _DATA.jump(1);
+        }
+    }, [sortedAndSearchNotifications]);
+
+    const count = Math.ceil(sortedAndSearchNotifications.length / PER_PAGE);
+    const _DATA = usePagination(sortedAndSearchNotifications, PER_PAGE);
+
     const filterNotifications = (id) => {
         const notification_ = notifications.filter(el => el.id !== id);
         setNotifications(notification_);
     }
-
-    useEffect(() => {
-        if(page > count){
-            setPage(page - 1);
-            _DATA.jump(page - 1);
-        }
-        else if(page <= 0){
-            setPage(1);
-            _DATA.jump(1);
-        }
-    }, [notifications]);
 
     const handleChange = (e, p) => {
         console.log(p);
@@ -112,6 +141,32 @@ const NotificationList = () => {
             return (
                 <div>
                     <h2>Ваши напоминания</h2><br/>
+
+                    <div>
+                        <input
+                            type="text"
+                            placeholder='Поиск'
+                            value={searchText}
+                            onChange={(e) => {
+                                setSearchText(e.target.value);
+                            }}
+                        />
+
+                        <div onClick={(e) => {
+                            e.stopPropagation();
+                            if (sorted === 'up') {
+                                setSorted('down');
+                                setArrow(<ArrowCircleUpIcon/>);
+                            } else if (sorted === 'down') {
+                                setSorted('up');
+                                setArrow(<ArrowCircleDownIcon/>);
+                            }
+                        }}>
+                            {arrow}
+                        </div>
+
+                    </div>
+
                     <ThemeProvider theme={darkTheme}>
                         <Pagination
                             count={count}

@@ -65,11 +65,10 @@ const AvatarEditor = ({token, setStatus}) => {
                 e.preventDefault()
                 setSrc(preview);
             }}
-            className={classes.button_avatar}>Save
+            className={classes.button_avatar}>Сохранить
             </button>
             <button onClick={(e) => {
                 e.preventDefault()
-                console.log(src)
                 updateUser_(setStatus, token, {avatar: src});
             }}>Сохранить
             </button>
@@ -110,7 +109,12 @@ const PersonalArea = () => {
                 <img src={userData.avatar ? userData.avatar : defaultAvatar} alt="Аватар"/>
             </div>
 
-            <AvatarModal open={activeAvatarModal} setOpen={setAcitveAvatarModal} children={<AvatarEditor/>}/>
+            <AvatarModal open={activeAvatarModal}
+                         setOpen={setAcitveAvatarModal}
+                         children={<AvatarEditor
+                             token={token}
+                             setStatus={setStatus}
+                         />}/>
 
             <div className={classes.notification_settings}>
 
