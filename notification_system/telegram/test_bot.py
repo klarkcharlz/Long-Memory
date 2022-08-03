@@ -30,8 +30,8 @@ async def send_message(chat_id, message):
 
 @dp.message_handler(commands=['start'])
 async def alarm(message: types.Message):
-    await bot.send_message(message.from_user.id, 'Привет', reply_markup=kb.greet_kb)
-    await message.answer(f"ID чата: {message.chat.id}")
+    await bot.send_message(message.from_user.id, f'{currentTime}', reply_markup=kb.greet_kb)
+    await message.answer(f"Ваш ID: {message.chat.id}")
 
 
 async def listen_rabbit_mq(loop):
@@ -49,14 +49,24 @@ async def listen_rabbit_mq(loop):
         async with queue.iterator() as queue_iter:
             async for message in queue_iter:
                 async with message.process():
-                    print(f'{datetime.now()} receive message:')
                     data = loads(message.body)
-                    for dic in data:
-                        if len(dic["notifications"]) > 1:
-                            for i in range(len(dic["notifications"])):
-                                await send_message(dic['id'], f'{currentTime}, {dic["name"]}. '
-                                                     f'\nВам нужно повторить сегодня: {dic["notifications"][i]["title"]},'
-                                                     f'\nа именно: {dic["notifications"][i]["description"]}')
+                    #for dic in data:
+                    #    if len(dic["notifications"]) > 0:
+                    #        for i in range(len(dic["notifications"])):
+                    #            await send_message(dic['id'], f'{currentTime}, {dic["name"]}. '
+                    #                                          f'\nВам нужно повторить сегодня: {dic["notifications"][i]["title"]},'
+                    #                                          f'\nа именно: {dic["notifications"][i]["description"]}')
+
+                    for user in data:
+                        mess = f'{currentTime}, '
+                        name = user['name']
+                        mess += name + '.\n' + "Ты должен повторить сегодня:\n"
+                        id = user['id']
+                        for notification in user['notifications']:
+                            mess += "\U0000272A " + notification['title'] + '\n' + notification['description'] + "\n\n"
+                        await send_message(id, mess)
+
+
 
                     if queue.name in message.body.decode():
                         break
