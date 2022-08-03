@@ -1,3 +1,4 @@
+import datetime
 import os
 from pprint import pprint
 import ssl
@@ -53,10 +54,24 @@ def get_body(name, notifications):
     """
     loader = jinja2.FileSystemLoader('templates/email')  # загружаем папку с шаблоном
     j_env = jinja2.Environment(loader=loader)
+
+    def datetime_format(value, format_='short'):
+        date = datetime.datetime.strptime(value, '%Y-%m-%d %H:%M:%S.%f')
+        if format_ == 'full':
+            format_ = "%d.%m.%Y в %H:%M"
+        elif format_ == 'short':
+            format_ = "%d.%m.%y"
+
+        date = date.strftime(format_)
+        return date
+
+    j_env.filters["datetime_format"] = datetime_format
+
     content = {
         'name': name,
         'notifications': notifications,
     }
+
     tpl = j_env.get_template('email_body.html')
     return tpl.render(content)
 
@@ -88,7 +103,7 @@ def send_for_user(data_set):
         # или почитайте статьи на нашем сайте"
         # Или просто письмо не отправлять?
 
-    # print(f'[INFO] {len(data_set)} messages sent')
+    print(f'[INFO] {len(data_set)} messages sent')
 
 
 def main():
@@ -98,7 +113,7 @@ def main():
 
     def callback(ch, method, properties, msg):
         body = loads(msg)
-        pprint(f'--> Received message {body}')
+        # pprint(f'--> Received message {body}')
 
         send_for_user(body)
 
