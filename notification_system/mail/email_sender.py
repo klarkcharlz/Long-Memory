@@ -90,6 +90,8 @@ def send_for_user(data_set):
     domain = os.getenv('DOMAIN')
     port = os.getenv('PORT')
 
+    # pprint(data_set)
+
     for item in data_set:
         email_add = item['email']
         name = item['name']
@@ -97,11 +99,6 @@ def send_for_user(data_set):
 
         body = get_body(name, notifications)  # собираем тело письма
         send_email(sender, password, domain, port, email_add, name, body)  # передаем данные для отправки
-
-        # Если напоминаний нет, нужна ли заглушка, типа
-        # "вам нечего повторять сегодня, отдохните или начните изучать что-то новое
-        # или почитайте статьи на нашем сайте"
-        # Или просто письмо не отправлять?
 
     print(f'[INFO] {len(data_set)} messages sent')
 

@@ -27,7 +27,7 @@
                                     <p>✪ Название: {{notif.title}} ✪</p>
                                     <p>Описание: {{notif.description}}</p>
                                     <p>Напоминание создано: {{notif.created_at|datetime_format('full')}}</p>
-                                    <p>Дата повтора: {{notif.next_notifications|datetime_format('short')}}</p>
+                                    <p>Дата повтора: {{notif.next_notification|datetime_format('short')}}</p>
                                 </span>
                                 {% endfor %}
                             </center>

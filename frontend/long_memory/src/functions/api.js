@@ -39,7 +39,7 @@ function getUserData(setStatus, token, setUserData) {
         .then(response => {
             console.log('getUserData response.data > ', response.data);
             const userData = response.data;
-            setStatus("Информация получена.");
+            // setStatus("Информация получена.");
             setUserData(userData);
         }).catch((error) => {
         setStatus(parseResponse(error.response.data));

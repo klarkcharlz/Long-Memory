@@ -54,3 +54,10 @@ services:
         - 80:80
       depends_on:
         - nginx
+
+  sentry:
+    image: sentry
+    ports:
+      - 9000:9000
+    environment:
+      SENTRY_SECRET_KEY: '!!!SECRET!!!'

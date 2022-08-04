@@ -10,15 +10,12 @@ import client_kb as kb
 
 SERVICE = 'telegram'  # тут имя вашего сервиса email, telegram или vk
 
-
 NAME = 'test_rabbit'
 USERNAME = 'test_rabbit_lm_bot'
-
 
 config = dotenv_values(".env")
 
 TG_TOKEN = config['TOKEN']
-
 
 bot = Bot(token=TG_TOKEN)
 dp = Dispatcher(bot)
@@ -50,13 +47,6 @@ async def listen_rabbit_mq(loop):
             async for message in queue_iter:
                 async with message.process():
                     data = loads(message.body)
-                    #for dic in data:
-                    #    if len(dic["notifications"]) > 0:
-                    #        for i in range(len(dic["notifications"])):
-                    #            await send_message(dic['id'], f'{currentTime}, {dic["name"]}. '
-                    #                                          f'\nВам нужно повторить сегодня: {dic["notifications"][i]["title"]},'
-                    #                                          f'\nа именно: {dic["notifications"][i]["description"]}')
-
                     for user in data:
                         mess = f'{currentTime}, '
                         name = user['name']
@@ -65,8 +55,6 @@ async def listen_rabbit_mq(loop):
                         for notification in user['notifications']:
                             mess += "\U0000272A " + notification['title'] + '\n' + notification['description'] + "\n\n"
                         await send_message(id, mess)
-
-
 
                     if queue.name in message.body.decode():
                         break
