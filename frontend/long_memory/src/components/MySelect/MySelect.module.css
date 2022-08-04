@@ -1,0 +1,37 @@
+.sorted__icon {
+    position: relative;
+    display: block;
+}
+
+.sorted {
+    height: 50px;
+    padding: 10px;
+    border: none;
+    color: #ffffff;
+    font-size: 15px;
+    width: 200px;
+    appearance: none;
+    background: transparent;
+}
+
+option {
+    border: none;
+    background: #1b6d85;
+    color: #ffffff;
+}
+
+:active, :hover, :focus {
+    outline: 0;
+    outline-offset: 0;
+}
+
+label.sorted__icon:after {
+    content: url("../../Static/logo_sort.png");
+    background: transparent;
+    position: absolute;
+    right: 10px;
+    top: 18px;
+    z-index: 1;
+    pointer-events: none;
+
+}

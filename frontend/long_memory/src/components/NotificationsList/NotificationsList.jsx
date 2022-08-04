@@ -7,9 +7,8 @@ import Pagination from '@mui/material/Pagination';
 import usePagination from '../../hooks/usePagination';
 import {ThemeProvider, createTheme} from '@mui/material/styles';
 import {disableNotification, repeatNotification} from '../../functions/api'
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import useStatusModalHook from "../../hooks/useStatusModalHook";
+import MySelect from "../MySelect/MySelect";
 
 const testData = [
     {
@@ -63,12 +62,12 @@ const Notification = ({notification, setStatus, filterNotifications, token}) => 
 
 const NotificationList = () => {
     const [notifications, setNotifications] = useState([]);
-    const [searchText, setSearchText] = useState('');
     const {token} = useUserContext();
     const [page, setPage] = useState(1);
-    const [sorted, setSorted] = useState('up');
-    const [arrow, setArrow] = useState(<ArrowCircleDownIcon/>);
     const setStatus = useStatusModalHook();
+
+    const [filterText, setFilterText] = useState('');
+    const [selectedSort, setSelectedSort] = useState('')
 
     const PER_PAGE = 2;  // количество напоминаний на странице для пагинации
 
@@ -78,24 +77,21 @@ const NotificationList = () => {
         }
     }, [token]);
 
-    const sortedAndSearchNotifications = useMemo(() => {
+    const filterSortedNotifications = useMemo(() => {
         return notifications.filter((el) => {
-            return el.title.toLowerCase().includes(searchText.toLowerCase());
+            return el.title.toLowerCase().includes(filterText.toLowerCase());
         }).sort((prev, cur) => {
-            const prevDate = new Date(prev.next_notifications);
-            const curDate = new Date(cur.next_notifications);
-            // prev < cur
-            if (prevDate < curDate) {
-                return sorted === 'up' ? -1: 1
+            if (prev < cur) {
+                return -1;
+            } else if (prev > cur) {
+                return 1;
             }
-            // prev > cur
-            else if (prevDate > curDate) {
-                return sorted === 'up' ? 1: -1
-            }
-            // prev == cur
             return 0;
         });
-    }, [searchText, notifications, sorted]);
+    }, [filterText, notifications]);
+
+    const count = Math.ceil(filterSortedNotifications.length / PER_PAGE);
+    const _DATA = usePagination(filterSortedNotifications, PER_PAGE);
 
     useEffect(() => {
         if (page > count) {
@@ -106,14 +102,16 @@ const NotificationList = () => {
             _DATA.jump(1);
         }
         _DATA.jump(page);
-    }, [sortedAndSearchNotifications]);
-
-    const count = Math.ceil(sortedAndSearchNotifications.length / PER_PAGE);
-    const _DATA = usePagination(sortedAndSearchNotifications, PER_PAGE);
+    }, [filterSortedNotifications]);
 
     const filterNotifications = (id) => {
         const notification_ = notifications.filter(el => el.id !== id);
         setNotifications(notification_);
+    }
+
+    const sortList = (sort) => {
+        setSelectedSort(sort);
+        setNotifications([...notifications].sort((a, b) => a[sort].localeCompare(b[sort])))
     }
 
     const handleChange = (e, p) => {
@@ -133,30 +131,24 @@ const NotificationList = () => {
                 <div>
                     <h2>Ваши напоминания</h2><br/>
 
-                    <div>
-                        <input
-                            type="text"
-                            placeholder='Поиск'
-                            value={searchText}
-                            onChange={(e) => {
-                                setSearchText(e.target.value);
-                            }}
+                    <div className={classes.filter_sorted}>
+                        <input className={classes.filter}
+                               type='text'
+                               placeholder='поиск'
+                               value={filterText}
+                               onChange={event => setFilterText(event.target.value)}
                         />
-
-                        <div onClick={(e) => {
-                            e.stopPropagation();
-                            if (sorted === 'up') {
-                                setSorted('down');
-                                setArrow(<ArrowCircleUpIcon/>);
-                            } else if (sorted === 'down') {
-                                setSorted('up');
-                                setArrow(<ArrowCircleDownIcon/>);
-                            }
-                        }}>
-                            {arrow}
-                        </div>
-
-                    </div>
+                        <MySelect
+                            value={selectedSort}
+                            onChange={sortList}
+                            defaultValue=''
+                            options={[
+                                {value: 'title', name: 'по названию'},
+                                {value: 'created_at', name: 'по дате создания'},
+                                {value: 'next_notifications', name: 'по дате напоминания'},
+                            ]}
+                        />
+                    </div><br/>
 
                     <ThemeProvider theme={darkTheme}>
                         <Pagination

@@ -75,3 +75,22 @@
         opacity: 1;
     }
 }
+
+.filter_sorted {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter {
+    height: 3em;
+    width: 50%;
+    background: #1b6d8580;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding-left: 15px;
+    outline: none;
+}
