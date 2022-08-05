@@ -27,6 +27,7 @@ class TestView(TestSetUp):
         res = self.client.post(self.register_url, self.user_data, format="json")
         # import pdb
         # pdb.set_trace()
+
         # res = self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
         self.assertEqual(res.status_code, 201)
 

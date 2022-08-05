@@ -34,5 +34,3 @@ class TestSetUp(APITestCase):
     def tearDown(self):
         return super().tearDown()
 
-
-
