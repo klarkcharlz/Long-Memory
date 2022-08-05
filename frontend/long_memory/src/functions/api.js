@@ -3,13 +3,16 @@ import axios from "axios";
 import {set_token_to_storage} from "./tokenStorage";
 import {parseResponse} from "./utils"
 
-const GET_USER_NOTIFICATIONS_URL = "http://127.0.0.1:8000/api/notifications/";
-const CREATE_NOTIFICATIONS_URL = "http://127.0.0.1:8000/api/notifications/";
-const USER_REGISTRATION_URL = "http://127.0.0.1:8000/api/register/";
-const USER_AUTHORIZATION_URL = "http://127.0.0.1:8000/api-token-auth/";
-const GET_USER_DATA_URL = "http://127.0.0.1:8000/api/user_data/";
-const DISABLE_NOTIFICATION_URL = "http://127.0.0.1:8000/api/notifications/";
-const REPEAT_NOTIFICATION_URL = "http://127.0.0.1:8000/api/notifications/";
+const PORT = ':8000'
+const URL = 'localhost'
+
+const GET_USER_NOTIFICATIONS_URL = `http://${URL}${PORT}/api/notifications/`;
+const CREATE_NOTIFICATIONS_URL = `http://${URL}${PORT}/api/notifications/`;
+const USER_REGISTRATION_URL = `http://${URL}${PORT}/api/register/`;
+const USER_AUTHORIZATION_URL = `http://${URL}${PORT}/api-token-auth/`;
+const GET_USER_DATA_URL = `http://${URL}${PORT}/api/user_data/`;
+const DISABLE_NOTIFICATION_URL = `http://${URL}${PORT}/api/notifications/`;
+const REPEAT_NOTIFICATION_URL = `http://${URL}${PORT}/api/notifications/`;
 
 
 function get_headers(token=null) {

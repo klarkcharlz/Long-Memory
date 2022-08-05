@@ -79,6 +79,17 @@ WSGI_APPLICATION = 'long_memory.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'long_memory_db',
+#         'USER': 'admin',
+#         'PASSWORD': 'admin',
+#         'HOST': 'db',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -137,14 +148,32 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
     'http://127.0.0.1:8000',
-    'http://localhost:8000'
+    'http://localhost:8000',
+    'http://localhost',
+    'http://localhost:80',
+
+    'https://localhost:3000',
+    'https://127.0.0.1:3000',
+    'https://127.0.0.1:8000',
+    'https://localhost:8000',
+    'https://localhost',
+    'https://localhost:80'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
     'http://127.0.0.1:8000',
-    'http://localhost:8000'
+    'http://localhost:8000',
+    'http://localhost',
+    'http://localhost:80',
+
+    'https://localhost:3000',
+    'https://127.0.0.1:3000',
+    'https://127.0.0.1:8000',
+    'https://localhost:8000',
+    'https://localhost',
+    'https://localhost:80'
 ]
 
 STATIC_URL = '/static/'

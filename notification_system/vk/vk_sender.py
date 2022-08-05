@@ -22,10 +22,10 @@ def main():
     channel = connection.channel()
 
     def callback(ch, method, properties, body):
-        pprint(f'{datetime.now()} - Принял сообщение:')
+        # pprint(f'{datetime.now()} - Принял сообщение:')
         body = loads(body)
-        pprint(type(body))
-        pprint(body)
+        # pprint(type(body))
+        # pprint(body)
         for user in body:
             message = f'Привет {user["name"]}!\nСегодня {datetime.now().date()} тебе нужно повторить:\n\n'
             id = int(user['id'])

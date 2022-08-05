@@ -56,7 +56,8 @@ def get_body(name, notifications):
     j_env = jinja2.Environment(loader=loader)
 
     def datetime_format(value, format_='short'):
-        date = datetime.datetime.strptime(value, '%Y-%m-%d %H:%M:%S.%f')
+        """2022-08-04 22:53:55.507563+00:00"""
+        date = datetime.datetime.strptime(value[:19], '%Y-%m-%d %H:%M:%S')
         if format_ == 'full':
             format_ = "%d.%m.%Y в %H:%M"
         elif format_ == 'short':

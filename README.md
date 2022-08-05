@@ -3,21 +3,21 @@
 ## Backend:
 
 + Перейти в каталог:
-    + cd backend/long_memory/
+    + `cd backend/long_memory/`
 
 + Перед работой установите все зависимости из requirements.txt:
-    + pip install -r requirements.txt
+    + `pip install -r requirements.txt`
 
 + Устанавливая новые пакеты добавляйте их в requirements.txt:
-    + pip freeze > requirements.txt (лучше конечно подчищать от лишних зависимостей, которые подтягиваются самими модулями нужными для их работы.)
+    + `pip freeze > requirements.txt` (лучше конечно подчищать от лишних зависимостей, которые подтягиваются самими модулями нужными для их работы.)
 
 + Скачав проект создайте и примените миграции, так же создайте суперпользователя.
-    + python manage.py makemigrations
-    + python manage.py migrate
-    + python manage.py createsuperuser
+    + `python manage.py makemigrations`
+    + `python manage.py migrate`
+    + `python manage.py createsuperuser`
   
 + Запуск сервера:
-    + python manage.py runserver
+    + `python manage.py runserver`
 
 Если у вас какие-то проблемы с миграциями попробуйте удалить все файлы из папок с миграциями кроме __init__.py
 и удалите базу данных если у вас sqlite, если у вас postgresql в контейнере удалите контейнер и запустите заново,
@@ -27,36 +27,37 @@
 ## frontend
 
 + Перейти в каталог:
-    + cd frontend/long_memory/
+    + `cd frontend/long_memory/`
 
 + Перед работой установите все зависимости
-    + npm install
+    + `npm install`
 
 + Запуск проекта:
-    + npm start
+    + `npm start`
 
 + Сборка проекта:
-    + npm run build
+    + `npm run build`
   
 ## SQLAlchemy.
 + Автоматическая генерация моделей для SQLAlchemy:
     + Необходима утилита sqlacodegen.
-    + В терминале: sqlacodegen <PATH> > models.py 
+    + В терминале: sqlacodegen <DSN> > models.py 
     + Открыть файл и убрать ручками лишнее.
 
 ## Docker Compose.
 + Команды:
-    + docker-compose ps - список всех контейнеров
-    + docker-compose stop <имя контейнера> - остановить контейнер
-    + docker-compose build <имя контейнера> - пересобрать контейнер
-    + docker-compose up -d <имя контейнера> - запустить контейнер
-    + stop/build/up без указания контейнера сработает на все.
-
-+ Перед сборкой контейнера backend нужно заранее сделать миграции и создать суперпользователя на пустой бд. 
-    + python manage.py makemigrations
-    + python manage.py createsuperuser
+    + `docker-compose ps` - список всех контейнеров
+    + `docker-compose stop <имя контейнера>` - остановить контейнер
+    + `docker-compose build <имя контейнера>` - пересобрать контейнер
+    + `docker-compose up -d <имя контейнера>` - запустить контейнер
+    + `docker-compose rm <имя контейнера>` - удалить контейнер
+    + `stop/build/up/rm` без указания контейнера сработает на все.
   
 ## P.S.
-Создавая и добавляя в проект какие-то файлы которые вам нужны для разработки 
++ Создавая и добавляя в проект какие-то файлы которые вам нужны для разработки 
 и тестирования не забудьте добавить их в .gitignore.
-
++ Если будете перезапускать контейнер с фронтом после изменений, не забудьте прежде чем билдить контейнер сбилдить проект: `npm run build`
++ Пример перезапуска определенного контейнера после изменений:
+    + `docker-compose stop nginx`
+    + `docker-compose build nginx`
+    + `docker-compose up -d nginx`
