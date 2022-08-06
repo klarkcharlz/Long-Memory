@@ -26,9 +26,13 @@ def check_db():
     for user in subscribers:
         id = user.id
         name = user.first_name if user.first_name else user.username
+
+        # вариант как будет на проде
         # notifications = session.query(NotificationsNotification).filter((NotificationsNotification.user_id_id == id)
         #                                                                 & (NotificationsNotification.next_notifications
         #                                                                    <= datetime.now()))
+
+        # вариант со всеми уведмолениями
         notifications = session.query(NotificationsNotification).filter(NotificationsNotification.user_id_id == id)
         notifications_list = []
         for notification in notifications:

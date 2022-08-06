@@ -18,7 +18,7 @@ def job():
             print(f'{datetime.now()} - empty data to {service}:')
 
 
-schedule.every(3600).seconds.do(job)
+schedule.every(600).seconds.do(job)
 # schedule.every().day.at("10:30").do(job)
 
 
