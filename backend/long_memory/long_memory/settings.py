@@ -162,7 +162,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://127.0.0.1:8000',
     'https://localhost:8000',
     'https://localhost',
-    'https://localhost:80'
+    'https://localhost:80',
     'https://longmemory.ru:8000',
 ]
 
