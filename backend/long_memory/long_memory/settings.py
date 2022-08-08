@@ -156,6 +156,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost',
     'http://localhost:80',
     'http://longmemory.ru:8000',
+    'http://longmemory.ru',
 
     'https://localhost:3000',
     'https://127.0.0.1:3000',
@@ -164,6 +165,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://localhost',
     'https://localhost:80',
     'https://longmemory.ru:8000',
+    'https://longmemory.ru',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -174,6 +176,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost',
     'http://localhost:80',
     'http://longmemory.ru:8000',
+    'http://longmemory.ru',
 
     'https://localhost:3000',
     'https://127.0.0.1:3000',
@@ -181,7 +184,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://localhost:8000',
     'https://localhost',
     'https://localhost:80',
-    'https://longmemory.ru:8000'
+    'https://longmemory.ru:8000',
+    'https://longmemory.ru'
 ]
 
 STATIC_URL = '/static/'
