@@ -4,7 +4,8 @@ import {set_token_to_storage} from "./tokenStorage";
 import {parseResponse} from "./utils"
 
 const PORT = ':8000'
-const URL = 'localhost'
+// const URL = 'localhost'
+const URL ='longmemory.ru'
 
 const GET_USER_NOTIFICATIONS_URL = `http://${URL}${PORT}/api/notifications/`;
 const CREATE_NOTIFICATIONS_URL = `http://${URL}${PORT}/api/notifications/`;
