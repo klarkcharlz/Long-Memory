@@ -54,7 +54,10 @@ async def listen_rabbit_mq(loop):
                         id = user['id']
                         for notification in user['notifications']:
                             mess += "\U0000272A " + notification['title'] + '\n' + notification['description'] + "\n\n"
-                        await send_message(id, mess)
+                        try:
+                            await send_message(id, mess)
+                        except:
+                            pass
 
                     if queue.name in message.body.decode():
                         break

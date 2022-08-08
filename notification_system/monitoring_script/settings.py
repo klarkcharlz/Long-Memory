@@ -12,12 +12,12 @@ from pathlib import Path
 # BD_STRING = f'sqlite:///{bd_path}/db.sqlite3'
 
 # sqlite3 develop path pathlib
-home_dir = Path.cwd().parents[1]
-db_dir = home_dir / 'backend' / 'long_memory'
-BD_STRING = f'sqlite:///{db_dir}/db.sqlite3'
-RABBIT_URL = 'localhost'
+# home_dir = Path.cwd().parents[1]
+# db_dir = home_dir / 'backend' / 'long_memory'
+# BD_STRING = f'sqlite:///{db_dir}/db.sqlite3'
+# RABBIT_URL = 'localhost'
 
 # for docker
-# BD_STRING = 'postgresql://admin:admin@localhost:54326/long_memory_db'
-# RABBIT_URL = 'rabbitmq'
+BD_STRING = 'postgresql://admin:admin@db:5432/long_memory_db'
+RABBIT_URL = 'rabbitmq'
 

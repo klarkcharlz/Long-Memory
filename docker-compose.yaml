@@ -19,9 +19,12 @@ services:
   backend:
     build: ./backend
     privileged: true
+    restart: always
     ports:
       - 8080:8080
     command: bash -c "
+      chmod +x wait-for-postgres.sh &&
+      ./wait-for-postgres.sh db &&
       python manage.py makemigrations &&
       python manage.py migrate &&
       python manage.py collectstatic &&
@@ -46,6 +49,7 @@ services:
       - 15672:15672
     depends_on:
       - db
+      - backend
 
   frontend:
     build: ./frontend
@@ -53,3 +57,35 @@ services:
       - 80:80
     depends_on:
       - nginx
+
+  monitoring_script:
+    build: ./notification_system/monitoring_script
+    restart: always
+    command: bash -c "
+      chmod +x wait-for-postgres.sh &&
+      ./wait-for-postgres.sh db &&
+      python monitoring.py
+      "
+    depends_on:
+      - rabbitmq
+
+  email_sender:
+    build: ./notification_system/mail
+    restart: always
+    command: bash -c "python email_sender.py"
+    depends_on:
+      - monitoring_script
+
+  telegram_sender:
+    build: ./notification_system/telegram
+    restart: always
+    command: bash -c "python test_bot.py"
+    depends_on:
+      - monitoring_script
+
+  vk_sender:
+    build: ./notification_system/vk
+    restart: always
+    command: bash -c "python vk_sender.py"
+    depends_on:
+      - monitoring_script

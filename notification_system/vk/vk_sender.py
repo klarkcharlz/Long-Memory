@@ -31,7 +31,10 @@ def main():
             id = int(user['id'])
             for notification in user["notifications"]:
                 message += f"\U0000272A {notification['title']}:\n{notification['description']}\n\n"
-            write_msg(id, message.rstrip())
+            try:
+                write_msg(id, message.rstrip())
+            except:
+                pass
 
     channel.queue_declare(queue=SERVICE)
     channel.basic_consume(queue=SERVICE, on_message_callback=callback, auto_ack=True)

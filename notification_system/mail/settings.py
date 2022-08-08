@@ -1,2 +1,2 @@
 SERVICE = 'email'
-HOST = 'localhost'
+HOST = 'rabbitmq'

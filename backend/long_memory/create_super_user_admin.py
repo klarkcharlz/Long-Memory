@@ -15,4 +15,7 @@ def create_superuser(username, email, password):
 
 
 if __name__ == "__main__":
-    create_superuser('admin', 'admin@admin.ru', 'admin')
+    try:
+        create_superuser('admin', 'admin@admin.ru', 'admin')
+    except:
+        pass

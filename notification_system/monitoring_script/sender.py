@@ -1,12 +1,22 @@
 from json import dumps
+from time import sleep
 
 import pika
+from pika.exceptions import AMQPConnectionError
 
 from settings import RABBIT_URL
 
 
 def send(receiver_name, data):
-    connection = pika.BlockingConnection(pika.ConnectionParameters(RABBIT_URL))
+    while True:
+        try:
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_URL))
+        except AMQPConnectionError:
+            print("Нет соединения с Rabbit MQ")
+            sleep(5)
+        else:
+            break
+
     channel = connection.channel()
     channel.queue_declare(queue=receiver_name, auto_delete=False)
     channel.confirm_delivery()

@@ -6,10 +6,12 @@ import smtplib
 from json import loads
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from time import sleep
 
 import pika
 from dotenv import load_dotenv
 import jinja2
+from pika.exceptions import AMQPConnectionError
 
 from settings import SERVICE, HOST
 
@@ -99,13 +101,23 @@ def send_for_user(data_set):
         notifications = item['notifications']
 
         body = get_body(name, notifications)  # собираем тело письма
-        send_email(sender, password, domain, port, email_add, name, body)  # передаем данные для отправки
+        try:
+            send_email(sender, password, domain, port, email_add, name, body)  # передаем данные для отправки
+        except:
+            pass
 
     print(f'[INFO] {len(data_set)} messages sent')
 
 
 def main():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST))
+    while True:
+        try:
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST))
+        except AMQPConnectionError:
+            print("Нет соединения с Rabbit MQ")
+            sleep(5)
+        else:
+            break
     channel = connection.channel()
     channel.queue_declare(queue=SERVICE)
 
