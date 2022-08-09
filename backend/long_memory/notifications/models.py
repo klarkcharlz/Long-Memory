@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from django.db import models
+from django.utils.translation import gettext as _
 
 from users.models import CustomUser
 from .constants import TIME_DELTA_MAP

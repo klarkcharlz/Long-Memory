@@ -57,4 +57,4 @@ class NotificationsDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
             notify.save()
             return self.partial_update(request, *args, **kwargs)
         else:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
