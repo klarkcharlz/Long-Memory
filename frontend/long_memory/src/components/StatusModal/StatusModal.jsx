@@ -25,6 +25,10 @@ const style = {
 export default function StatusModal({open, setOpen, status}) {
     const handleClose = () => setOpen(false);
 
+    function createMarkup() {
+        return {__html: status};
+    }
+
     return (
         <div>
             <Modal
@@ -34,8 +38,9 @@ export default function StatusModal({open, setOpen, status}) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        {status}
+                    <Typography
+                        dangerouslySetInnerHTML={createMarkup()}
+                        id="modal-modal-title" variant="h6" component="h2">
                     </Typography>
                 </Box>
             </Modal>

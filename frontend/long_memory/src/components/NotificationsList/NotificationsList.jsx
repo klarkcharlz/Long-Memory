@@ -67,7 +67,8 @@ const NotificationList = () => {
     const setStatus = useStatusModalHook();
 
     const [filterText, setFilterText] = useState('');
-    const [selectedSort, setSelectedSort] = useState('')
+    const [selectedSort, setSelectedSort] = useState('');
+    const [sortingDirection, setSortingDirection] = useState('up');
 
     const PER_PAGE = 2;  // количество напоминаний на странице для пагинации
 
@@ -81,14 +82,7 @@ const NotificationList = () => {
         return notifications.filter((el) => {
             return el.title.toLowerCase().includes(filterText.toLowerCase()) ||
                 el.description.toLowerCase().includes(filterText.toLowerCase());
-        }).sort((prev, cur) => {
-            if (prev < cur) {
-                return -1;
-            } else if (prev > cur) {
-                return 1;
-            }
-            return 0;
-        });
+        })
     }, [filterText, notifications]);
 
     const count = Math.ceil(filterSortedNotifications.length / PER_PAGE);
@@ -112,7 +106,9 @@ const NotificationList = () => {
 
     const sortList = (sort) => {
         setSelectedSort(sort);
-        setNotifications([...notifications].sort((a, b) => a[sort].localeCompare(b[sort])))
+        let notifications_ = [...notifications].sort((a, b) => a[sort].localeCompare(b[sort]));
+        if(sortingDirection === 'down') notifications_ = notifications_.reverse();
+        setNotifications(notifications_);
     }
 
     const handleChange = (e, p) => {

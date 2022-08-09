@@ -72,13 +72,15 @@ const AvatarEditor = ({userData, setUserData}) => {
     )
 }
 
-const validateUserInfo = () => {
-    let error = '';
+const validateUserInfo = (userData) => {
+    let error = [];
     let validate;
 
-    // валидация
+    if(userData.vk_reminders && !userData.vk_id) error.push("Вк id не может быть пустым.<br/>");
+    if(userData.telegram_reminders && !userData.telegram_id) error.push("Телеграм id не может быть пустым.<br/>");
+    if(userData.email_reminders && !userData.email) error.push("Email не может быть пустым.");
 
-    if(error) validate = false;
+    if(error.length >= 1) validate = false;
     else validate = true;
 
     return [validate, error];
@@ -88,7 +90,7 @@ const updateUser_ = (setStatus, token, userData) => {
     console.log('New user data > ', userData)
     const [valid, error] = validateUserInfo(userData);
     if(valid) updateUser(token, userData, setStatus);
-    else setStatus(error);
+    else setStatus(error.join('\n'));
 }
 
 const getUserInfo = (setStatus, token, setUserData) => {
