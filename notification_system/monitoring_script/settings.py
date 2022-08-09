@@ -16,6 +16,8 @@ from pathlib import Path
 # db_dir = home_dir / 'backend' / 'long_memory'
 # BD_STRING = f'sqlite:///{db_dir}/db.sqlite3'
 # RABBIT_URL = 'localhost'
+# postgres
+# BD_STRING = 'postgresql://admin:admin@localhost:54326/long_memory_db'
 
 # for docker
 BD_STRING = 'postgresql://admin:admin@db:5432/long_memory_db'

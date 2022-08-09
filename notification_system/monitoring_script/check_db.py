@@ -30,10 +30,11 @@ def check_db():
         # вариант как будет на проде
         # notifications = session.query(NotificationsNotification).filter((NotificationsNotification.user_id_id == id)
         #                                                                 & (NotificationsNotification.next_notifications
-        #                                                                    <= datetime.now()))
+        #                                                                    <= datetime.now())).order_by(NotificationsNotification.next_notifications)
 
         # вариант со всеми уведмолениями
-        notifications = session.query(NotificationsNotification).filter(NotificationsNotification.user_id_id == id)
+        notifications = session.query(NotificationsNotification).filter(NotificationsNotification.user_id_id == id)\
+            .order_by(NotificationsNotification.next_notifications)
         notifications_list = []
         for notification in notifications:
             notifications_list.append({'title': notification.title,

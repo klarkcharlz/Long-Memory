@@ -3,9 +3,8 @@ import axios from "axios";
 import {set_token_to_storage} from "./tokenStorage";
 import {parseResponse} from "./utils"
 
-const PORT = ':8000'
-// const URL = 'localhost'
-const URL ='longmemory.ru'
+import {URL, PORT} from './api_constants'
+
 
 const GET_USER_NOTIFICATIONS_URL = `http://${URL}${PORT}/api/notifications/`;
 const CREATE_NOTIFICATIONS_URL = `http://${URL}${PORT}/api/notifications/`;
@@ -66,7 +65,7 @@ function createNotification(data, token, setStatus) {
 function updateUser(token, data, setStatus) {
     let delAvatar = false;
     const avatar = data.avatar;
-    if(!data.avatar.startsWith('data:image')){
+    if(avatar === null || !data.avatar.startsWith('data:image')){
         delete data.avatar;
         delAvatar = true;
     }

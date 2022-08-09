@@ -5,6 +5,7 @@ from pprint import pprint
 
 import pika
 from pika.exceptions import AMQPConnectionError
+from requests import ReadTimeout, ConnectionError
 
 from vk_func import write_msg
 from settings import SERVICE, HOST
@@ -31,10 +32,7 @@ def main():
             id = int(user['id'])
             for notification in user["notifications"]:
                 message += f"\U0000272A {notification['title']}:\n{notification['description']}\n\n"
-            try:
-                write_msg(id, message.rstrip())
-            except:
-                pass
+            write_msg(id, message.rstrip())
 
     channel.queue_declare(queue=SERVICE)
     channel.basic_consume(queue=SERVICE, on_message_callback=callback, auto_ack=True)

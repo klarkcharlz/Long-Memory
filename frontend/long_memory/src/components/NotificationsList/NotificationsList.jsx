@@ -79,7 +79,8 @@ const NotificationList = () => {
 
     const filterSortedNotifications = useMemo(() => {
         return notifications.filter((el) => {
-            return el.title.toLowerCase().includes(filterText.toLowerCase());
+            return el.title.toLowerCase().includes(filterText.toLowerCase()) ||
+                el.description.toLowerCase().includes(filterText.toLowerCase());
         }).sort((prev, cur) => {
             if (prev < cur) {
                 return -1;

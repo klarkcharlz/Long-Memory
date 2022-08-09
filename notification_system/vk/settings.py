@@ -5,4 +5,4 @@ SERVICE = 'vk'
 config = dotenv_values(".env")
 
 TG_TOKEN = config['TOKEN']
-HOST = 'localhost'
+HOST = 'rabbitmq'

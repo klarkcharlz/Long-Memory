@@ -13,6 +13,9 @@ SERVICE = 'telegram'  # тут имя вашего сервиса email, telegra
 NAME = 'test_rabbit'
 USERNAME = 'test_rabbit_lm_bot'
 
+# RABBIT_HOST = '127.0.0.1'
+RABBIT_HOST = 'rabbitmq'
+
 config = dotenv_values(".env")
 
 TG_TOKEN = config['TOKEN']
@@ -33,7 +36,7 @@ async def alarm(message: types.Message):
 
 async def listen_rabbit_mq(loop):
     connection = await aio_pika.connect_robust(
-        "amqp://guest:guest@127.0.0.1/", loop=loop
+        f"amqp://guest:guest@{RABBIT_HOST}/", loop=loop
     )
 
     async with connection:

@@ -140,3 +140,4 @@ dmypy.json
 #migrations
 /backend/long_memory/notifications/migrations/
 /backend/long_memory/users/migrations/
+/frontend/long_memory/src/functions/api_constants.js

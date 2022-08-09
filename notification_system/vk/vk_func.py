@@ -1,6 +1,10 @@
 import random
-from settings import TG_TOKEN
+from time import sleep
+
 import vk_api
+from requests.exceptions import ReadTimeout, ConnectionError
+
+from settings import TG_TOKEN
 
 # Авторизуемся
 vk_session = vk_api.VkApi(token=TG_TOKEN)
@@ -8,11 +12,24 @@ vk = vk_session.get_api()
 
 
 def write_msg(user_id, message):
-    data = dict(user_id=user_id,
-                peer_id=user_id,
-                random_id=random.getrandbits(32),
-                message=message)
-    vk.messages.send(**data)
+    global vk
+    try:
+        data = dict(user_id=user_id,
+                    peer_id=user_id,
+                    random_id=random.getrandbits(32),
+                    message=message)
+        vk.messages.send(**data)
+    except (ReadTimeout, ConnectionError):
+        while True:
+            try:
+                print("Переподключение к серверам ВК.")
+                vk = vk_api.VkApi(token=TG_TOKEN)
+            except Exception as err:
+                print("Переподключение неудачно")
+                print(err)
+                sleep(10)
+            else:
+                break
 
 
 if __name__ == "__main__":

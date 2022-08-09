@@ -72,9 +72,23 @@ const AvatarEditor = ({userData, setUserData}) => {
     )
 }
 
+const validateUserInfo = () => {
+    let error = '';
+    let validate;
+
+    // валидация
+
+    if(error) validate = false;
+    else validate = true;
+
+    return [validate, error];
+}
+
 const updateUser_ = (setStatus, token, userData) => {
     console.log('New user data > ', userData)
-    updateUser(token, userData, setStatus);
+    const [valid, error] = validateUserInfo(userData);
+    if(valid) updateUser(token, userData, setStatus);
+    else setStatus(error);
 }
 
 const getUserInfo = (setStatus, token, setUserData) => {

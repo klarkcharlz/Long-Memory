@@ -27,7 +27,8 @@ class NotificationsListCreateView(generics.ListCreateAPIView):
             next_notifications -  все актуальные напоминания на текущее время
         """
         user = self.request.user
-        return Notifications.objects.filter(user_id=user, is_active=True, next_notifications__gte=datetime.now())
+        return Notifications.objects.filter(user_id=user, is_active=True,
+                                            next_notifications__gte=datetime.now()).order_by('next_notifications')
 
 
 class NotificationsDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
@@ -36,7 +37,9 @@ class NotificationsDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Notifications.objects.filter(user_id=user, is_active=True, next_notifications__gte=datetime.now())
+        return Notifications.objects.filter(user_id=user,
+                                            is_active=True,
+                                            next_notifications__gte=datetime.now())
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
