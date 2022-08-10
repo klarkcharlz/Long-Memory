@@ -9,6 +9,9 @@ import {ThemeProvider, createTheme} from '@mui/material/styles';
 import {disableNotification, repeatNotification} from '../../functions/api'
 import useStatusModalHook from "../../hooks/useStatusModalHook";
 import MySelect from "../MySelect/MySelect";
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+
 
 const testData = [
     {
@@ -67,9 +70,7 @@ const NotificationList = () => {
     const setStatus = useStatusModalHook();
 
     const [filterText, setFilterText] = useState('');
-    const [selectedSort, setSelectedSort] = useState('');
-    const [sortingDirection, setSortingDirection] = useState('up');
-
+    const [selectedSort, setSelectedSort] = useState('next_notifications');
     const PER_PAGE = 2;  // количество напоминаний на странице для пагинации
 
     useEffect(() => {
@@ -104,11 +105,16 @@ const NotificationList = () => {
         setNotifications(notification_);
     }
 
-    const sortList = (sort) => {
-        setSelectedSort(sort);
-        let notifications_ = [...notifications].sort((a, b) => a[sort].localeCompare(b[sort]));
-        if(sortingDirection === 'down') notifications_ = notifications_.reverse();
-        setNotifications(notifications_);
+    const sortList = (sort, direction) => {
+        if (notifications.length >= 1) {
+            console.log(notifications);
+            console.log(sort);
+            console.log(direction);
+            setSelectedSort(sort);
+            let notifications_ = [...notifications].sort((a, b) => a[sort].localeCompare(b[sort]));
+            if (direction === 'down') notifications_ = notifications_.reverse();
+            setNotifications(notifications_);
+        }
     }
 
     const handleChange = (e, p) => {
@@ -138,14 +144,15 @@ const NotificationList = () => {
                         <MySelect
                             value={selectedSort}
                             onChange={sortList}
-                            defaultValue=''
+                            defaultValue={selectedSort}
                             options={[
                                 {value: 'title', name: 'по названию'},
                                 {value: 'created_at', name: 'по дате создания'},
                                 {value: 'next_notifications', name: 'по дате напоминания'},
                             ]}
                         />
-                    </div><br/>
+                    </div>
+                    <br/>
 
                     <ThemeProvider theme={darkTheme}>
                         <Pagination
