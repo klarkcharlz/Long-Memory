@@ -1,12 +1,22 @@
 from json import loads
-from asyncio import get_event_loop
+from asyncio import get_event_loop, sleep
 from datetime import datetime
 from dt_tg import currentTime
+from time import sleep as block_sleep
 
 from dotenv import dotenv_values
 import aio_pika
 from aiogram import Bot, Dispatcher, executor, types
+import sentry_sdk
+from sentry_sdk import capture_exception
+
 import client_kb as kb
+
+
+sentry_sdk.init(
+    dsn="https://21bbf02b660a4de6afc676f8e6fa8295@o1347801.ingest.sentry.io/6639046",
+    traces_sample_rate=1.0
+)
 
 SERVICE = 'telegram'  # тут имя вашего сервиса email, telegram или vk
 
@@ -30,14 +40,22 @@ async def send_message(chat_id, message):
 
 @dp.message_handler(commands=['start'])
 async def alarm(message: types.Message):
-    await bot.send_message(message.from_user.id, f'{currentTime}', reply_markup=kb.greet_kb)
-    await message.answer(f"Ваш ID: {message.chat.id}")
+    await bot.send_message(message.from_user.id, f'{currentTime}\nВаш ID: {message.chat.id}', reply_markup=kb.greet_kb)
 
 
 async def listen_rabbit_mq(loop):
-    connection = await aio_pika.connect_robust(
-        f"amqp://guest:guest@{RABBIT_HOST}/", loop=loop
-    )
+    while True:
+        try:
+            connection = await aio_pika.connect_robust(
+                f"amqp://guest:guest@{RABBIT_HOST}/", loop=loop
+            )
+        except Exception as err:
+            print(err)
+            capture_exception(err)
+            print('Не удалось подключиться к RabbitMQ')
+            await sleep(10)
+        else:
+            break
 
     async with connection:
         queue_name = SERVICE
@@ -59,8 +77,10 @@ async def listen_rabbit_mq(loop):
                             mess += "\U0000272A " + notification['title'] + '\n' + notification['description'] + "\n\n"
                         try:
                             await send_message(id, mess)
-                        except:
-                            pass
+                        except Exception as err:
+                            print(err)
+                            capture_exception(err)
+                            print('Не удалось отправить сообщение пользователю')
 
                     if queue.name in message.body.decode():
                         break
@@ -69,4 +89,12 @@ async def listen_rabbit_mq(loop):
 if __name__ == '__main__':
     rabbit_loop = get_event_loop()
     rabbit_loop.create_task(listen_rabbit_mq(rabbit_loop))
-    executor.start_polling(dp, skip_updates=True, loop=rabbit_loop)
+    while True:
+        try:
+            executor.start_polling(dp, skip_updates=True, loop=rabbit_loop)
+        except Exception as err:
+            print(err)
+            print('Не удалось запустить бота')
+            block_sleep(10)
+        else:
+            break

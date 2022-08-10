@@ -4,18 +4,26 @@ from time import sleep
 from pprint import pprint
 
 import pika
+import sentry_sdk
+from sentry_sdk import capture_exception
 from pika.exceptions import AMQPConnectionError
-from requests import ReadTimeout, ConnectionError
 
 from vk_func import write_msg
 from settings import SERVICE, HOST
+
+
+sentry_sdk.init(
+    dsn="https://e3f9215e6fdc49089daf824b209bc3ba@o1347801.ingest.sentry.io/6639042",
+    traces_sample_rate=1.0
+)
 
 
 def main():
     while True:
         try:
             connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST))
-        except AMQPConnectionError:
+        except AMQPConnectionError as err:
+            capture_exception(err)
             print("Нет соединения с Rabbit MQ")
             sleep(5)
         else:

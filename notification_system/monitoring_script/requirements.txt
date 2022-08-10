@@ -3,3 +3,4 @@ schedule==1.1.0
 sqlacodegen==2.3.0
 SQLAlchemy==1.4.39
 psycopg2==2.9.3
+sentry-sdk==1.9.0

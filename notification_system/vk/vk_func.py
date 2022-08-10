@@ -2,9 +2,11 @@ import random
 from time import sleep
 
 import vk_api
+from sentry_sdk import capture_exception
 from requests.exceptions import ReadTimeout, ConnectionError
 
 from settings import TG_TOKEN
+
 
 # Авторизуемся
 vk_session = vk_api.VkApi(token=TG_TOKEN)
@@ -27,6 +29,7 @@ def write_msg(user_id, message):
             except Exception as err:
                 print("Переподключение неудачно")
                 print(err)
+                capture_exception(err)
                 sleep(10)
             else:
                 break

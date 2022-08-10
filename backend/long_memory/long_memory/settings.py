@@ -13,6 +13,17 @@ import os
 from pathlib import Path
 from dotenv import dotenv_values
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://45083ad28a0447efa09e83f2c0cd6244@o1347801.ingest.sentry.io/6633215",
+    integrations=[DjangoIntegration()],
+
+    traces_sample_rate=1.0,
+    send_default_pii=True,
+)
+
 
 config = dotenv_values(".env")
 

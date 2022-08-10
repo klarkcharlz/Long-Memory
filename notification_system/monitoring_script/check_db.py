@@ -27,14 +27,10 @@ def check_db():
         id = user.id
         name = user.first_name if user.first_name else user.username
 
-        # вариант как будет на проде
-        # notifications = session.query(NotificationsNotification).filter((NotificationsNotification.user_id_id == id)
-        #                                                                 & (NotificationsNotification.next_notifications
-        #                                                                    <= datetime.now())).order_by(NotificationsNotification.next_notifications)
-
-        # вариант со всеми уведмолениями
-        notifications = session.query(NotificationsNotification).filter(NotificationsNotification.user_id_id == id)\
-            .order_by(NotificationsNotification.next_notifications)
+        notifications = session.query(NotificationsNotification).\
+            filter((NotificationsNotification.user_id_id == id)
+                   & (NotificationsNotification.next_notifications <= datetime.now())).\
+            order_by(NotificationsNotification.next_notifications)
         notifications_list = []
         for notification in notifications:
             notifications_list.append({'title': notification.title,

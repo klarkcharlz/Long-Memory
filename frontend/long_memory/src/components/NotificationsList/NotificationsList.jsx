@@ -9,9 +9,6 @@ import {ThemeProvider, createTheme} from '@mui/material/styles';
 import {disableNotification, repeatNotification} from '../../functions/api'
 import useStatusModalHook from "../../hooks/useStatusModalHook";
 import MySelect from "../MySelect/MySelect";
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-
 
 const testData = [
     {
@@ -111,7 +108,20 @@ const NotificationList = () => {
             console.log(sort);
             console.log(direction);
             setSelectedSort(sort);
-            let notifications_ = [...notifications].sort((a, b) => a[sort].localeCompare(b[sort]));
+            let notifications_ = [...notifications].sort((prev, cur) => {
+                const prevDate = new Date(prev[sort]);
+                const curDate = new Date(cur[sort]);
+                // prev < cur
+                if (prevDate < curDate) {
+                    return -1
+                }
+                // prev > cur
+                else if (prevDate > curDate) {
+                    return 1
+                }
+                // prev == cur
+                return 0;
+            });
             if (direction === 'down') notifications_ = notifications_.reverse();
             setNotifications(notifications_);
         }
@@ -146,7 +156,6 @@ const NotificationList = () => {
                             onChange={sortList}
                             defaultValue={selectedSort}
                             options={[
-                                {value: 'title', name: 'по названию'},
                                 {value: 'created_at', name: 'по дате создания'},
                                 {value: 'next_notifications', name: 'по дате напоминания'},
                             ]}

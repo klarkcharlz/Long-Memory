@@ -10,6 +10,12 @@ from notifications.views import NotificationsListCreateView, NotificationsDelete
 
 router = DefaultRouter()
 
+
+def trigger_error(request):  # ToDo удалить на релизе
+    """test sentry"""
+    division_by_zero = 1 / 0
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
@@ -20,6 +26,7 @@ urlpatterns = [
     path('api-token-auth/', views.obtain_auth_token),
     path('api/notifications/', NotificationsListCreateView.as_view()),
     path('api/notifications/<int:pk>', NotificationsDeleteUpdateView.as_view()),
+    path('sentry-debug/', trigger_error),  # ToDo удалить на релизе
 ]
 
 if settings.DEBUG:

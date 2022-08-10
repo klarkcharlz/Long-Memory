@@ -28,7 +28,7 @@ class NotificationsListCreateView(generics.ListCreateAPIView):
         """
         user = self.request.user
         return Notifications.objects.filter(user_id=user, is_active=True,
-                                            next_notifications__gte=datetime.now()).order_by('next_notifications')
+                                            next_notifications__lte=datetime.now()).order_by('next_notifications')
 
 
 class NotificationsDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):

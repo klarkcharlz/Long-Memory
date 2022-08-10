@@ -13,13 +13,13 @@ const Helper = () => {
     return (
         <div className={classes.helper}>
             <span>
-                <a href="https://t.me/long_memory_bot" rel="noreferrer" target="_blank">
+                <a href="https://t.me/Longmemory_bot" rel="noreferrer" target="_blank">
                     <svg className={classes.logo_telegram}></svg>
                 </a>
             </span>
             {/*<h2>Телеграм</h2>*/}
             <h3>Чтобы получить свой id в телеграм, напишите
-                <a href="https://t.me/long_memory_bot" rel="noreferrer" target="_blank"> нашему боту</a>
+                <a href="https://t.me/Longmemory_bot" rel="noreferrer" target="_blank"> нашему боту</a>
                 , введите команду /start или нажмите кнопку старт и получите свой id в телеграм, после чего можете
                 сохранить его здесь.
             </h3>
