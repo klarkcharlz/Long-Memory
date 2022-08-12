@@ -8,12 +8,13 @@ from sentry_sdk import capture_exception
 from dotenv import dotenv_values
 
 from check_db import check_db
+from settings import SENTRY_DSN
 
 
 config = dotenv_values(".env")
 
 sentry_sdk.init(
-    dsn=config['SENTRY_DSN'],
+    dsn=SENTRY_DSN,
     traces_sample_rate=1.0
 )
 

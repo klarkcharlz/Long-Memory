@@ -3,8 +3,6 @@ from asyncio import get_event_loop, sleep
 from datetime import datetime
 from dt_tg import currentTime
 from time import sleep as block_sleep
-
-from dotenv import dotenv_values
 import aio_pika
 from aiogram import Bot, Dispatcher, executor, types
 import sentry_sdk
@@ -12,23 +10,12 @@ from sentry_sdk import capture_exception
 
 import client_kb as kb
 
-
-config = dotenv_values(".env")
+from settings import SERVICE, RABBIT_HOST, TG_TOKEN, SENTRY_DSN
 
 sentry_sdk.init(
-    dsn=config['SENTRY_DSN'],
+    dsn=SENTRY_DSN,
     traces_sample_rate=1.0
 )
-
-SERVICE = 'telegram'  # тут имя вашего сервиса email, telegram или vk
-
-NAME = 'test_rabbit'
-USERNAME = 'test_rabbit_lm_bot'
-
-# RABBIT_HOST = '127.0.0.1'
-RABBIT_HOST = 'rabbitmq'
-
-TG_TOKEN = config['TOKEN']
 
 bot = Bot(token=TG_TOKEN)
 dp = Dispatcher(bot)

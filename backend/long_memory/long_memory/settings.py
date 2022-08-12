@@ -89,8 +89,8 @@ DATABASES = {
         'NAME': 'long_memory_db',
         'USER': 'admin',
         'PASSWORD': 'admin',
-        'HOST': 'db',
-        'PORT': '5432',
+        'HOST': 'db',  # для локального запуска localhost, для контейнера db
+        'PORT': '5432',  # для локального запуска 54326, для контейнера 5432
     }
 }
 

@@ -1,2 +1,4 @@
 SERVICE = 'email'
-HOST = 'rabbitmq'
+
+HOST = 'rabbitmq'  # для докера
+# HOST = 'localhost'  # для локальной разработки
