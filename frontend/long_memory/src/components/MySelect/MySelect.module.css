@@ -21,3 +21,9 @@ option {
     outline: none;
     width: 200px;
 }
+
+.sorted_up {
+    display: flex;
+    padding-left: 20px;
+    padding-top: 20px;
+}
