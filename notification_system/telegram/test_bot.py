@@ -13,8 +13,10 @@ from sentry_sdk import capture_exception
 import client_kb as kb
 
 
+config = dotenv_values(".env")
+
 sentry_sdk.init(
-    dsn="https://21bbf02b660a4de6afc676f8e6fa8295@o1347801.ingest.sentry.io/6639046",
+    dsn=config['SENTRY_DSN'],
     traces_sample_rate=1.0
 )
 
@@ -25,8 +27,6 @@ USERNAME = 'test_rabbit_lm_bot'
 
 # RABBIT_HOST = '127.0.0.1'
 RABBIT_HOST = 'rabbitmq'
-
-config = dotenv_values(".env")
 
 TG_TOKEN = config['TOKEN']
 

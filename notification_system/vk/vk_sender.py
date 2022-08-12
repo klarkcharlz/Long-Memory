@@ -9,11 +9,11 @@ from sentry_sdk import capture_exception
 from pika.exceptions import AMQPConnectionError
 
 from vk_func import write_msg
-from settings import SERVICE, HOST
+from settings import SERVICE, HOST, SENTRY_DSN
 
 
 sentry_sdk.init(
-    dsn="https://e3f9215e6fdc49089daf824b209bc3ba@o1347801.ingest.sentry.io/6639042",
+    dsn=SENTRY_DSN,
     traces_sample_rate=1.0
 )
 

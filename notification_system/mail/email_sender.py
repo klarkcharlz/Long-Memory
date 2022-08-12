@@ -18,12 +18,6 @@ from pika.exceptions import AMQPConnectionError
 from settings import SERVICE, HOST
 
 
-sentry_sdk.init(
-    dsn="https://9d25ecb6d1cc41e9b72a624faf76c4f8@o1347801.ingest.sentry.io/6639068",
-    traces_sample_rate=1.0
-)
-
-
 load_dotenv()
 
 
@@ -105,12 +99,13 @@ def send_for_user(data_set):
     # pprint(data_set)
 
     for item in data_set:
-        email_add = item['email']
-        name = item['name']
-        notifications = item['notifications']
-
-        body = get_body(name, notifications)  # собираем тело письма
         try:
+            email_add = item['email']
+            name = item['name']
+            notifications = item['notifications']
+
+            body = get_body(name, notifications)  # собираем тело письма
+
             send_email(sender, password, domain, port, email_add, name, body)  # передаем данные для отправки
         except Exception as err:
             capture_exception(err)
@@ -121,6 +116,11 @@ def send_for_user(data_set):
 
 
 def main():
+    sentry_sdk.init(
+        dsn="https://9d25ecb6d1cc41e9b72a624faf76c4f8@o1347801.ingest.sentry.io/6639068",
+        traces_sample_rate=1.0
+    )
+
     while True:
         try:
             connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST))

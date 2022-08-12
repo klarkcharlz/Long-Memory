@@ -1,15 +1,19 @@
 from datetime import datetime
-
 from time import sleep
 
 from sender import send
 import sentry_sdk
 import schedule
 from sentry_sdk import capture_exception
+from dotenv import dotenv_values
+
 from check_db import check_db
 
+
+config = dotenv_values(".env")
+
 sentry_sdk.init(
-    dsn="https://3d4eb3a8d99c407e964e68a2ae318ab5@o1347801.ingest.sentry.io/6630612",
+    dsn=config['SENTRY_DSN'],
     traces_sample_rate=1.0
 )
 
