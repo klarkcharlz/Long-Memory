@@ -25,7 +25,7 @@ services:
     command: bash -c "
       python manage.py makemigrations &&
       python manage.py migrate &&
-      python manage.py collectstatic &&
+      python manage.py collectstatic --noinput &&
       python create_super_user_admin.py &&
       gunicorn long_memory.wsgi -b 0.0.0.0:8080
       "
@@ -60,8 +60,6 @@ services:
     build: ./notification_system/monitoring_script
     restart: always
     command: bash -c "
-      chmod +x wait-for-postgres.sh &&
-      ./wait-for-postgres.sh db &&
       python monitoring.py
       "
     depends_on:
