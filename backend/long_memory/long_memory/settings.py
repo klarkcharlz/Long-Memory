@@ -5,13 +5,11 @@ from dotenv import dotenv_values
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-
 config = dotenv_values(".env")
 
 sentry_sdk.init(
     dsn=config['SENTRY_DSN'],
     integrations=[DjangoIntegration()],
-
     traces_sample_rate=1.0,
     send_default_pii=True,
 )
@@ -40,12 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    # drf
     'rest_framework',
     # my applications
     'users.apps.UsersConfig',
     'notifications.apps.NotificationsConfig',
-    'rest_framework.authtoken'
+    # ---------------
+    'rest_framework.authtoken',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -89,8 +88,8 @@ DATABASES = {
         'NAME': 'long_memory_db',
         'USER': 'admin',
         'PASSWORD': 'admin',
-        'HOST': 'db',  # для локального запуска localhost, для контейнера db
-        'PORT': '5432',  # для локального запуска 54326, для контейнера 5432
+        'HOST': 'localhost',  # для локального запуска localhost, для контейнера db
+        'PORT': '54326',  # для локального запуска 54326, для контейнера 5432
     }
 }
 
@@ -193,3 +192,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# djoser
+DOMAIN_NAME = config['DOMAIN_NAME']
+EMAIL_HOST = config['EMAIL_HOST']
+EMAIL_PORT = int(config['EMAIL_PORT'])
+EMAIL_HOST_USER = config['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
+EMAIL_USE_SSL = True if config['EMAIL_USE_SSL'] == 'True' else False
+EMAIL_USE_TLS = True if config['EMAIL_USE_TLS'] == 'True' else False
+SERVER_EMAIL = EMAIL_HOST_USER
+
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+    'SERIALIZERS': {},
+}

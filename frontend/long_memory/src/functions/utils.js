@@ -17,7 +17,8 @@ const formatDate = (date_) => {
 const parseResponse = (data) => {
     let status = [];
     for(const key in data){
-        status.push(`${key}: ${data[key]}`)
+        // status.push(`${key}: ${data[key]}`)
+        status.push(`${data[key]}`)
     }
     return status.join("\n");
 }

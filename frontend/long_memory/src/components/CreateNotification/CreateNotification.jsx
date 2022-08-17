@@ -1,16 +1,30 @@
 import React, {useState} from "react";
 import classes from "./CreateNotification.module.css";
-import {createNotification} from "../../functions/api"
+import {createNotification, updateUser} from "../../functions/api"
 import useUserContext from "../../hooks/useUserContext";
 import useStatusModalHook from "../../hooks/useStatusModalHook";
+
+const validateUserInfo = (notification) => {
+    let error = [];
+    let validate;
+
+    if(!notification.title) error.push("Тема не может быть пустой.<br/>");
+    if(!notification.description) error.push("Описание не может быть пустым.<br/>");
+
+    if(error.length >= 1) validate = false;
+    else validate = true;
+
+    return [validate, error];
+}
 
 const createNotification_ = (title, description, token, clearForm, setStatus) => {
     const notification = {
         title,
         description
     }
-    createNotification(notification, token, setStatus);
-    clearForm();
+    const [valid, error] = validateUserInfo(notification);
+    if(valid) createNotification(notification, token, setStatus, clearForm);
+    else setStatus(error.join('\n'));
 }
 
 

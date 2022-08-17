@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.9"
 services:
   db:
     image: kartoza/postgis
@@ -30,7 +30,8 @@ services:
       gunicorn long_memory.wsgi -b 0.0.0.0:8080
       "
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   nginx:
     build: ./nginx

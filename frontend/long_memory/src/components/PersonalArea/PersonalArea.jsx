@@ -8,6 +8,7 @@ import useStatusModalHook from "../../hooks/useStatusModalHook";
 import {getUserData, updateUser} from "../../functions/api"
 import Avatar from 'react-avatar-edit'
 import AvatarModal from "../AvatarModal/AvatarModal";
+import Loader from "../Loader/Loader";
 
 const Helper = () => {
     return (
@@ -93,8 +94,8 @@ const updateUser_ = (setStatus, token, userData) => {
     else setStatus(error.join('\n'));
 }
 
-const getUserInfo = (setStatus, token, setUserData) => {
-    getUserData(setStatus, token, setUserData)
+const getUserInfo = (setStatus, token, setUserData, endLoading) => {
+    getUserData(setStatus, token, setUserData, endLoading)
 }
 
 const defaultAvatar = "https://mir-avatarok.3dn.ru/_si/0/43720430.jpg";
@@ -104,12 +105,23 @@ const PersonalArea = () => {
     const setStatus = useStatusModalHook();
     const [userData, setUserData] = useState({});
     const [activeAvatarModal, setAcitveAvatarModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const endLoading = () => {
+        setIsLoading(false);
+    }
 
     useEffect(() => {
         if (token) {
-            getUserInfo(setStatus, token, setUserData)
+            setIsLoading(true);
+            // getUserInfo(setStatus, token, setUserData, endLoading)
+            setTimeout(() => {
+                getUserInfo(setStatus, token, setUserData, endLoading);
+            }, 3000)
         }
     }, [token]);
+
+    if(isLoading) return <div style={{display: 'flex', justifyContent: 'center', marginTop: 150}}><Loader/></div>
 
     return (
         <div className={classes.main}>

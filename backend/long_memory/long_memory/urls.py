@@ -8,7 +8,7 @@ from django.conf import settings
 from users.views import CreateUserView, UserView, CustomAuthentication
 from notifications.views import NotificationsListCreateView, NotificationsDeleteUpdateView
 
-router = DefaultRouter()
+# router = DefaultRouter()
 
 
 def trigger_error(request):  # ToDo удалить на релизе
@@ -18,15 +18,16 @@ def trigger_error(request):  # ToDo удалить на релизе
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    # path('api/', include(router.urls)),
     path('api/user_data/', UserView.as_view()),
-    path('api-auth/', include('rest_framework.urls')),
-    path('api-custom-auth/', CustomAuthentication.as_view()),
+    # path('api-custom-auth/', CustomAuthentication.as_view()),
     path('api/register/', CreateUserView.as_view()),
-    path('api-token-auth/', views.obtain_auth_token),
+    path('api/api-token-auth/', views.obtain_auth_token),
     path('api/notifications/', NotificationsListCreateView.as_view()),
     path('api/notifications/<int:pk>', NotificationsDeleteUpdateView.as_view()),
     path('sentry-debug/', trigger_error),  # ToDo удалить на релизе
+    path('api/auth/', include('djoser.urls')),
+    path('api/auth/', include('djoser.urls.authtoken')),
 ]
 
 if settings.DEBUG:

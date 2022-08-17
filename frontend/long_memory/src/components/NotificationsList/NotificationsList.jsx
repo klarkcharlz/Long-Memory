@@ -9,6 +9,8 @@ import {ThemeProvider, createTheme} from '@mui/material/styles';
 import {disableNotification, repeatNotification} from '../../functions/api'
 import useStatusModalHook from "../../hooks/useStatusModalHook";
 import MySelect from "../MySelect/MySelect";
+import Loader from "../Loader/Loader";
+
 
 const testData = [
     {
@@ -66,13 +68,23 @@ const NotificationList = () => {
     const [page, setPage] = useState(1);
     const setStatus = useStatusModalHook();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [filterText, setFilterText] = useState('');
     const [selectedSort, setSelectedSort] = useState('next_notifications');
     const PER_PAGE = 2;  // количество напоминаний на странице для пагинации
 
+
+    const endLoading = () => {
+        setIsLoading(false);
+    }
+
     useEffect(() => {
         if (token) {
-            getUserNotifications(token, setNotifications)
+            setIsLoading(true);
+            // getUserNotifications(token, setNotifications, endLoading, setStatus)
+            setTimeout(() => {
+                getUserNotifications(token, setNotifications, endLoading);
+            }, 3000)
         }
     }, [token]);
 
@@ -139,6 +151,7 @@ const NotificationList = () => {
     });
 
     const NotificationListRaw = () => {
+        if(isLoading) return <div style={{display: 'flex', justifyContent: 'center', marginTop: 150}}><Loader/></div>
         if (notifications.length !== 0) {
             return (
                 <div>

@@ -10,7 +10,6 @@ const authorization = (username, password, navigate, setToken, setNotifications,
     userAuthorization(username, password, (token) => {setToken(token)}, navigate, setStatus);
 }
 
-
 const AuthorizationForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
