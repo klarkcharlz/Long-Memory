@@ -5,9 +5,24 @@ import {userAuthorization} from "../../functions/api"
 import classes from "./AuthorizationForm.module.css";
 import useStatusModalHook from "../../hooks/useStatusModalHook";
 
+const validateUserInfo = (username, password) => {
+    let error = [];
+    let validate;
+
+    if(!username) error.push("Введите логин.<br/>");
+    if(!password) error.push("Введите пароль.<br/>");
+
+    if(error.length >= 1) validate = false;
+    else validate = true;
+
+    return [validate, error];
+}
+
 
 const authorization = (username, password, navigate, setToken, setNotifications, setStatus) => {
-    userAuthorization(username, password, (token) => {setToken(token)}, navigate, setStatus);
+    const [valid, error] = validateUserInfo(username, password);
+    if(valid) userAuthorization(username, password, (token) => {setToken(token)}, navigate, setStatus);
+    else setStatus(error.join('\n'));
 }
 
 const AuthorizationForm = () => {
