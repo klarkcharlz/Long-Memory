@@ -116,8 +116,10 @@ def send_for_user(data_set):
 
 
 def main():
+    sentry_dsn = os.getenv('SENTRY_DSN')
+
     sentry_sdk.init(
-        dsn="https://9d25ecb6d1cc41e9b72a624faf76c4f8@o1347801.ingest.sentry.io/6639068",
+        dsn=sentry_dsn,
         traces_sample_rate=1.0
     )
 

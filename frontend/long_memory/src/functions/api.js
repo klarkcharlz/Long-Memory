@@ -30,7 +30,7 @@ function getUserNotifications(token, setNotifications, endLoading, setStatus) {
     const headers = get_headers(token);
     axios.get(GET_USER_NOTIFICATIONS_URL, {headers})
         .then(response => {
-            console.log('getUserNotifications response.data > ', response.data);
+            // console.log('getUserNotifications response.data > ', response.data);
             endLoading(false);
             const notifications = response.data;
             setNotifications(notifications);
@@ -45,7 +45,7 @@ function getUserData(setStatus, token, setUserData, endLoading) {
     const headers = get_headers(token);
     axios.get(GET_USER_DATA_URL, {headers})
         .then(response => {
-            console.log('getUserData response.data > ', response.data);
+            // console.log('getUserData response.data > ', response.data);
             endLoading(false)
             const userData = response.data;
             // setStatus("Информация получена.");
@@ -61,11 +61,11 @@ function createNotification(data, token, setStatus, clearForm) {
     const headers = get_headers(token);
     axios.post(CREATE_NOTIFICATIONS_URL, data, {headers})
         .then(response => {
-            console.log('createNotification response.data > ', response.data);
+            // console.log('createNotification response.data > ', response.data);
             clearForm();
             setStatus("Напоминание создано успешно.");
         }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         setStatus('Извините, проблемы с сервером.');
     })
 }
@@ -80,10 +80,10 @@ function updateUser(token, data, setStatus) {
     const headers = get_headers(token);
     axios.patch(GET_USER_DATA_URL, data, {headers})
         .then(response => {
-            console.log('updateUser response.data > ', response.data);
+            // console.log('updateUser response.data > ', response.data);
             setStatus('Информация обновлена.');
         }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         setStatus(parseResponse(error.response.data));
     })
     if (delAvatar) data.avatar = avatar;
@@ -95,7 +95,7 @@ function userRegistration(pass, username, email, setToken, navigate, setStatus, 
     onDisabled();
     axios.post(USER_REGISTRATION_URL, {username: username, password: pass, email: email}, {headers})
         .then(response => {
-            console.log('userRegistration response.data > ', response.data);
+            // console.log('userRegistration response.data > ', response.data);
             const token = response.data.token;
             set_token_to_storage(token);
             setToken(token);
@@ -103,7 +103,7 @@ function userRegistration(pass, username, email, setToken, navigate, setStatus, 
             setStatus('На вашу почту отправлено письмо с подтверждением регистрации.')
             offDisabled()
         }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         setStatus(parseResponse(error.response.data));
         offDisabled();
     })
@@ -113,13 +113,13 @@ function userAuthorization(username, pass, setToken, navigate, setStatus) {
     const headers = get_headers();
     axios.post(USER_AUTHORIZATION_URL, {username: username, password: pass}, {headers})
         .then(response => {
-            console.log('userAuthorization response.data > ', response.data);
+            // console.log('userAuthorization response.data > ', response.data);
             const token = response.data.token;
             set_token_to_storage(token);
             setToken(token);
             navigate("/notifications_list");
         }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         setStatus('Неправильный логин или пароль.');
     });
 }
@@ -128,10 +128,10 @@ function disableNotification(token, id, setStatus, clear) {
     const headers = get_headers(token);
     axios.delete(`${DISABLE_NOTIFICATION_URL}${id}`, {headers})
         .then(response => {
-            console.log('disableNotification response.data > ', response.data);
+            // console.log('disableNotification response.data > ', response.data);
             clear();
         }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         setStatus(parseResponse(error.response.data))
     })
 }
@@ -140,10 +140,10 @@ function repeatNotification(token, id, setStatus, clear) {
     const headers = get_headers(token);
     axios.patch(`${REPEAT_NOTIFICATION_URL}${id}`, {}, {headers})
         .then(response => {
-            console.log('repeatNotification response.data > ', response.data);
+            // console.log('repeatNotification response.data > ', response.data);
             clear();
         }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         setStatus(parseResponse(error.response.data))
     })
 }
@@ -156,14 +156,14 @@ function userActivation(uid, token, setStatus, navigate) {
     formData.append("token", token);
     axios.post(USER_ACTIVATION_URL, formData, {headers})
         .then(response => {
-            console.log('userActivation response.data > ', response);
+            // console.log('userActivation response.data > ', response);
             const status = response.status;
             if (status === 204) {
                 navigate("/authorization");
                 setStatus("Учетная запись подтверждена.<br>Теперь Вы можете авторизоваться.");
             }
         }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         setStatus("Извините, проблемы с сервером или же ссылка уже не действительна.");
     });
 }

@@ -15,6 +15,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - ./postgresql:/var/lib/postgresql
+
 
   backend:
     build: ./backend
@@ -22,16 +25,21 @@ services:
     restart: always
     ports:
       - 8080:8080
+    environment:
+      ADMIN_LOGIN: $ADMIN_LOGIN
+      ADMIN_PASS: $ADMIN_PASS
     command: bash -c "
       python manage.py makemigrations &&
       python manage.py migrate &&
       python manage.py collectstatic --noinput &&
-      python create_super_user_admin.py &&
+      python create_super_user_admin.py $ADMIN_LOGIN $ADMIN_PASS &&
       gunicorn long_memory.wsgi -b 0.0.0.0:8080
       "
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - ./www:/www
 
   nginx:
     build: ./nginx
@@ -39,6 +47,8 @@ services:
       - 8000:80
     depends_on:
       - backend
+    volumes:
+      - ./www:/www
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -56,6 +66,8 @@ services:
       - 80:80
     depends_on:
       - nginx
+    volumes:
+      - ./www:/www
 
   monitoring_script:
     build: ./notification_system/monitoring_script

@@ -27,7 +27,7 @@ const MySelect = ({options, defaultValue, onChange}) => {
                 )}
             </select>
             <div className={classes.sorted_up} onClick={(e) => {
-                console.log('click arrow');
+                // console.log('click arrow');
                 e.stopPropagation();
                 if (sortingDirection === 'up') {
                     setSortingDirection('down');

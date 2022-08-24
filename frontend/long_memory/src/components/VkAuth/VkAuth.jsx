@@ -15,10 +15,10 @@ const VkAuth = () => {
     const expiresIn = queryParams.get('expires_in');
     const email = queryParams.get('email');
 
-    console.log(accessToken);
-    console.log(userId);
-    console.log(expiresIn);
-    console.log(email);
+    // console.log(accessToken);
+    // console.log(userId);
+    // console.log(expiresIn);
+    // console.log(email);
 
     return (
         <div>

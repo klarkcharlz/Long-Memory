@@ -11,8 +11,8 @@ from notifications.views import NotificationsListCreateView, NotificationsDelete
 # router = DefaultRouter()
 
 
-def trigger_error(request):  # ToDo удалить на релизе
-    """test sentry"""
+def trigger_error(request):
+    """ToDo test sentry"""
     division_by_zero = 1 / 0
 
 
@@ -25,7 +25,7 @@ urlpatterns = [
     path('api/api-token-auth/', views.obtain_auth_token),
     path('api/notifications/', NotificationsListCreateView.as_view()),
     path('api/notifications/<int:pk>', NotificationsDeleteUpdateView.as_view()),
-    path('sentry-debug/', trigger_error),  # ToDo удалить на релизе
+    # path('sentry-debug/', trigger_error),  # ToDo тест сентри
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.authtoken')),
 ]

@@ -37,6 +37,9 @@ const CreateNotification = () => {
         setDescription("");
     }
     const setStatus = useStatusModalHook();
+
+    if(!token) return <h1>Авторизуйтесь</h1>
+
     return (
         <div>
             <form className={classes.card_form}>

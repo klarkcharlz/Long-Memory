@@ -1,7 +1,6 @@
 import datetime
 
 currentTime = datetime.datetime.now()
-currentTime.hour
 
 if currentTime.hour < 12:
     currentTime = 'Доброе утро'

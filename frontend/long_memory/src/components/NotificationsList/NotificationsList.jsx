@@ -116,9 +116,9 @@ const NotificationList = () => {
 
     const sortList = (sort, direction) => {
         if (notifications.length >= 1) {
-            console.log(notifications);
-            console.log(sort);
-            console.log(direction);
+            // console.log(notifications);
+            // console.log(sort);
+            // console.log(direction);
             setSelectedSort(sort);
             let notifications_ = [...notifications].sort((prev, cur) => {
                 const prevDate = new Date(prev[sort]);
@@ -199,6 +199,8 @@ const NotificationList = () => {
         }
         return <h2>У вас пока нет активного напоминания.</h2>
     }
+
+    if(!token) return <h1>Авторизуйтесь</h1>
 
     return NotificationListRaw();
 

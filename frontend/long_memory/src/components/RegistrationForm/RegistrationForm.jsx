@@ -25,11 +25,11 @@ const registration = (
     username, email, password1,
     password2, navigate, setToken,
     setStatus, offDisabledButton, onDisabledButton) => {
-    console.log('регистрация');
+    // console.log('регистрация');
     const [valid, error] = validateUserInfo(username, email, password1, password2);
     if (valid) {
         if (password1 === password2) {
-            console.log("Регистрация")
+            // console.log("Регистрация")
             userRegistration(password1, username, email, (token) => {
                 setToken(token)
             }, navigate, setStatus, offDisabledButton, onDisabledButton)
