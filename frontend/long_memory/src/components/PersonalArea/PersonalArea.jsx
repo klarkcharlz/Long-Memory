@@ -114,10 +114,10 @@ const PersonalArea = () => {
     useEffect(() => {
         if (token) {
             setIsLoading(true);
-            // getUserInfo(setStatus, token, setUserData, endLoading)
-            setTimeout(() => {
-                getUserInfo(setStatus, token, setUserData, endLoading);
-            }, 3000)
+            getUserInfo(setStatus, token, setUserData, endLoading)
+            // setTimeout(() => {
+            //     getUserInfo(setStatus, token, setUserData, endLoading);
+            // }, 3000)
         }
     }, [token]);
 

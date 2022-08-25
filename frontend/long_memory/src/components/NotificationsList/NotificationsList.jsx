@@ -81,10 +81,10 @@ const NotificationList = () => {
     useEffect(() => {
         if (token) {
             setIsLoading(true);
-            // getUserNotifications(token, setNotifications, endLoading, setStatus)
-            setTimeout(() => {
-                getUserNotifications(token, setNotifications, endLoading);
-            }, 3000)
+            getUserNotifications(token, setNotifications, endLoading, setStatus)
+            // setTimeout(() => {
+            //     getUserNotifications(token, setNotifications, endLoading);
+            // }, 3000)
         }
     }, [token]);
 
