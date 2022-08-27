@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import classes from "./RegistrationForm.module.css";
 import {useNavigate} from "react-router-dom";
 import useUserContext from "../../hooks/useUserContext";
-import {createNotification, userRegistration} from "../../functions/api"
+import {userRegistration} from "../../functions/api"
 import useStatusModalHook from "../../hooks/useStatusModalHook";
 
 const validateUserInfo = (username, email, password1, password2) => {
@@ -23,16 +23,14 @@ const validateUserInfo = (username, email, password1, password2) => {
 
 const registration = (
     username, email, password1,
-    password2, navigate, setToken,
+    password2, navigate,
     setStatus, offDisabledButton, onDisabledButton) => {
     // console.log('регистрация');
     const [valid, error] = validateUserInfo(username, email, password1, password2);
     if (valid) {
         if (password1 === password2) {
             // console.log("Регистрация")
-            userRegistration(password1, username, email, (token) => {
-                setToken(token)
-            }, navigate, setStatus, offDisabledButton, onDisabledButton)
+            userRegistration(password1, username, email, navigate, setStatus, offDisabledButton, onDisabledButton)
         } else {
             setStatus('Пароли не совпадают.')
         }
@@ -117,7 +115,7 @@ const RegistrationForm = () => {
                     onClick={(e) => {
                         e.preventDefault();
                         registration(username, email, password1,
-                            password2, navigate, setToken,
+                            password2, navigate,
                             setStatus, offDisabledButton, onDisabledButton);
                     }}>РЕГИСТРАЦИЯ
                 </button>

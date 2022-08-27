@@ -90,15 +90,11 @@ function updateUser(token, data, setStatus) {
 }
 
 
-function userRegistration(pass, username, email, setToken, navigate, setStatus, offDisabled, onDisabled) {
+function userRegistration(pass, username, email, navigate, setStatus, offDisabled, onDisabled) {
     const headers = get_headers();
     onDisabled();
     axios.post(USER_REGISTRATION_URL, {username: username, password: pass, email: email}, {headers})
         .then(response => {
-            // console.log('userRegistration response.data > ', response.data);
-            const token = response.data.token;
-            set_token_to_storage(token);
-            setToken(token);
             navigate("/authorization");
             setStatus('На вашу почту отправлено письмо с подтверждением регистрации.')
             offDisabled()
@@ -164,6 +160,7 @@ function userActivation(uid, token, setStatus, navigate) {
             }
         }).catch((error) => {
         // console.log(error);
+        navigate("/authorization");
         setStatus("Извините, проблемы с сервером или же ссылка уже не действительна.");
     });
 }
