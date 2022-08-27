@@ -40,7 +40,7 @@ schedule.every().day.at("09:30").do(job)
 
 if __name__ == "__main__":
     print('Start Script.')
-    job()  # ToDo убрать на релизе
+    # job()  # ToDo убрать на релизе
     while True:
         schedule.run_pending()
         sleep(10)

@@ -88,8 +88,8 @@ DATABASES = {
         'NAME': 'long_memory_db',
         'USER': 'admin',
         'PASSWORD': 'admin',
-        'HOST': 'db',  # для локального запуска localhost, для контейнера db
-        'PORT': '5432',  # для локального запуска 54326, для контейнера 5432
+        'HOST': 'localhost',  # для локального запуска localhost, для контейнера db
+        'PORT': '54326',  # для локального запуска 54326, для контейнера 5432
     }
 }
 
@@ -202,6 +202,8 @@ EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
 EMAIL_USE_SSL = True if config['EMAIL_USE_SSL'] == 'True' else False
 EMAIL_USE_TLS = True if config['EMAIL_USE_TLS'] == 'True' else False
 SERVER_EMAIL = EMAIL_HOST_USER
+SITE_NAME = config['SITE_NAME']
+
 
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',

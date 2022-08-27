@@ -3,17 +3,17 @@ import axios from "axios";
 import {set_token_to_storage} from "./tokenStorage";
 import {parseResponse} from "./utils"
 
-import {URL, PORT} from './api_constants'
+import {URL, PORT, PROTOCOL} from './api_constants'
 
 
-const GET_USER_NOTIFICATIONS_URL = `https://${URL}${PORT}/api/notifications/`;
-const CREATE_NOTIFICATIONS_URL = `https://${URL}${PORT}/api/notifications/`;
-const USER_REGISTRATION_URL = `https://${URL}${PORT}/api/auth/users/`;
-const USER_AUTHORIZATION_URL = `https://${URL}${PORT}/api/api-token-auth/`;
-const GET_USER_DATA_URL = `https://${URL}${PORT}/api/user_data/`;
-const DISABLE_NOTIFICATION_URL = `https://${URL}${PORT}/api/notifications/`;
-const REPEAT_NOTIFICATION_URL = `https://${URL}${PORT}/api/notifications/`;
-const USER_ACTIVATION_URL = `https://${URL}${PORT}/api/auth/users/activation/`;
+const GET_USER_NOTIFICATIONS_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
+const CREATE_NOTIFICATIONS_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
+const USER_REGISTRATION_URL = `${PROTOCOL}://${URL}${PORT}/api/auth/users/`;
+const USER_AUTHORIZATION_URL = `${PROTOCOL}://${URL}${PORT}/api/api-token-auth/`;
+const GET_USER_DATA_URL = `${PROTOCOL}://${URL}${PORT}/api/user_data/`;
+const DISABLE_NOTIFICATION_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
+const REPEAT_NOTIFICATION_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
+const USER_ACTIVATION_URL = `${PROTOCOL}://${URL}${PORT}/api/auth/users/activation/`;
 
 function get_headers(token = null) {
     let headers = {
