@@ -1,7 +1,24 @@
 # Long-Memory
+## Развертывание проекта на новой машине:
+  + Установить свежие версии Docker и Docker-Compose.yaml
+  + Создать переменные окружения ADMIN_LOGIN и ADMIN_PASS, убедиться что система их видит.
+  + Склонировать проект.
+  + Везде где есть .env.example создать и заполнить файлы .env
+  + Заполнить frontend/long_memory/src/functions/api_constants.js  
+  + Собрать фронт:
+    + cd frontend/long_memory/
+    + npm install
+    + npm run build
+  + В корне проекта создать папку www, в ней папки media и static. В папке media создать папку users_avatars.
+  + В корне проекта создать папку postgresql.
+  + скопировать содержимое папки frontend/long_memory/build/static в папку www/static
+  + Собрать и запустить проект:
+    + docker-compose build
+    + docker-compose up -d
 
-## Backend:
+## Разработка
 
+## Backend(Запуск вне контейнера)
 + Перейти в каталог:
     + `cd backend/long_memory/`
 
@@ -24,7 +41,7 @@
 после чего повторите создание миграций.
 
 
-## frontend
+## Frontend(Запуск вне контейнера)
 
 + Перейти в каталог:
     + `cd frontend/long_memory/`
