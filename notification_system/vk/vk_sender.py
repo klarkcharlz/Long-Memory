@@ -5,12 +5,14 @@ from pprint import pprint
 
 import pika
 import sentry_sdk
+from requests import ReadTimeout
 from sentry_sdk import capture_exception
 from pika.exceptions import AMQPConnectionError
+from vk_api import vk_api
 
-from vk_func import write_msg
-from settings import SERVICE, HOST, SENTRY_DSN
-
+from notification_system.vk.simple_mail_sender import send_email
+from vk_func import write_msg, is_id_valid, is_member, is_allowed_msg
+from settings import SERVICE, HOST, SENTRY_DSN, ACCESS_TOKEN
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
@@ -31,16 +33,50 @@ def main():
     channel = connection.channel()
 
     def callback(ch, method, properties, body):
-        # pprint(f'{datetime.now()} - Принял сообщение:')
+        print(f'{datetime.now()} - Принял сообщение:')
         body = loads(body)
-        # pprint(type(body))
-        # pprint(body)
+        # print(type(body))
+        print(body)
+
         for user in body:
-            message = f'Привет {user["name"]}!\nСегодня {datetime.now().date()} тебе нужно повторить:\n\n'
-            id = int(user['id'])
-            for notification in user["notifications"]:
-                message += f"\U0000272A {notification['title']}:\n{notification['description']}\n\n"
-            write_msg(id, message.rstrip())
+            id = user["id"]
+            email = user['email']
+            if not is_id_valid(id):
+                print(f'Пользователя с id: {id} не существует.')
+                send_email("Warning from Long Memory application", email, "mehtievaa@mail.ru",
+                           "Уважаемый пользователь ты указал неверный VK_id")
+                print('почта отправлена')
+                continue
+            if is_member(id) and is_allowed_msg(id):
+                message = f'Привет {user["name"]},\n сегодня {datetime.now()} тебе нужно повторить:\n\n'
+                for item in user["notifications"]:
+                    message += f'\u2023{item["title"]}:\n{item["description"]}\n\n'
+                try:
+                    write_msg(id, message)
+                except (ReadTimeout, ConnectionError):
+                    while True:
+                        try:
+                            print("Переподключение к серверам ВК.")
+                            vk = vk_api.VkApi(token=ACCESS_TOKEN)
+                        except Exception as err:
+                            print("Переподключение неудачно")
+                            sleep(10)
+                        else:
+                            break
+            else:
+                if not is_allowed_msg(id):
+                    print(f'пользователь с id: {id} запретил сообщения от группы')
+                    send_email("Warning from Long Memory application", user["email"], "mehtievaa@mail.ru",
+                               "Уважаемый пользователь ты запретил сообщения от нашей группы... "
+                               "Что ж, тёмный властелин уже выехал к тебе!")
+
+                if not is_member(id):
+                    print(f'пользователь с id: {id} не является членом группы')
+                    send_email("Warning from Long Memory application", user["email"], "mehtievaa@mail.ru",
+                               "Уважаемый пользователь ты не являешься членом нашей группы... "
+                               "Что ж, поспеши им стать, пока не поздно!")
+
+                continue
 
     channel.queue_declare(queue=SERVICE)
     channel.basic_consume(queue=SERVICE, on_message_callback=callback, auto_ack=True)
