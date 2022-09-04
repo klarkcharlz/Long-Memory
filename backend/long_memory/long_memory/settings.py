@@ -45,7 +45,17 @@ INSTALLED_APPS = [
     # ---------------
     'rest_framework.authtoken',
     'djoser',
+    # for VK auth
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.vk.VKOAuth2',
+    'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -72,6 +82,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -82,23 +94,23 @@ WSGI_APPLICATION = 'long_memory.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'long_memory_db',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'db',  # для локального запуска localhost, для контейнера db
-        'PORT': '5432',  # для локального запуска 54326, для контейнера 5432
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'long_memory_db',
+#         'USER': 'admin',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',  # для локального запуска localhost, для контейнера db
+#         'PORT': '54326',  # для локального запуска 54326, для контейнера 5432
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -144,6 +156,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ]
 }
 
@@ -202,6 +216,18 @@ EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
 EMAIL_USE_SSL = True if config['EMAIL_USE_SSL'] == 'True' else False
 EMAIL_USE_TLS = True if config['EMAIL_USE_TLS'] == 'True' else False
 SERVER_EMAIL = EMAIL_HOST_USER
+
+# ----------------------------------------------------- для VK и google авторизации
+GOOGLE_API_KEY = 'AIzaSyDT6lyKdMYuERcsUM4zvP6b0dveZ3kIQMY'
+SOCIAL_AUTH_VK_OAUTH_KEY = '51393425'
+SOCIAL_AUTH_VK_OAUTH_SECRET = 'L6LjlrdJ8hDRyYilmpft'
+# Взято из админки, таблица applications, запись Long_Memory
+CLIENT_ID = 'ITEQN4Vn0aGHzN7zvZTsYAHIhnE6tC0ATf9JTUDq'
+STATIC_URL = '/static/'
+
+
+
+
 
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',

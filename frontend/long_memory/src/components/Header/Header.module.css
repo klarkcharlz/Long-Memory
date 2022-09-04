@@ -35,6 +35,17 @@
     margin-right: 30px;
 }
 
+.vk_logo {
+    color: transparent;
+    border: none;
+    width: 67px;
+    height: 67px;
+    background: url('../../Static/icons8-vkontakte-67.png') no-repeat;
+    background-size: cover;
+    margin-right: 20px;
+
+}
+
 .button:hover {
     font-size: 25px;
 }

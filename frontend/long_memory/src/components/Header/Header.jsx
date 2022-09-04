@@ -30,6 +30,9 @@ const Header = () => {
 
                 {!token ?
                     <div className={classes.user_menu}>
+                        <a className={classes.button} href='https://oauth.vk.com/authorize?client_id=51403117&display=page&redirect_uri=http://localhost:3000/vk_auth&scope=friends,email,offline&response_type=token&v=5.131'>
+                        <img className={classes.vk_logo} />
+                        </a>
                         <Link to='/registration'>
                             <button className={classes.button}>Регистрация</button>
                         </Link>

@@ -19,6 +19,7 @@ def trigger_error(request):  # ToDo удалить на релизе
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('api/', include(router.urls)),
+    path('auth/', include('rest_framework_social_oauth2.urls')),
     path('api/user_data/', UserView.as_view()),
     # path('api-custom-auth/', CustomAuthentication.as_view()),
     path('api/register/', CreateUserView.as_view()),

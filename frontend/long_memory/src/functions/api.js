@@ -20,7 +20,8 @@ function get_headers(token = null) {
         'Content-Type': 'application/json'
     }
     if (token) {
-        headers['Authorization'] = 'token ' + token
+//        headers['Authorization'] = 'token ' + token
+        headers['Authorization'] = 'Bearer ' + token
     }
     return headers
 }
@@ -90,9 +91,8 @@ function updateUser(token, data, setStatus) {
 }
 
 
-function userRegistration(pass, username, email, setToken, navigate, setStatus, offDisabled, onDisabled) {
+function userRegistration(pass, username, email, setToken, navigate, setStatus) {
     const headers = get_headers();
-    onDisabled();
     axios.post(USER_REGISTRATION_URL, {username: username, password: pass, email: email}, {headers})
         .then(response => {
             console.log('userRegistration response.data > ', response.data);
@@ -101,11 +101,9 @@ function userRegistration(pass, username, email, setToken, navigate, setStatus, 
             setToken(token);
             navigate("/authorization");
             setStatus('На вашу почту отправлено письмо с подтверждением регистрации.')
-            offDisabled()
         }).catch((error) => {
         console.log(error);
-        setStatus(parseResponse(error.response.data));
-        offDisabled();
+        setStatus(parseResponse(error.response.data))
     })
 }
 
@@ -148,28 +146,24 @@ function repeatNotification(token, id, setStatus, clear) {
     })
 }
 
-function userActivation(uid, token, setStatus, navigate) {
+function userActivation(uid, token, setToken, navigate, setStatus) {
     const headers = get_headers();
-    headers["Content-Type"] = "multipart/form-data";
-    const formData = new FormData();
-    formData.append("uid", uid);
-    formData.append("token", token);
-    axios.post(USER_ACTIVATION_URL, formData, {headers})
-        .then(response => {
-            console.log('userActivation response.data > ', response);
-            const status = response.status;
-            if (status === 204) {
-                navigate("/authorization");
-                setStatus("Учетная запись подтверждена.<br>Теперь Вы можете авторизоваться.");
-            }
-        }).catch((error) => {
-        console.log(error);
-        setStatus("Извините, проблемы с сервером или же ссылка уже не действительна.");
-    });
+    // axios.post(USER_AUTHORIZATION_URL, {username: username, password: pass}, {headers})
+    //     .then(response => {
+    //         console.log('userAuthorization response.data > ', response.data);
+    //         const token = response.data.token;
+    //         set_token_to_storage(token);
+    //         setToken(token);
+    //         navigate("/notifications_list");
+    //     }).catch((error) => {
+    //     console.log(error);
+    //     setStatus(parseResponse(error.response.data));
+    // });
 }
 
 
 export {
+    get_headers,
     repeatNotification,
     disableNotification,
     getUserData,
@@ -178,5 +172,5 @@ export {
     createNotification,
     userRegistration,
     userAuthorization,
-    userActivation
+    userActivation,
 };
