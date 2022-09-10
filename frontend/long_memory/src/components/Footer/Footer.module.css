@@ -8,4 +8,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+}
+
+.footerItem{
+    display: flex;
+}
+
+.logo_vk {
+    width: 30px;
+    height: 20px;
+    background: url("../../Static/logo_vk.png") no-repeat;
+    display: block;
+}
+
+.logo_vk:hover {
+    transform: scale(1.3);
+}
+
+.bugReport:hover {
+    color: red;
 }

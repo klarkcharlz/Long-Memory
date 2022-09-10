@@ -26,7 +26,11 @@ SECRET_KEY = config['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'longmemory.ru', '194.58.103.211']
+ALLOWED_HOSTS = ['127.0.0.1',
+                 'localhost',
+                 'longmemory.ru',
+                 '194.58.103.211',
+                 '0.0.0.0']
 
 # Application definition
 
@@ -42,6 +46,7 @@ INSTALLED_APPS = [
     # my applications
     'users.apps.UsersConfig',
     'notifications.apps.NotificationsConfig',
+    'bug_report.apps.BugReportConfig',
     # ---------------
     'rest_framework.authtoken',
     'djoser',
@@ -203,7 +208,6 @@ EMAIL_USE_SSL = True if config['EMAIL_USE_SSL'] == 'True' else False
 EMAIL_USE_TLS = True if config['EMAIL_USE_TLS'] == 'True' else False
 SERVER_EMAIL = EMAIL_HOST_USER
 SITE_NAME = config['SITE_NAME']
-
 
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',

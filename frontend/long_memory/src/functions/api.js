@@ -14,6 +14,7 @@ const GET_USER_DATA_URL = `${PROTOCOL}://${URL}${PORT}/api/user_data/`;
 const DISABLE_NOTIFICATION_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
 const REPEAT_NOTIFICATION_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
 const USER_ACTIVATION_URL = `${PROTOCOL}://${URL}${PORT}/api/auth/users/activation/`;
+const BUG_REPORT_URL = `${PROTOCOL}://${URL}${PORT}/api/bug_report/`
 
 function get_headers(token = null) {
     let headers = {
@@ -23,6 +24,19 @@ function get_headers(token = null) {
         headers['Authorization'] = 'token ' + token
     }
     return headers
+}
+
+
+function sendBugReport(data, setStatus) {
+    const headers = get_headers();
+    axios.post(BUG_REPORT_URL, data, {headers})
+        .then(response => {
+            // console.log('sendBugReport response.data > ', response.data);
+            setStatus("Отправлено.");
+        }).catch((error) => {
+        // console.log(error);
+        setStatus('Извините, проблемы с сервером.');
+    })
 }
 
 
@@ -175,5 +189,6 @@ export {
     createNotification,
     userRegistration,
     userAuthorization,
-    userActivation
+    userActivation,
+    sendBugReport
 };

@@ -1,7 +1,6 @@
 from json import loads
 from asyncio import get_event_loop, sleep
-from datetime import datetime
-from dt_tg import currentTime
+from dt_tg import get_greeting
 from time import sleep as block_sleep
 import aio_pika
 from aiogram import Bot, Dispatcher, executor, types
@@ -27,7 +26,9 @@ async def send_message(chat_id, message):
 
 @dp.message_handler(commands=['start'])
 async def alarm(message: types.Message):
-    await bot.send_message(message.from_user.id, f'{currentTime}\nВаш ID: {message.chat.id}', reply_markup=kb.greet_kb)
+    await bot.send_message(message.from_user.id,
+                           f'{get_greeting()}\nВаш ID: {message.chat.id}',
+                           reply_markup=kb.greet_kb)
 
 
 async def listen_rabbit_mq(loop):
@@ -55,8 +56,9 @@ async def listen_rabbit_mq(loop):
             async for message in queue_iter:
                 async with message.process():
                     data = loads(message.body)
+                    greeting = get_greeting()
                     for user in data:
-                        mess = f'{currentTime}, '
+                        mess = f'{greeting}, '
                         name = user['name']
                         mess += name + '.\n' + "Ты должен повторить сегодня:\n"
                         id = user['id']

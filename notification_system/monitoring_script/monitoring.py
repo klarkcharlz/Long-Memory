@@ -31,8 +31,8 @@ def job():
                 print(f'{datetime.now()} - empty data to {service}:')
     except Exception as err:
         print(err)
-        sleep(10)
         capture_exception(err)
+        sleep(10)
 
 
 # schedule.every(3600).seconds.do(job)

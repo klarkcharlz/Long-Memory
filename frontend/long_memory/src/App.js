@@ -19,7 +19,15 @@ import ActivationUser from './components/ActivationUser/ActivationUser'
 import VkAuth from './components/VkAuth/VkAuth'
 
 export default function App() {
-    const {setToken, modalStatus, setModalStatus, statusText} = useUserContext();
+    const {
+        setToken,
+        modalStatus,
+        setModalStatus,
+        statusText,
+        modalContent,
+        setModalContent,
+        setStatusText
+    } = useUserContext();
 
     useEffect(() => {
         const token = get_token_from_storage();
@@ -28,7 +36,15 @@ export default function App() {
 
     return (
         <div className={classes.body}>
-            <StatusModal open={modalStatus} setOpen={setModalStatus} status={statusText}/>
+            <StatusModal
+                open={modalStatus}
+                setOpen={setModalStatus}
+                content={modalContent}
+                setContent={setModalContent}
+                status={statusText}
+                clearStatus={() => {
+                    setStatusText('');
+                }}/>
             <Router>
                 <div className={classes.header}>
                     <Header/>

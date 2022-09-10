@@ -7,7 +7,6 @@
     padding-left: 15px;
     margin-top: 10px;
 }
-
 .theme_notification {
     height: 18em;
     background: #1b6d8580;
@@ -20,6 +19,7 @@
     padding-left: 15px;
     resize: none;
 }
+
 
 .card_form {
     width: 80%;

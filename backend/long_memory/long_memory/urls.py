@@ -7,7 +7,7 @@ from django.conf import settings
 
 from users.views import CreateUserView, UserView, CustomAuthentication
 from notifications.views import NotificationsListCreateView, NotificationsDeleteUpdateView
-
+from bug_report.views import BugReportCreateView
 # router = DefaultRouter()
 
 
@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('api/', include(router.urls)),
     path('api/user_data/', UserView.as_view()),
+    path('api/bug_report/', BugReportCreateView.as_view()),
     # path('api-custom-auth/', CustomAuthentication.as_view()),
     path('api/register/', CreateUserView.as_view()),
     path('api/api-token-auth/', views.obtain_auth_token),

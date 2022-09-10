@@ -1,0 +1,52 @@
+.card_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    animation: card_form 3s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+}
+
+.name_area {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.text_area {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.button {
+    height: 3em;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 10px;
+    color: white;
+}
+
+.button:hover {
+    background: #1b6d8580;
+}
+
+.name_input {
+    width: 20em;
+    height: 3em;
+    background: #1b6d8580;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 5px;
+}
+
+.textarea_input {
+    width: 20em;
+    height: 5em;
+    background: #1b6d8580;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    resize: none;
+    padding: 5px;
+}

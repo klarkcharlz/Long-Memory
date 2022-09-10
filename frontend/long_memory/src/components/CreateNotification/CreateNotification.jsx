@@ -29,8 +29,8 @@ const createNotification_ = (title, description, token, clearForm, setStatus) =>
 
 
 const CreateNotification = () => {
-    const [title, setTitle] = useState('React hooks');
-    const [description, setDescription] = useState('useState');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
     const {token} = useUserContext();
     const clearForm = () =>{
         setTitle("");
@@ -48,6 +48,7 @@ const CreateNotification = () => {
                         className={classes.title_notification}
                         type="text"
                         name="title"
+                        placeholder={"React Hooks"}
                         value={title}
                         onChange={(e) => {
                             setTitle(e.target.value)
@@ -58,6 +59,7 @@ const CreateNotification = () => {
                 <label className={classes.area_form}>Описание
                     <textarea className={classes.theme_notification}
                         name="description"
+                        placeholder={"useState"}
                         value={description}
                         onChange={(e) => {
                             setDescription(e.target.value);
