@@ -20,6 +20,7 @@ sentry_sdk.init(
 
 
 def job():
+    print('Start collect data.')
     try:
         data = check_db()
         print(f'Get data from db: {data}')
