@@ -20,12 +20,7 @@ def write_msg(user_id, message):
                     peer_id=user_id,
                     random_id=random.getrandbits(32),
                     message=message)
-        try:
-            vk.messages.send(**data)
-        except Exception as err:
-            print(type(err))
-            print(err)
-            sleep(1)
+        vk.messages.send(**data)
     except (ReadTimeout, ConnectionError):
         while True:
             try:

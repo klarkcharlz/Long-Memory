@@ -37,7 +37,11 @@ def main():
         # pprint(body)
         for user in body:
             message = f'Привет {user["name"]}!\nСегодня {datetime.now().date()} тебе нужно повторить:\n\n'
-            id = int(user['id'])
+            try:
+                id = int(user['id'])
+            except ValueError as e:
+                capture_exception(e)
+                continue
             for notification in user["notifications"]:
                 message += f"\U0000272A {notification['title']}:\n{notification['description']}\n\n"
             write_msg(id, message.rstrip())
