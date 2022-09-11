@@ -89,7 +89,7 @@ services:
   telegram_sender:
     build: ./notification_system/telegram
     restart: always
-    command: bash -c "python test_bot.py"
+    command: bash -c "python bot.py"
     depends_on:
       - monitoring_script
 
