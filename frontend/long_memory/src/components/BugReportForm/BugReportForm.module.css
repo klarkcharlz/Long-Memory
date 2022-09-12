@@ -1,3 +1,8 @@
+.container * {
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+}
+
 .card_form {
     display: flex;
     flex-direction: column;
@@ -19,6 +24,7 @@
 }
 
 .button {
+    width: 20em;
     height: 3em;
     background: transparent;
     border: 1px solid white;
@@ -33,7 +39,7 @@
 .name_input {
     width: 20em;
     height: 3em;
-    background: #1b6d8580;
+    background: #155466;
     border: none;
     border-radius: 10px;
     color: white;
@@ -43,7 +49,7 @@
 .textarea_input {
     width: 20em;
     height: 5em;
-    background: #1b6d8580;
+    background: #155466;
     border: none;
     border-radius: 10px;
     color: white;
