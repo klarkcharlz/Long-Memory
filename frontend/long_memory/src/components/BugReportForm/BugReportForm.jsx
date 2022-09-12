@@ -21,7 +21,7 @@ const BugReportForm = () => {
     const setStatus = useStatusModalHook();
 
     return (
-        <div>
+        <div className={classes.container}>
             <form className={classes.card_form}>
                 <label className={classes.name_area}>
                     Как к Вам обращаться ?

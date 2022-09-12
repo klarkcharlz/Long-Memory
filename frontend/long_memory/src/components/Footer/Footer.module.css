@@ -1,8 +1,6 @@
 .footer {
-
     position: sticky;
     bottom: 0;
-
     height: 50px;
     text-align: center;
     display: flex;
