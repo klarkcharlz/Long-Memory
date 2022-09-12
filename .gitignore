@@ -141,5 +141,14 @@ dmypy.json
 /backend/long_memory/notifications/migrations/
 /backend/long_memory/users/migrations/
 /frontend/long_memory/src/functions/api_constants.js
+/backend/long_memory/bug_report/migrations/
+
+# volumes
 /www/
 /postgresql/
+
+# local docker compose yaml
+/local_compose/
+
+# local develop django settings
+/backend/long_memory/settings/dev.py
