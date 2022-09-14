@@ -22,7 +22,7 @@ parser.add_argument('password', type=str)
 
 args = parser.parse_args()
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'long_memory.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings.prod'
 django.setup()
 
 from users.models import CustomUser
