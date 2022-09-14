@@ -9,7 +9,7 @@ from sentry_sdk import capture_exception
 from pika.exceptions import AMQPConnectionError
 
 from vk_func import write_msg
-from settings import SERVICE, HOST, SENTRY_DSN
+from settings import SERVICE, RABBIT_HOST, SENTRY_DSN
 
 
 sentry_sdk.init(
@@ -21,7 +21,7 @@ sentry_sdk.init(
 def main():
     while True:
         try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST))
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_HOST))
         except AMQPConnectionError as err:
             capture_exception(err)
             print("Нет соединения с Rabbit MQ")

@@ -1,5 +1,4 @@
 import datetime
-import os
 from pprint import pprint
 import ssl
 import smtplib
@@ -9,16 +8,20 @@ from email.mime.text import MIMEText
 from time import sleep
 
 import pika
-from dotenv import load_dotenv
 import jinja2
 import sentry_sdk
 from sentry_sdk import capture_exception
 from pika.exceptions import AMQPConnectionError
 
-from settings import SERVICE, HOST
-
-
-load_dotenv()
+from settings import (
+    SERVICE,
+    RABBIT_HOST,
+    SENDER,
+    PASSWORD,
+    PORT,
+    DOMAIN,
+    SENTRY_DSN
+)
 
 
 def send_email(sender, password, domain, port, mail_add, name, body):
@@ -91,11 +94,6 @@ def send_for_user(data_set):
     :param data_set: массив данных из очереди
     """
 
-    sender = os.getenv('SENDER')
-    password = os.getenv('PASSWORD')
-    domain = os.getenv('DOMAIN')
-    port = os.getenv('PORT')
-
     # pprint(data_set)
 
     for item in data_set:
@@ -106,7 +104,7 @@ def send_for_user(data_set):
 
             body = get_body(name, notifications)  # собираем тело письма
 
-            send_email(sender, password, domain, port, email_add, name, body)  # передаем данные для отправки
+            send_email(SENDER, PASSWORD, DOMAIN, PORT, email_add, name, body)  # передаем данные для отправки
         except Exception as err:
             capture_exception(err)
             print(err)
@@ -116,16 +114,14 @@ def send_for_user(data_set):
 
 
 def main():
-    sentry_dsn = os.getenv('SENTRY_DSN')
-
     sentry_sdk.init(
-        dsn=sentry_dsn,
+        dsn=SENTRY_DSN,
         traces_sample_rate=1.0
     )
 
     while True:
         try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST))
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_HOST))
         except AMQPConnectionError as err:
             capture_exception(err)
             print("Нет соединения с Rabbit MQ")

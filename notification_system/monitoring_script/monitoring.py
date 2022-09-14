@@ -37,7 +37,7 @@ def job():
 
 
 # schedule.every(3600).seconds.do(job)
-schedule.every().day.at("09:30").do(job)
+schedule.every().day.at("05:30").do(job)
 
 if __name__ == "__main__":
     print('Start Script.')

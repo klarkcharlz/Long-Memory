@@ -1,8 +1,8 @@
-import datetime
+from datetime import datetime, timedelta
 
 
 def get_greeting():
-    currentTime = datetime.datetime.now()
+    currentTime = datetime.now() + timedelta(hours=3)
 
     if 5 < currentTime.hour < 12:
         greeting = 'Доброе утро'

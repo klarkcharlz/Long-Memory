@@ -5,15 +5,15 @@
 }
 
 .button_add {
-    background: url('../../Static/add-button.png') no-repeat center;
+    background: url('../../static/add-button.png') no-repeat center;
 }
 
 .button_personal {
-    background: url('../../Static/persona-button.png') no-repeat center;
+    background: url('../../static/persona-button.png') no-repeat center;
 }
 
 .button_view {
-    background: url('../../Static/eye-button.png') no-repeat center;
+    background: url('../../static/eye-button.png') no-repeat center;
 }
 
 .button {

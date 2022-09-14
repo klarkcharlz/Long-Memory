@@ -167,7 +167,7 @@
 .logo_telegram {
     width: 30px;
     height: 20px;
-    background: url("../../Static/logo_telegram.png") no-repeat;
+    background: url("../../static/logo_telegram.png") no-repeat;
     /*color: transparent;*/
     display: inline;
     /*display: block;*/
@@ -180,7 +180,7 @@
 .logo_vk {
     width: 30px;
     height: 20px;
-    background: url("../../Static/logo_vk.png") no-repeat;
+    background: url("../../static/logo_vk.png") no-repeat;
     display: block;
     /*color: transparent;*/
 }

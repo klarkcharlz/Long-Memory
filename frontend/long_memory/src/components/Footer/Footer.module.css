@@ -16,7 +16,7 @@
 .logo_vk {
     width: 30px;
     height: 20px;
-    background: url("../../Static/logo_vk.png") no-repeat;
+    background: url("../../static/logo_vk.png") no-repeat;
     display: block;
 }
 
