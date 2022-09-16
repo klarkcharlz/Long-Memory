@@ -22,6 +22,7 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png"/>
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
     <title>Long Memory</title>
+    <script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script>
     <script type="text/javascript">
         (function (m, e, t, r, i, k, a) {
             m[i] = m[i] || function () {
@@ -42,7 +43,8 @@
             clickmap: true,
             trackLinks: true,
             accurateTrackBounce: true,
-            webvisor: true
+            webvisor: true,
+            params:{'ip': userip}
         });
     </script>
 </head>

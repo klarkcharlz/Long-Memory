@@ -58,7 +58,6 @@ services:
       - 15672:15672
     depends_on:
       - db
-      - backend
 
   frontend:
     build: ./frontend

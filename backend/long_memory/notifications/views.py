@@ -37,9 +37,7 @@ class NotificationsDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Notifications.objects.filter(user_id=user,
-                                            is_active=True,
-                                            next_notifications__gte=datetime.now())
+        return Notifications.objects.filter(user_id=user, is_active=True)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
