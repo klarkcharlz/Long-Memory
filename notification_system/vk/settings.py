@@ -1,9 +1,14 @@
 from dotenv import dotenv_values
 
+SERVICE = 'vk'
 
 config = dotenv_values(".env")
 
-SERVICE = 'vk'
-VK_TOKEN = config['VK_TOKEN']
-RABBIT_HOST = config['RABBIT_HOST']
+TG_TOKEN = config['TOKEN']
+# HOST = 'rabbitmq'  # для контейнеров
+# HOST = 'localhost'  # для локального запуска
 SENTRY_DSN = config['SENTRY_DSN']
+ACCESS_TOKEN = config['token']
+HOST = 'localhost'
+EMAIL = config['email_sender']
+EMAIL_PASSWORD = config['email_pswd']

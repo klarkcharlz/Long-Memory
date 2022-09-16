@@ -5,12 +5,14 @@ from pprint import pprint
 
 import pika
 import sentry_sdk
+from requests import ReadTimeout
 from sentry_sdk import capture_exception
 from pika.exceptions import AMQPConnectionError
+from vk_api import vk_api
 
-from vk_func import write_msg
-from settings import SERVICE, RABBIT_HOST, SENTRY_DSN
 
+from vk_func import write_msg, is_id_valid, is_member, is_allowed_msg
+from settings import SERVICE, HOST, SENTRY_DSN, ACCESS_TOKEN
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
@@ -21,7 +23,7 @@ sentry_sdk.init(
 def main():
     while True:
         try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_HOST))
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST))
         except AMQPConnectionError as err:
             capture_exception(err)
             print("Нет соединения с Rabbit MQ")
@@ -31,20 +33,28 @@ def main():
     channel = connection.channel()
 
     def callback(ch, method, properties, body):
-        # pprint(f'{datetime.now()} - Принял сообщение:')
+        print(f'{datetime.now()} - Принял сообщение:')
         body = loads(body)
-        # pprint(type(body))
-        # pprint(body)
+        # print(type(body))
+        print(body)
+
         for user in body:
-            message = f'Привет {user["name"]}!\nСегодня {datetime.now().date()} тебе нужно повторить:\n\n'
-            try:
-                id = int(user['id'])
-            except ValueError as e:
-                capture_exception(e)
+            id = user["id"]
+            email = user['email']
+            if not is_id_valid(id, email):
                 continue
-            for notification in user["notifications"]:
-                message += f"\U0000272A {notification['title']}:\n{notification['description']}\n\n"
-            write_msg(id, message.rstrip())
+            if not is_allowed_msg(id, email):
+                continue
+            if not is_member(id, email):
+                continue
+
+            message = f'Привет {user["name"]},\n сегодня {datetime.now()} тебе нужно повторить:\n\n'
+            for item in user["notifications"]:
+                message += f'\u2023{item["title"]}:\n{item["description"]}\n\n'
+            write_msg(id, message)
+
+
+
 
     channel.queue_declare(queue=SERVICE)
     channel.basic_consume(queue=SERVICE, on_message_callback=callback, auto_ack=True)
