@@ -1,34 +1,22 @@
 from django.contrib import admin
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from rest_framework.authtoken import views
 from django.conf.urls.static import static
 from django.conf import settings
 
-from users.views import CreateUserView, UserView, CustomAuthentication
+from users.views import CreateUserView, UserView, activate_user
 from notifications.views import NotificationsListCreateView, NotificationsDeleteUpdateView
 from bug_report.views import BugReportCreateView
-# router = DefaultRouter()
-
-
-def trigger_error(request):
-    """ToDo test sentry"""
-    division_by_zero = 1 / 0
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/', include(router.urls)),
     path('api/user_data/', UserView.as_view()),
     path('api/bug_report/', BugReportCreateView.as_view()),
-    # path('api-custom-auth/', CustomAuthentication.as_view()),
     path('api/register/', CreateUserView.as_view()),
+    path('api/activate/<int:uid>/<str:token>/', activate_user),
     path('api/api-token-auth/', views.obtain_auth_token),
     path('api/notifications/', NotificationsListCreateView.as_view()),
-    path('api/notifications/<int:pk>', NotificationsDeleteUpdateView.as_view()),
-    # path('sentry-debug/', trigger_error),  # ToDo тест сентри
-    path('api/auth/', include('djoser.urls')),
-    path('api/auth/', include('djoser.urls.authtoken')),
+    path('api/notifications/<int:pk>', NotificationsDeleteUpdateView.as_view())
 ]
 
 if settings.DEBUG:

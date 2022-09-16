@@ -1,11 +1,17 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions
+from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
 from django.contrib.auth import get_user_model
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from django.http import HttpResponse
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import status
+from django.contrib.auth.tokens import default_token_generator
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 from .serializers import CreateUserSerializer, UserSerializer
 from .models import CustomUser
@@ -19,26 +25,22 @@ class CreateUserView(CreateAPIView):
     serializer_class = CreateUserSerializer
     queryset = CustomUser.objects.all()
 
+    activation_link = '{}/activate/{}/{}'
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+        user_id = serializer.instance.id
+        confirmation_token = default_token_generator.make_token(serializer.instance)
+        link = self.activation_link.format(settings.DOMAIN_NAME, user_id, confirmation_token)
+        msg_html = render_to_string('email.html', {'link': link})
+        subject, from_email, to = 'Email Verification', 'Long Memory App', serializer.instance.email
+        msg = EmailMultiAlternatives(subject, '', from_email, [to])
+        msg.attach_alternative(msg_html, "text/html")
+        msg.send()
         headers = self.get_success_headers(serializer.data)
-        token, created = Token.objects.get_or_create(user=serializer.instance)
-        return Response({'token': token.key,
-                         'id': serializer.instance.id
-                         }, status=status.HTTP_201_CREATED, headers=headers)
-
-
-class CustomAuthentication(ObtainAuthToken):
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key,
-                         'id': user.id})
+        return Response({'status': 'done'}, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class UserView(RetrieveUpdateAPIView):
@@ -53,3 +55,25 @@ class UserView(RetrieveUpdateAPIView):
         self.check_object_permissions(self.request, obj)
         return obj
 
+
+@action(detail=False, permission_classes=[AllowAny], methods=['get'])
+def activate_user(request, uid, token):
+    response = HttpResponse()
+    try:
+        user = CustomUser.objects.filter(pk=uid, is_active=False).first()
+    except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+        user = None
+    if not user:
+        response.content = 'User not found'
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return response
+    if not default_token_generator.check_token(user, token):
+        response.content = 'Token is invalid or expired. Please request another confirmation email by signing in.'
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return response
+    user.is_active = True
+    user.save()
+    Token.objects.get_or_create(user=user)
+    response.content = 'Email successfully confirmed'
+    response.status_code = status.HTTP_201_CREATED
+    return response

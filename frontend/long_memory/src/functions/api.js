@@ -8,12 +8,12 @@ import {URL, PORT, PROTOCOL} from './api_constants'
 
 const GET_USER_NOTIFICATIONS_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
 const CREATE_NOTIFICATIONS_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
-const USER_REGISTRATION_URL = `${PROTOCOL}://${URL}${PORT}/api/auth/users/`;
+const USER_REGISTRATION_URL = `${PROTOCOL}://${URL}${PORT}/api/register/`;
 const USER_AUTHORIZATION_URL = `${PROTOCOL}://${URL}${PORT}/api/api-token-auth/`;
 const GET_USER_DATA_URL = `${PROTOCOL}://${URL}${PORT}/api/user_data/`;
 const DISABLE_NOTIFICATION_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
 const REPEAT_NOTIFICATION_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
-const USER_ACTIVATION_URL = `${PROTOCOL}://${URL}${PORT}/api/auth/users/activation/`;
+const USER_ACTIVATION_URL = `${PROTOCOL}://${URL}${PORT}/api/activate/`;
 const BUG_REPORT_URL = `${PROTOCOL}://${URL}${PORT}/api/bug_report/`
 
 function get_headers(token = null) {
@@ -160,15 +160,12 @@ function repeatNotification(token, id, setStatus, clear) {
 
 function userActivation(uid, token, setStatus, navigate) {
     const headers = get_headers();
-    headers["Content-Type"] = "multipart/form-data";
-    const formData = new FormData();
-    formData.append("uid", uid);
-    formData.append("token", token);
-    axios.post(USER_ACTIVATION_URL, formData, {headers})
+    const url = `${USER_ACTIVATION_URL}${uid}/${token}/`;
+    axios.get(url,{headers})
         .then(response => {
             // console.log('userActivation response.data > ', response);
             const status = response.status;
-            if (status === 204) {
+            if (status === 201) {
                 navigate("/authorization");
                 setStatus("Учетная запись подтверждена.<br>Теперь Вы можете авторизоваться.");
             }

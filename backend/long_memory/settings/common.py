@@ -28,8 +28,7 @@ INSTALLED_APPS = [
     'notifications.apps.NotificationsConfig',
     'bug_report.apps.BugReportConfig',
     # ---------------
-    'rest_framework.authtoken',
-    'djoser',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -82,6 +81,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
+USE_TZ = True
 
 USE_I18N = True
 
@@ -145,25 +145,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'www/static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'www/media')
 MEDIA_URL = '/media/'
 
-# djoser
-DOMAIN_NAME = config['DOMAIN_NAME']
-EMAIL_HOST = config['EMAIL_HOST']
-EMAIL_PORT = int(config['EMAIL_PORT'])
-EMAIL_HOST_USER = config['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
-EMAIL_USE_SSL = True if config['EMAIL_USE_SSL'] == 'True' else False
-EMAIL_USE_TLS = True if config['EMAIL_USE_TLS'] == 'True' else False
-SERVER_EMAIL = EMAIL_HOST_USER
-SITE_NAME = config['SITE_NAME']
-
-DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': 'activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True,
-    'SERIALIZERS': {},
-}
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -174,3 +155,10 @@ DATABASES = {
         'PORT': '5432',  # для локального запуска 54326, для контейнера 5432
     }
 }
+
+EMAIL_HOST_USER = config['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
+EMAIL_HOST = config['EMAIL_HOST']
+EMAIL_PORT = config['EMAIL_PORT']
+DOMAIN_NAME = config['DOMAIN_NAME']
+EMAIL_USE_TLS = True

@@ -41,7 +41,7 @@ schedule.every().day.at("05:30").do(job)
 
 if __name__ == "__main__":
     print('Start Script.')
-    # job()  # ToDo убрать на релизе
+    # job()  # ToDo для тестирования
     while True:
         schedule.run_pending()
         sleep(10)

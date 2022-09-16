@@ -11,6 +11,7 @@ class CustomUser(AbstractUser):
     vk_id = models.CharField(verbose_name='VK id', max_length=255, blank=True)
     avatar = models.ImageField(upload_to='users_avatars', blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата регистрации')
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

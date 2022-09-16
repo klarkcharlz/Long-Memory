@@ -4,11 +4,11 @@ SERVICE = 'vk'
 
 config = dotenv_values(".env")
 
-TG_TOKEN = config['TOKEN']
-# HOST = 'rabbitmq'  # для контейнеров
-# HOST = 'localhost'  # для локального запуска
+VK_TOKEN = config['VK_TOKEN']
+RABBIT_HOST = config['RABBIT_HOST']
 SENTRY_DSN = config['SENTRY_DSN']
-ACCESS_TOKEN = config['token']
-HOST = 'localhost'
-EMAIL = config['email_sender']
-EMAIL_PASSWORD = config['email_pswd']
+EMAIL = config['EMAIL_SENDER']
+EMAIL_PASSWORD = config['EMAIL_PASSWORD']
+DOMAIN = config['DOMAIN']
+PORT = config['PORT']
+GROUP_ID = config['GROUP_ID']

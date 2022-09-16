@@ -41,10 +41,12 @@ def check_db():
         if notifications_list:
             if user.vk_reminders:
                 vk_data.append({'id': user.vk_id,
+                                'email': user.email,
                                 'name': name,
                                 'notifications': notifications_list})
             if user.telegram_reminders:
                 telegram_data.append({'id': user.telegram_id,
+                                      'email': user.email,
                                       'name': name,
                                       'notifications': notifications_list})
             if user.email_reminders:
