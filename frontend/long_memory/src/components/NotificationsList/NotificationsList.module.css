@@ -22,6 +22,8 @@
     color: white;
     padding-left: 15px;
     padding-right: 15px;
+    white-space: pre-wrap;
+;
 }
 
 .notification_container > p {

@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 const style = {
+    whiteSpace: 'pre-wrap',
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -33,10 +34,6 @@ export default function StatusModal({
         clearStatus();
     }
 
-    function createMarkup() {
-        return {__html: status};
-    }
-
     return (
         <div>
             <Modal
@@ -46,9 +43,8 @@ export default function StatusModal({
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography
-                        dangerouslySetInnerHTML={createMarkup()}
-                        id="modal-modal-title" variant="h6" component="h2">
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        {status}
                     </Typography>
                     {content}
                 </Box>

@@ -77,8 +77,8 @@ const validateUserInfo = (userData) => {
     let error = [];
     let validate;
 
-    if(userData.vk_reminders && !userData.vk_id) error.push("Вк id не может быть пустым.<br/>");
-    if(userData.telegram_reminders && !userData.telegram_id) error.push("Телеграм id не может быть пустым.<br/>");
+    if(userData.vk_reminders && !userData.vk_id) error.push("Вк id не может быть пустым.");
+    if(userData.telegram_reminders && !userData.telegram_id) error.push("Телеграм id не может быть пустым.");
     if(userData.email_reminders && !userData.email) error.push("Email не может быть пустым.");
 
     if(error.length >= 1) validate = false;

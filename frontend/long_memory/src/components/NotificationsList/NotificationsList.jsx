@@ -38,17 +38,12 @@ const disable = (id, setStatus, filterNotifications, token) => {
 
 const Notification = ({notification, setStatus, filterNotifications, token}) => {
     const {title, description, created_at, next_notifications, id} = notification;
-    const html_description = description.replaceAll('\n', '<br/>').replaceAll(' ', '&nbsp;');
-
-    function createMarkup() {
-        return {__html: html_description};
-    }
 
     return (
         <div className={classes.container}>
             <div className={classes.notification_container}>
                 <p>{title}</p>
-                <p dangerouslySetInnerHTML={createMarkup()}></p>
+                <p>{description}</p>
                 <p>создано: {formatDate(created_at)}</p>
                 <p>напоминание: {formatDate(next_notifications)}</p>
             </div>
