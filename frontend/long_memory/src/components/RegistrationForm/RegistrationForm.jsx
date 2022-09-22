@@ -9,10 +9,10 @@ const validateUserInfo = (username, email, password1, password2) => {
     let error = [];
     let validate;
 
-    if (!username) error.push("Введите логин.<br/>");
-    if (!email) error.push("Заполните адрес электронной почты.<br/>");
-    if (!password1) error.push("Введите пароль.<br/>");
-    if (!password2) error.push("Подтвердите пароль.<br/>");
+    if (!username) error.push("Введите логин.");
+    if (!email) error.push("Заполните адрес электронной почты.");
+    if (!password1) error.push("Введите пароль.");
+    if (!password2) error.push("Подтвердите пароль.");
 
     if (error.length >= 1) validate = false;
     else validate = true;

@@ -8,8 +8,8 @@ const validateUserInfo = (notification) => {
     let error = [];
     let validate;
 
-    if(!notification.title) error.push("Тема не может быть пустой.<br/>");
-    if(!notification.description) error.push("Описание не может быть пустым.<br/>");
+    if(!notification.title) error.push("Тема не может быть пустой.");
+    if(!notification.description) error.push("Описание не может быть пустым.");
 
     if(error.length >= 1) validate = false;
     else validate = true;
