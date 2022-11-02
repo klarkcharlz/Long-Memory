@@ -5,17 +5,20 @@ from sender import send
 import sentry_sdk
 import schedule
 from sentry_sdk import capture_exception
+from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 from dotenv import dotenv_values
 
 from check_db import check_db
 from settings import SENTRY_DSN
 
-
 config = dotenv_values(".env")
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
-    traces_sample_rate=1.0
+    traces_sample_rate=1.0,
+    integrations=[
+        SqlalchemyIntegration(),
+    ]
 )
 
 

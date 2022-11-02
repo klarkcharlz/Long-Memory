@@ -17,6 +17,7 @@ import PersonalArea from './components/PersonalArea/PersonalArea'
 import AddMaterials from './components/AddMaterials/AddMaterials'
 import ActivationUser from './components/ActivationUser/ActivationUser'
 import VkAuth from './components/VkAuth/VkAuth'
+import SupportChat from "./components/SupportChat/SupportChat";
 
 export default function App() {
     const {
@@ -53,6 +54,10 @@ export default function App() {
                     <div className={classes.main}>
                         <div className={classes.router}>
                             <Routes>
+                                <Route
+                                    path="/chat"
+                                    element={<SupportChat/>}
+                                />
                                 <Route
                                     path="/main"
                                     element={<StartPage/>}

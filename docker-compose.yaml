@@ -17,7 +17,8 @@ services:
       retries: 5
     volumes:
       - ./postgresql:/var/lib/postgresql
-
+    networks:
+      - long_memory
 
   backend:
     build: ./backend
@@ -40,6 +41,8 @@ services:
         condition: service_healthy
     volumes:
       - ./www:/www
+    networks:
+      - long_memory
 
   nginx:
     build: ./nginx
@@ -49,6 +52,8 @@ services:
       - backend
     volumes:
       - ./www:/www
+    networks:
+      - long_memory
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -58,6 +63,8 @@ services:
       - 15672:15672
     depends_on:
       - db
+    networks:
+      - long_memory
 
   frontend:
     build: ./frontend
@@ -68,6 +75,8 @@ services:
       - nginx
     volumes:
       - ./www:/www
+    networks:
+      - long_memory
 
   monitoring_script:
     build: ./notification_system/monitoring_script
@@ -77,6 +86,8 @@ services:
       "
     depends_on:
       - rabbitmq
+    networks:
+      - long_memory
 
   email_sender:
     build: ./notification_system/mail
@@ -84,6 +95,8 @@ services:
     command: bash -c "python email_sender.py"
     depends_on:
       - monitoring_script
+    networks:
+      - long_memory
 
   telegram_sender:
     build: ./notification_system/telegram
@@ -91,6 +104,8 @@ services:
     command: bash -c "python bot.py"
     depends_on:
       - monitoring_script
+    networks:
+      - long_memory
 
   vk_sender:
     build: ./notification_system/vk
@@ -98,3 +113,9 @@ services:
     command: bash -c "python vk_sender.py"
     depends_on:
       - monitoring_script
+    networks:
+      - long_memory
+
+networks:
+  long_memory:
+    driver: bridge

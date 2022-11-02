@@ -15,6 +15,7 @@ ALLOWED_HOSTS = ['127.0.0.1',
                  '0.0.0.0']
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -23,11 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    # my applications
-    'users.apps.UsersConfig',
     'notifications.apps.NotificationsConfig',
     'bug_report.apps.BugReportConfig',
-    # ---------------
     'rest_framework.authtoken'
 ]
 

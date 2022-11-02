@@ -1,0 +1,5 @@
+websockets==10.3
+fastapi==0.85.0
+uvicorn==0.18.3
+fastapi_utils==0.2.1
+httpx==0.23.0
