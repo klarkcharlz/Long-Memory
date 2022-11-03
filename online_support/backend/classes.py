@@ -7,7 +7,6 @@ from httpx import AsyncClient, Response
 from logger import logger
 from settings import ADMIN_CHAT
 
-
 USED_CHAT_IDS = []
 
 
@@ -23,7 +22,7 @@ def get_free_chat_id() -> int:
 
 class Bot:
 
-    def __init__(self, token: str, admin_chat_id: int):
+    def __init__(self, token: str, admin_chat_id: int, skip_updates: bool = False):
         self.token = token
         self.admin_chat_id = admin_chat_id
         self.offset = 0
@@ -31,6 +30,8 @@ class Bot:
         self.state = {
             'chat_id': None
         }
+
+        self.skip_updates = skip_updates
 
     def get_url(self, method: str) -> str:
         return f"https://api.telegram.org/bot{self.token}/{method}"
@@ -83,15 +84,29 @@ class Bot:
 
         answers = []
 
-        for mes_obj in data['result']:
-            self.offset = mes_obj['update_id'] + 1
-            if 'message' in mes_obj:
-                answer = self.parse_admin_response(mes_obj)
-                if answer:
-                    answers.append(answer)
-            elif 'callback_query' in mes_obj:
-                callback_data = mes_obj['callback_query']['message']['reply_markup']['inline_keyboard'][0][0]['callback_data']
-                self.state['chat_id'] = int(callback_data.split()[1])
+        if not self.skip_updates:
+            for mes_obj in data['result']:
+                self.offset = mes_obj['update_id'] + 1
+                if 'message' in mes_obj:
+                    answer = self.parse_admin_response(mes_obj)
+                    if answer:
+                        if isinstance(answer, dict):
+                            answers.append(answer)
+                        if isinstance(answer, str):
+                            answers.append({
+                                'chat_id': self.state['chat_id'],
+                                'text': answer
+                            })
+                elif 'callback_query' in mes_obj:
+                    callback_data = mes_obj['callback_query']['message']['reply_markup']['inline_keyboard'][0][0][
+                        'callback_data']
+                    self.state['chat_id'] = int(callback_data.split()[1])
+        else:
+            # при первом запуске ничего не делаем, просто считаем offset
+            for mes_obj in data['result']:
+                self.offset = mes_obj['update_id'] + 1
+
+        self.skip_updates = False
         return answers
 
     @staticmethod

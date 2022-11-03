@@ -14,7 +14,7 @@ from settings import TG_TOKEN, ADMIN_CHAT
 
 app = FastAPI()
 manager = ConnectionManager()
-bot = Bot(TG_TOKEN, ADMIN_CHAT)
+bot = Bot(TG_TOKEN, ADMIN_CHAT, skip_updates=True)
 
 
 @app.on_event("startup")
@@ -25,15 +25,11 @@ async def check_update():
     if answers:
         logger.info(f'Admin answers:\n{answers}')
         for answer in answers:
-            if isinstance(answer, dict):
-                chat_id = answer['chat_id']
-                if chat_id in manager.active_connections:
-                    text = answer['text']
-                    # logger.info(f"Сообщение для чата №{chat_id}: {text}")
-                    await manager.send_personal_message(text, chat_id)
-            elif isinstance(answer, str):
-                if bot.state['chat_id'] is not None:
-                    await manager.send_personal_message(answer, bot.state['chat_id'])
+            chat_id = answer['chat_id']
+            if chat_id is not None and chat_id in manager.active_connections:
+                text = answer['text']
+                # logger.info(f"Сообщение для чата №{chat_id}: {text}")
+                await manager.send_personal_message(text, chat_id)
 
 
 @app.get("/")
@@ -50,7 +46,7 @@ async def websocket_endpoint(websocket: WebSocket, name: str, client_id: str):
         while True:
             data = await websocket.receive_text()
             data = json.loads(data)
-            logger.info(f'{client_id} says: {data}')
+            logger.info(f'{name} says: {data}')
             # await manager.send_personal_message(f"You says: {data}", client_id)  # ToDo echo
             await bot.send_message_to_admin_chat(data, chat_id)
     except WebSocketDisconnect:
