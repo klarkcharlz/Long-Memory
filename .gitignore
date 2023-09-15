@@ -152,3 +152,4 @@ dmypy.json
 
 # local develop django settings
 /backend/long_memory/settings/dev.py
+test_sentry.py

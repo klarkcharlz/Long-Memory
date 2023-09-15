@@ -83,5 +83,3 @@
     + `docker-compose stop nginx`
     + `docker-compose build nginx`
     + `docker-compose up -d nginx`
-  
-+ Не используйте для локальной разработки токены наших продуктовых ботов. Создайте себе своих.
