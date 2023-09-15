@@ -1,4 +1,6 @@
 # Long-Memory
+![Screenshot from 2023-06-22 16-10-37](https://github.com/klarkcharlz/Long-Memory/assets/71945221/29a8b33f-81cc-4006-89da-ca09d995f7ea)
+
 ## Развертывание проекта на новой машине:
   + Установить свежие версии Docker и Docker-Compose
   + Установить NodeJS
