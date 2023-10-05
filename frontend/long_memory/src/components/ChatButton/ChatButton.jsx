@@ -1,4 +1,6 @@
 import React from 'react';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+
 
 function ChatButton({ toggleChat }) {
     return (
@@ -8,7 +10,7 @@ function ChatButton({ toggleChat }) {
             right: '20px',
             borderRadius: '50%',
             fontSize: '24px'
-        }}>☰</button>
+        }}><SupportAgentIcon/></button>
     );
 }
 

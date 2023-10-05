@@ -16,7 +16,6 @@ import useUserContext from "./hooks/useUserContext";
 import PersonalArea from './components/PersonalArea/PersonalArea'
 import AddMaterials from './components/AddMaterials/AddMaterials'
 import ActivationUser from './components/ActivationUser/ActivationUser'
-import SupportChat from "./components/SupportChat/SupportChat";
 
 import ChatButton from './components/ChatButton/ChatButton';
 import ChatBox from './components/ChatBox/ChatBox';
@@ -58,10 +57,6 @@ export default function App() {
                     <div className={classes.main}>
                         <div className={classes.router}>
                             <Routes>
-                                <Route
-                                    path="/chat"
-                                    element={<SupportChat/>}
-                                />
                                 <Route
                                     path="/main"
                                     element={<StartPage/>}

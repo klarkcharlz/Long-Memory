@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Message({text, writer}) {
+function Message({text, writer, name}) {
     return (
         <div style={{
             alignSelf: writer === 'user' ? 'end' : 'start',
@@ -13,7 +13,7 @@ function Message({text, writer}) {
             <p style={{
                 textAlign: writer === 'user' ? 'right' : 'left',
                 color: 'gray'
-            }}>{writer}</p>
+            }}>{name}</p>
             <p>{text}</p>
         </div>
     );
