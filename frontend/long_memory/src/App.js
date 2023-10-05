@@ -16,8 +16,10 @@ import useUserContext from "./hooks/useUserContext";
 import PersonalArea from './components/PersonalArea/PersonalArea'
 import AddMaterials from './components/AddMaterials/AddMaterials'
 import ActivationUser from './components/ActivationUser/ActivationUser'
-import VkAuth from './components/VkAuth/VkAuth'
 import SupportChat from "./components/SupportChat/SupportChat";
+
+import ChatButton from './components/ChatButton/ChatButton';
+import ChatBox from './components/ChatBox/ChatBox';
 
 export default function App() {
     const {
@@ -34,6 +36,8 @@ export default function App() {
         const token = get_token_from_storage();
         setToken(token);
     }, []);
+
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
     return (
         <div className={classes.body}>
@@ -91,10 +95,6 @@ export default function App() {
                                     element={<ActivationUser/>}
                                 />
                                 <Route
-                                    path="/vk_auth"
-                                    element={<VkAuth/>}
-                                />
-                                <Route
                                     path="*"
                                     element={<StartPage/>}
                                 />
@@ -106,6 +106,8 @@ export default function App() {
                     </div>
                 </div>
             </Router>
+            {isChatOpen && <ChatBox />}
+            <ChatButton toggleChat={() => setIsChatOpen(!isChatOpen)} />
             <div>
                 <Footer className={classes.footer}/>
             </div>
