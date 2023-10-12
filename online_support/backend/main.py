@@ -15,8 +15,8 @@ from settings import TG_TOKEN, ADMIN_CHAT, PROTOCOL
 app = FastAPI()
 manager = ConnectionManager()
 bot = Bot(TG_TOKEN, ADMIN_CHAT, skip_updates=True)
-websockets_url = f"/{PROTOCOL}" + "/{name}/{client_id}"
-logger.info(f"websockets_url: {websockets_url}")
+
+
 @app.on_event("startup")
 @repeat_every(seconds=0.1, wait_first=True)
 async def check_update():
@@ -37,7 +37,7 @@ async def get():
     return HTMLResponse('<h1>SUPPORT API</h1>')
 
 
-@app.websocket(websockets_url)
+@app.websocket("/ws/{name}/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, name: str, client_id: str):
     chat_id = await manager.connect(websocket, name, client_id)
     logger.info(f'Current client cnt: {len(manager.active_connections)}.')
