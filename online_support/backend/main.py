@@ -9,7 +9,7 @@ from fastapi_utils.tasks import repeat_every
 
 from classes import ConnectionManager, Bot
 from logger import logger
-from settings import TG_TOKEN, ADMIN_CHAT, PROTOCOL
+from settings import TG_TOKEN, ADMIN_CHAT
 
 
 app = FastAPI()
