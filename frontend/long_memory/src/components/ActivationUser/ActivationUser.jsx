@@ -5,8 +5,6 @@ import useStatusModalHook from "../../hooks/useStatusModalHook";
 import Loader from "../Loader/Loader";
 
 const userActivation_ = (uid, token, setStatus, navigate) => {
-    // console.log(uid)
-    // console.log(token)
     userActivation(uid, token, setStatus, navigate)
 }
 

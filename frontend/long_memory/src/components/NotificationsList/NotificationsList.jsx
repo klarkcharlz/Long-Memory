@@ -117,9 +117,6 @@ const NotificationList = () => {
 
     const sortList = (sort, direction) => {
         if (notifications.length >= 1) {
-            // console.log(notifications);
-            // console.log(sort);
-            // console.log(direction);
             setSelectedSort(sort);
             let notifications_ = [...notifications].sort((prev, cur) => {
                 const prevDate = new Date(prev[sort]);

@@ -61,6 +61,11 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "ping" ]
+      interval: 20s
+      timeout: 10s
+      retries: 5
     depends_on:
       - db
     networks:
@@ -115,6 +120,16 @@ services:
       - monitoring_script
     networks:
       - long_memory
+
+  support_api:
+    build: ./online_support/backend
+    privileged: true
+    restart: always
+    ports:
+      - 5000:5000
+    command: bash -c "
+      uvicorn main:app --host 0.0.0.0 --port 5000
+      "
 
 networks:
   long_memory:

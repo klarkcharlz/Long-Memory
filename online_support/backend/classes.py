@@ -48,6 +48,19 @@ class Bot:
             request = await client.get(url, params=params)
             return request
 
+    async def send_chat_confirm(self):
+        url = self.get_url("sendMessage")
+        message = f"Set state chat id: {self.state['chat_id']}"
+        payload = {
+            'chat_id': self.admin_chat_id,
+            'text': message,
+        }
+        req = await self.post_request(url, payload)
+        status_code = req.status_code
+        if status_code != 200:
+            logger.error(req.text)
+            logger.error(f"Status code send message to telegram != 200({status_code}).")
+
     async def send_message_to_admin_chat(self, message: dict, chat_id: int) -> None:
         url = self.get_url("sendMessage")
 
@@ -101,6 +114,7 @@ class Bot:
                     callback_data = mes_obj['callback_query']['message']['reply_markup']['inline_keyboard'][0][0][
                         'callback_data']
                     self.state['chat_id'] = int(callback_data.split()[1])
+                    await self.send_chat_confirm()
         else:
             # при первом запуске ничего не делаем, просто считаем offset
             for mes_obj in data['result']:

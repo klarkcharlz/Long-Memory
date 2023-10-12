@@ -88,7 +88,6 @@ const validateUserInfo = (userData) => {
 }
 
 const updateUser_ = (setStatus, token, userData) => {
-    // console.log('New user data > ', userData)
     const [valid, error] = validateUserInfo(userData);
     if(valid) updateUser(token, userData, setStatus);
     else setStatus(error.join('\n'));
