@@ -29,6 +29,7 @@ def check_db():
 
         notifications = session.query(NotificationsNotification).\
             filter((NotificationsNotification.user_id_id == id)
+                   & (NotificationsNotification.is_active == True)
                    & (NotificationsNotification.next_notifications <= datetime.now())).\
             order_by(NotificationsNotification.next_notifications)
         notifications_list = []
