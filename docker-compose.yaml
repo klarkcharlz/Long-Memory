@@ -46,8 +46,8 @@ services:
 
   nginx:
     build: ./nginx
-    ports:
-      - 8000:443
+#    ports:
+#      - 8000:443
     depends_on:
       - backend
     volumes:
