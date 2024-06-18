@@ -4,8 +4,8 @@ services:
     image: kartoza/postgis
     privileged: true
     restart: always
-    ports:
-      - 54326:5432
+#    ports:
+#      - 54326:5432
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
@@ -18,14 +18,14 @@ services:
     volumes:
       - ./postgresql:/var/lib/postgresql
     networks:
-      - long_memory
+      - my-custom-network
 
   backend:
     build: ./backend
     privileged: true
     restart: always
-    ports:
-      - 8080:8080
+#    ports:
+#      - 8080:8080
     environment:
       ADMIN_LOGIN: $ADMIN_LOGIN
       ADMIN_PASS: $ADMIN_PASS
@@ -42,7 +42,7 @@ services:
     volumes:
       - ./www:/www
     networks:
-      - long_memory
+      - my-custom-network
 
   nginx:
     build: ./nginx
@@ -53,13 +53,13 @@ services:
     volumes:
       - ./www:/www
     networks:
-      - long_memory
+      - my-custom-network
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'
     ports:
-      - 5672:5672
+#      - 5672:5672
       - 15672:15672
     healthcheck:
       test: [ "CMD", "rabbitmqctl", "ping" ]
@@ -69,19 +69,19 @@ services:
     depends_on:
       - db
     networks:
-      - long_memory
+      - my-custom-network
 
   frontend:
     build: ./frontend
-    ports:
-      - 443:443
-      - 80:80
+#    ports:
+#      - 443:443
+#      - 80:80
     depends_on:
       - nginx
     volumes:
       - ./www:/www
     networks:
-      - long_memory
+      - my-custom-network
 
   monitoring_script:
     build: ./notification_system/monitoring_script
@@ -92,7 +92,7 @@ services:
     depends_on:
       - rabbitmq
     networks:
-      - long_memory
+      - my-custom-network
 
   email_sender:
     build: ./notification_system/mail
@@ -101,7 +101,7 @@ services:
     depends_on:
       - monitoring_script
     networks:
-      - long_memory
+      - my-custom-network
 
   telegram_sender:
     build: ./notification_system/telegram
@@ -110,7 +110,7 @@ services:
     depends_on:
       - monitoring_script
     networks:
-      - long_memory
+      - my-custom-network
 
   vk_sender:
     build: ./notification_system/vk
@@ -119,20 +119,22 @@ services:
     depends_on:
       - monitoring_script
     networks:
-      - long_memory
+      - my-custom-network
 
   support_api:
     build: ./online_support/backend
     privileged: true
     restart: always
-    ports:
-      - 5000:5000
+#    ports:
+#      - 5000:5000
     volumes:
       - ./www:/www
     command: bash -c "
       uvicorn main:app --host 0.0.0.0 --port 5000 --ssl-keyfile=./www/ssl/longmemory.key --ssl-certfile=./www/ssl/longmemory.crt
       "
+    networks:
+      - my-custom-network
 
 networks:
-  long_memory:
-    driver: bridge
+  my-custom-network:
+    external: true
