@@ -15,6 +15,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
     volumes:
       - ./postgresql:/var/lib/postgresql
     networks:
@@ -29,6 +33,10 @@ services:
     environment:
       ADMIN_LOGIN: $ADMIN_LOGIN
       ADMIN_PASS: $ADMIN_PASS
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
     command: bash -c "
       python manage.py makemigrations &&
       python manage.py migrate &&
@@ -52,6 +60,10 @@ services:
       - backend
     volumes:
       - ./www:/www
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
     networks:
       - my-custom-network
 
@@ -68,6 +80,10 @@ services:
       retries: 5
     depends_on:
       - db
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
     networks:
       - my-custom-network
 
@@ -80,6 +96,10 @@ services:
       - nginx
     volumes:
       - ./www:/www
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
     networks:
       - my-custom-network
 
@@ -91,6 +111,10 @@ services:
       "
     depends_on:
       - rabbitmq
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
     networks:
       - my-custom-network
 
@@ -100,6 +124,10 @@ services:
     command: bash -c "python email_sender.py"
     depends_on:
       - monitoring_script
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
     networks:
       - my-custom-network
 
@@ -111,6 +139,10 @@ services:
       - monitoring_script
     networks:
       - my-custom-network
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
 
   vk_sender:
     build: ./notification_system/vk
@@ -118,6 +150,10 @@ services:
     command: bash -c "python vk_sender.py"
     depends_on:
       - monitoring_script
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
     networks:
       - my-custom-network
 
@@ -129,6 +165,10 @@ services:
 #      - 5000:5000
     volumes:
       - ./www:/www
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
     command: bash -c "
       uvicorn main:app --host 0.0.0.0 --port 5000 --ssl-keyfile=./www/ssl/longmemory.key --ssl-certfile=./www/ssl/longmemory.crt
       "
