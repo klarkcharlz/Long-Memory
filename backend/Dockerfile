@@ -1,6 +1,9 @@
 FROM python:3.8.6
 
+
 RUN pip install --upgrade pip
-COPY ./long_memory ./
+COPY ./long_memory/requirements_docker.txt ./requirements_docker.txt
 RUN pip install -r requirements_docker.txt
+COPY ./long_memory ./
+
 RUN pip install gunicorn

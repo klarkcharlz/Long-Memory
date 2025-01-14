@@ -3,7 +3,7 @@ services:
   db:
     image: kartoza/postgis
     privileged: true
-    restart: always
+    restart: unless-stopped
     ports:
       - 54326:5432
     environment:
@@ -23,7 +23,7 @@ services:
   backend:
     build: ./backend
     privileged: true
-    restart: always
+    restart: unless-stopped
     ports:
       - 8080:8080
     environment:
@@ -46,6 +46,7 @@ services:
 
   nginx:
     build: ./nginx
+    restart: unless-stopped
     ports:
       - 8000:443
     depends_on:
@@ -57,6 +58,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    restart: unless-stopped
     container_name: 'rabbitmq'
     ports:
       - 5672:5672
@@ -73,6 +75,7 @@ services:
 
   frontend:
     build: ./frontend
+    restart: unless-stopped
     ports:
       - 443:443
       - 80:80
@@ -85,7 +88,7 @@ services:
 
   monitoring_script:
     build: ./notification_system/monitoring_script
-    restart: always
+    restart: unless-stopped
     command: bash -c "
       python monitoring.py
       "
@@ -96,7 +99,7 @@ services:
 
   email_sender:
     build: ./notification_system/mail
-    restart: always
+    restart: unless-stopped
     command: bash -c "python email_sender.py"
     depends_on:
       - monitoring_script
@@ -105,7 +108,7 @@ services:
 
   telegram_sender:
     build: ./notification_system/telegram
-    restart: always
+    restart: unless-stopped
     command: bash -c "python bot.py"
     depends_on:
       - monitoring_script
@@ -114,7 +117,7 @@ services:
 
   vk_sender:
     build: ./notification_system/vk
-    restart: always
+    restart: unless-stopped
     command: bash -c "python vk_sender.py"
     depends_on:
       - monitoring_script
@@ -124,7 +127,7 @@ services:
   support_api:
     build: ./online_support/backend
     privileged: true
-    restart: always
+    restart: unless-stopped
     ports:
       - 5000:5000
     volumes:

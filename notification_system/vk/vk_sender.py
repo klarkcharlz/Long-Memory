@@ -2,6 +2,7 @@ from json import loads
 from datetime import datetime
 from time import sleep
 from pprint import pprint
+import logging
 
 import pika
 import sentry_sdk
@@ -23,14 +24,14 @@ def main():
             connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_HOST))
         except AMQPConnectionError as err:
             capture_exception(err)
-            print("Нет соединения с Rabbit MQ")
+            logging.warning("Нет соединения с Rabbit MQ")
             sleep(5)
         else:
             break
     channel = connection.channel()
 
     def callback(ch, method, properties, body):
-        print(f'{datetime.now()} - Принял сообщение:')
+        logging.warning(f'{datetime.now()} - Принял сообщение:')
         body = loads(body)
         # print(type(body))
 
@@ -52,12 +53,13 @@ def main():
     channel.queue_declare(queue=SERVICE)
     channel.basic_consume(queue=SERVICE, on_message_callback=callback, auto_ack=True)
 
-    print(f'Start consumer {SERVICE}.\nWaiting for messages.')
+    logging.warning(f'Start consumer {SERVICE}.\nWaiting for messages.')
     try:
         channel.start_consuming()
     except KeyboardInterrupt:
         channel.stop_consuming()
     except Exception as err:
+        logging.warning(err)
         capture_exception(err)
         channel.stop_consuming()
 
