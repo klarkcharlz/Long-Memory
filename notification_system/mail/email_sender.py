@@ -6,6 +6,7 @@ from json import loads
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from time import sleep
+import logging
 
 import pika
 import jinja2
@@ -50,7 +51,9 @@ def send_email(sender, password, domain, port, mail_add, name, body):
             server.sendmail(sender, mail_add, msg.as_string())
     except Exception as e:
         capture_exception(e)
-        print(e)
+        logging.warning(e)
+    else:
+        logging.warning("Сообщение успешно отправлено!")
 
 
 def get_body(name, notifications):
@@ -99,6 +102,7 @@ def send_for_user(data_set):
     for item in data_set:
         try:
             email_add = item['email']
+            logging.warning(f"email: {email_add}")
             name = item['name']
             notifications = item['notifications']
 
@@ -107,10 +111,10 @@ def send_for_user(data_set):
             send_email(SENDER, PASSWORD, DOMAIN, PORT, email_add, name, body)  # передаем данные для отправки
         except Exception as err:
             capture_exception(err)
-            print(err)
-            print('Не удалось отправить сообщение пользователю')
+            logging.warning(err)
+            logging.warning('Не удалось отправить сообщение пользователю')
 
-    print(f'[INFO] {len(data_set)} messages sent')
+    logging.warning(f'[INFO] {len(data_set)} messages sent')
 
 
 def main():
@@ -124,7 +128,7 @@ def main():
             connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_HOST))
         except AMQPConnectionError as err:
             capture_exception(err)
-            print("Нет соединения с Rabbit MQ")
+            logging.warning("Нет соединения с Rabbit MQ")
             sleep(5)
         else:
             break
@@ -141,7 +145,7 @@ def main():
                           auto_ack=True,
                           on_message_callback=callback)
 
-    print(f'--- Waiting for {SERVICE} messages --- CTRL+C for exit')
+    logging.warning(f'--- Waiting for {SERVICE} messages --- CTRL+C for exit')
     channel.start_consuming()
 
 
@@ -149,4 +153,4 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print('Interrupted')
+        logging.warning('Interrupted')

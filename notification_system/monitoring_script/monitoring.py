@@ -1,5 +1,6 @@
 from datetime import datetime
 from time import sleep
+import logging
 
 from sender import send
 import sentry_sdk
@@ -23,18 +24,18 @@ sentry_sdk.init(
 
 
 def job():
-    print('Start collect data.')
+    logging.warning('Start collect data.')
     try:
         data = check_db()
-        print(f'Get data from db: {data}')
+        logging.warning('Get data from db')
         for service, data in data.items():
             if data:
-                print(f'{datetime.now()} - send message to {service}:')
+                logging.warning(f'{datetime.now()} - send message to {service}:')
                 send(service, data)
             else:
-                print(f'{datetime.now()} - empty data to {service}:')
+                logging.warning(f'{datetime.now()} - empty data to {service}:')
     except Exception as err:
-        print(err)
+        logging.warning(err)
         capture_exception(err)
         sleep(10)
 
@@ -43,8 +44,8 @@ def job():
 schedule.every().day.at("05:30").do(job)
 
 if __name__ == "__main__":
-    print('Start Script.')
-    # job()  # ToDo для тестирования
+    logging.warning('Start Script.')
+    job()  # ToDo для тестирования
     while True:
         schedule.run_pending()
         sleep(10)

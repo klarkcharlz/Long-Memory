@@ -1,5 +1,6 @@
 from pprint import pprint
 from datetime import datetime
+import logging
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -23,6 +24,7 @@ def check_db():
         (UsersCustomuser.vk_reminders == True)
         | (UsersCustomuser.telegram_reminders == True)
         | (UsersCustomuser.email_reminders == True))
+
     for user in subscribers:
         id = user.id
         name = user.first_name if user.first_name else user.username
@@ -54,7 +56,6 @@ def check_db():
                 email_data.append({'email': user.email,
                                    'name': name,
                                    'notifications': notifications_list})
-
     services_data = {
         'vk': vk_data,
         'telegram': telegram_data,
@@ -70,4 +71,4 @@ if __name__ == "__main__":
     data = check_db()
     pprint(check_db())
     for services, users in data.items():
-        print(f'{services} subscribe {len(users)} users.')
+        logging.warning(f'{services} subscribe {len(users)} users.')

@@ -105,7 +105,7 @@ services:
 
   monitoring_script:
     build: ./notification_system/monitoring_script
-    restart: always
+    # restart: always
     command: bash -c "
       python monitoring.py
       "
@@ -120,7 +120,7 @@ services:
 
   email_sender:
     build: ./notification_system/mail
-    restart: always
+    # restart: always
     command: bash -c "python email_sender.py"
     depends_on:
       - monitoring_script
@@ -133,7 +133,7 @@ services:
 
   telegram_sender:
     build: ./notification_system/telegram
-    restart: always
+    # restart: always
     command: bash -c "python bot.py"
     depends_on:
       - monitoring_script
@@ -146,7 +146,7 @@ services:
 
   vk_sender:
     build: ./notification_system/vk
-    restart: always
+    # restart: always
     command: bash -c "python vk_sender.py"
     depends_on:
       - monitoring_script

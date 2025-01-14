@@ -6,6 +6,7 @@ import aio_pika
 from aiogram import Bot, Dispatcher, executor, types
 import sentry_sdk
 from sentry_sdk import capture_exception
+import logging
 
 import client_kb as kb
 
@@ -38,9 +39,9 @@ async def listen_rabbit_mq(loop):
                 f"amqp://guest:guest@{RABBIT_HOST}/", loop=loop
             )
         except Exception as err:
-            print(err)
+            logging.warning(err)
             capture_exception(err)
-            print('Не удалось подключиться к RabbitMQ')
+            logging.warning('Не удалось подключиться к RabbitMQ')
             await sleep(10)
         else:
             break
@@ -53,6 +54,7 @@ async def listen_rabbit_mq(loop):
             auto_delete=False
         )
         async with queue.iterator() as queue_iter:
+            logging.warning("Слушаем входящие сообщения!")
             async for message in queue_iter:
                 async with message.process():
                     data = loads(message.body)
@@ -65,25 +67,28 @@ async def listen_rabbit_mq(loop):
                         for notification in user['notifications']:
                             mess += "\U0000272A " + notification['title'] + '\n' + notification['description'] + "\n\n"
                         try:
+                            logging.warning(f"User id {id} message len {len(mess)}")
                             await send_message(id, mess)
                         except Exception as err:
-                            print(err)
+                            logging.warning(err)
                             capture_exception(err)
-                            print('Не удалось отправить сообщение пользователю')
+                            logging.warning('Не удалось отправить сообщение пользователю')
 
                     if queue.name in message.body.decode():
                         break
 
 
 if __name__ == '__main__':
+    logging.warning("Start Program")
     rabbit_loop = get_event_loop()
     rabbit_loop.create_task(listen_rabbit_mq(rabbit_loop))
     while True:
         try:
+            logging.warning("Start Bot")
             executor.start_polling(dp, skip_updates=True, loop=rabbit_loop)
         except Exception as err:
-            print(err)
-            print('Не удалось запустить бота')
+            logging.warning(err)
+            logging.warning('Не удалось запустить бота')
             block_sleep(10)
         else:
             break
