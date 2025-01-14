@@ -27,7 +27,6 @@ class Command(BaseCommand):
     stealth_options = ("stdin",)
 
     def __init__(self, *args, **kwargs):
-        print('ХУЙ')
         super().__init__(*args, **kwargs)
         self.UserModel = get_user_model()
         self.username_field = self.UserModel._meta.get_field(
