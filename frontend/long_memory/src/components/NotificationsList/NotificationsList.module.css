@@ -23,7 +23,7 @@
     padding-left: 15px;
     padding-right: 15px;
     white-space: pre-wrap;
-;
+    word-wrap: break-word;
 }
 
 .notification_container > p {
@@ -118,7 +118,7 @@
 
 
 .title_input {
-    width: 20em;
+    width: 30em;
     height: 3em;
     background: #155466;
     border: none;
@@ -135,8 +135,8 @@
 }
 
 .textarea_input {
-    width: 20em;
-    height: 5em;
+    width: 40em;
+    height: 10em;
     background: #155466;
     border: none;
     border-radius: 10px;

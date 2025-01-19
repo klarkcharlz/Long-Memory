@@ -14,7 +14,7 @@ const style = {
     bgcolor: '#1b6d85',
     border: '4px inset white',
     borderRadius: '25px',
-    opacity: '0.8',
+    // opacity: '0.9',
     textAlign: 'center',
     p: 4,
 };

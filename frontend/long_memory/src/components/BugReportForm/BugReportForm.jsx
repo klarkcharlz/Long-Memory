@@ -39,8 +39,6 @@ const BugReportForm = () => {
 
     const setStatus = useStatusModalHook();
 
-
-
     return (
         <div className={classes.container}>
             <ThemeProvider theme={theme}>
