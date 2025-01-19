@@ -59,3 +59,14 @@ class NotificationsDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
             return self.partial_update(request, *args, **kwargs)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def put(self, request, *args, **kwargs):
+        data = request.data
+        notify = Notifications.objects.get(pk=kwargs['pk'])
+        if request.user.id == notify.user_id.id:
+            notify.title = data['title']
+            notify.description = data['description']
+            notify.save()
+            return self.retrieve(request, *args, **kwargs)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)

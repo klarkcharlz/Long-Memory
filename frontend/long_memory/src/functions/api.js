@@ -13,6 +13,7 @@ const USER_AUTHORIZATION_URL = `${PROTOCOL}://${URL}${PORT}/api/api-token-auth/`
 const GET_USER_DATA_URL = `${PROTOCOL}://${URL}${PORT}/api/user_data/`;
 const DISABLE_NOTIFICATION_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
 const REPEAT_NOTIFICATION_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
+const EDIT_NOTIFICATION_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
 const USER_ACTIVATION_URL = `${PROTOCOL}://${URL}${PORT}/api/activate/`;
 const BUG_REPORT_URL = `${PROTOCOL}://${URL}${PORT}/api/bug_report/`
 
@@ -141,6 +142,18 @@ function repeatNotification(token, id, setStatus, clear) {
     })
 }
 
+function editNotification(token, id, setStatus, data, correctSave) {
+    console.log("put data: ", data);
+    const headers = get_headers(token);
+    axios.put(`${EDIT_NOTIFICATION_URL}${id}`, data, {headers})
+        .then(response => {
+          correctSave(data);
+          setStatus("Изменения успешно сохранены!");
+        }).catch((error) => {
+        setStatus(parseResponse(error.response.data))
+    })
+}
+
 function userActivation(uid, token, setStatus, navigate) {
     const headers = get_headers();
     const url = `${USER_ACTIVATION_URL}${uid}/${token}/`;
@@ -168,5 +181,6 @@ export {
     userRegistration,
     userAuthorization,
     userActivation,
-    sendBugReport
+    sendBugReport,
+    editNotification
 };
