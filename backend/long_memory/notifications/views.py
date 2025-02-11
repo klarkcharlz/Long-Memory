@@ -24,11 +24,13 @@ class NotificationsListCreateView(generics.ListCreateAPIView):
         """Возвращает все напоминания для авторизованного пользователя, происходит выборка записей по полям:
             user_id - это user полученный из request.user,
             is_active - активное напоминание, должно быть True, если напоминание больше не актуально - False,
-            next_notifications -  все актуальные напоминания на текущее время
+            next_notifications - все актуальные напоминания на текущее время
         """
         user = self.request.user
-        return Notifications.objects.filter(user_id=user, is_active=True,
-                                            next_notifications__lte=datetime.now()).order_by('next_notifications')
+        return Notifications.objects.filter(
+            user_id=user, is_active=True,
+            next_notifications__lte=datetime.now()
+        ).order_by('next_notifications')
 
 
 class NotificationsDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):

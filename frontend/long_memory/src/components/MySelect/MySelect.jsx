@@ -6,8 +6,9 @@ import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 
 const MySelect = ({options, defaultValue, onChange}) => {
     const [value_, setValue] =useState(defaultValue);
-    const [sortingDirection, setSortingDirection] = useState('up');
+    const [sortingDirection, setSortingDirection] = useState('down');
     const [arrow, setArrow] = useState(<ArrowCircleDownIcon/>);
+
 
     useEffect(() => {
         onChange(value_, sortingDirection);
@@ -19,7 +20,7 @@ const MySelect = ({options, defaultValue, onChange}) => {
                     value={value_}
                     onChange={event => setValue(event.target.value)}
             >
-                <option disabled value={defaultValue}>по дате напоминания</option>
+
                 {options.map(option =>
                     <option key={option.value} value={option.value}>
                         {option.name}
@@ -30,10 +31,10 @@ const MySelect = ({options, defaultValue, onChange}) => {
                 e.stopPropagation();
                 if (sortingDirection === 'up') {
                     setSortingDirection('down');
-                    setArrow(<ArrowCircleUpIcon/>);
+                    setArrow(<ArrowCircleDownIcon/>);
                 } else if (sortingDirection === 'down') {
                     setSortingDirection('up');
-                    setArrow(<ArrowCircleDownIcon/>);
+                    setArrow(<ArrowCircleUpIcon/>);
                 }
             }}>
                 {arrow}

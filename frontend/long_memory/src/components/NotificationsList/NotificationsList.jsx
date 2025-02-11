@@ -140,11 +140,11 @@ const NotificationList = () => {
   const [page, setPage] = useState(1);
   const setStatus = useStatusModalHook();
 
+  const [perPage, setPerPage] = useState(5);  // количество напоминаний на странице для пагинации
+
   const [isLoading, setIsLoading] = useState(false);
   const [filterText, setFilterText] = useState('');
   const [selectedSort, setSelectedSort] = useState('next_notifications');
-  const PER_PAGE = 2;  // количество напоминаний на странице для пагинации
-
 
   const endLoading = () => {
     setIsLoading(false);
@@ -167,8 +167,8 @@ const NotificationList = () => {
     })
   }, [filterText, notifications]);
 
-  const count = Math.ceil(filterSortedNotifications.length / PER_PAGE);
-  const _DATA = usePagination(filterSortedNotifications, PER_PAGE);
+  const count = Math.ceil(filterSortedNotifications.length / perPage);
+  const _DATA = usePagination(filterSortedNotifications, perPage);
 
   useEffect(() => {
     if (page > count) {
@@ -264,6 +264,16 @@ const NotificationList = () => {
                           token={token}
             />)
           }
+          {_DATA.currentData().length !== 0 ? <ThemeProvider theme={darkTheme}>
+            <Pagination
+              count={count}
+              page={page}
+              size="large"
+              color="primary"
+              variant="outlined"
+              onChange={handleChange}
+            />
+          </ThemeProvider> : <h1>Ничего не найдено!</h1>}
         </div>
       )
     }
