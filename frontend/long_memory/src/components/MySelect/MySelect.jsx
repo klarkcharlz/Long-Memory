@@ -6,7 +6,7 @@ import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 
 const MySelect = ({options, defaultValue, onChange}) => {
     const [value_, setValue] =useState(defaultValue);
-    const [sortingDirection, setSortingDirection] = useState('down');
+    const [sortingDirection, setSortingDirection] = useState('up');
     const [arrow, setArrow] = useState(<ArrowCircleDownIcon/>);
 
 
@@ -31,10 +31,10 @@ const MySelect = ({options, defaultValue, onChange}) => {
                 e.stopPropagation();
                 if (sortingDirection === 'up') {
                     setSortingDirection('down');
-                    setArrow(<ArrowCircleDownIcon/>);
+                    setArrow(<ArrowCircleUpIcon/>);
                 } else if (sortingDirection === 'down') {
                     setSortingDirection('up');
-                    setArrow(<ArrowCircleUpIcon/>);
+                    setArrow(<ArrowCircleDownIcon/>);
                 }
             }}>
                 {arrow}
