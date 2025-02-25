@@ -15,6 +15,7 @@ from django.template.loader import render_to_string
 
 from .serializers import CreateUserSerializer, UserSerializer
 from .models import CustomUser
+from notifications.models import Theme
 
 
 class CreateUserView(CreateAPIView):

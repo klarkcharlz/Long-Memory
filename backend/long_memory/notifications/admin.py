@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Notifications
+from .models import Notifications, Theme
 
 
 class NotificationsAdmin(admin.ModelAdmin):
@@ -16,3 +16,13 @@ class NotificationsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Notifications, NotificationsAdmin)
+
+
+class ThemesAdmin(admin.ModelAdmin):
+    list_display = ('user', 'title')
+    list_display_links = ('title', )
+    search_fields = ('user', 'title')
+    list_filter = ('user', 'title',)  # фильтрация
+
+
+admin.site.register(Theme, ThemesAdmin)
