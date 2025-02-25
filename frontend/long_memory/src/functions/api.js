@@ -16,171 +16,210 @@ const REPEAT_NOTIFICATION_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`
 const EDIT_NOTIFICATION_URL = `${PROTOCOL}://${URL}${PORT}/api/notifications/`;
 const USER_ACTIVATION_URL = `${PROTOCOL}://${URL}${PORT}/api/activate/`;
 const BUG_REPORT_URL = `${PROTOCOL}://${URL}${PORT}/api/bug_report/`
+const CREATE_THEME_URL = `${PROTOCOL}://${URL}${PORT}/api/themes/`
+const DELETE_THEME_URL = `${PROTOCOL}://${URL}${PORT}/api/themes/`
+const GET_THEMES_URL = `${PROTOCOL}://${URL}${PORT}/api/themes/`
 
 function get_headers(token = null) {
-    let headers = {
-        'Content-Type': 'application/json'
-    }
-    if (token) {
-        headers['Authorization'] = 'token ' + token
-    }
-    return headers
+  let headers = {
+    'Content-Type': 'application/json'
+  }
+  if (token) {
+    headers['Authorization'] = 'token ' + token
+  }
+  return headers
 }
 
 
 function sendBugReport(data, setStatus) {
-    const headers = get_headers();
-    axios.post(BUG_REPORT_URL, data, {headers})
-        .then(response => {
-            setStatus("Отправлено.");
-        }).catch((error) => {
-        setStatus('Извините, проблемы с сервером.');
-    })
+  const headers = get_headers();
+  axios.post(BUG_REPORT_URL, data, {headers})
+    .then(response => {
+      setStatus("Отправлено.");
+    }).catch((error) => {
+    setStatus('Извините, проблемы с сервером.');
+  })
 }
 
 
 function getUserNotifications(token, setNotifications, endLoading, setStatus) {
-    const headers = get_headers(token);
-    axios.get(GET_USER_NOTIFICATIONS_URL, {headers})
-        .then(response => {
-            endLoading(false);
-            const notifications = response.data;
-            setNotifications(notifications);
-        }).catch((error) => {
-        setStatus('Извините, проблемы с сервером.')
-        endLoading(false);
-    })
+  const headers = get_headers(token);
+  axios.get(GET_USER_NOTIFICATIONS_URL, {headers})
+    .then(response => {
+      endLoading(false);
+      const notifications = response.data;
+      setNotifications(notifications);
+    }).catch((error) => {
+    setStatus('Извините, проблемы с сервером.')
+    endLoading(false);
+  })
 }
 
 function getUserData(setStatus, token, setUserData, endLoading) {
-    const headers = get_headers(token);
-    axios.get(GET_USER_DATA_URL, {headers})
-        .then(response => {
-            endLoading(false)
-            const userData = response.data;
-            // setStatus("Информация получена.");
-            setUserData(userData);
-        }).catch((error) => {
-        endLoading(false)
-        setStatus('Извините, проблемы с сервером.');
-    })
+  const headers = get_headers(token);
+  axios.get(GET_USER_DATA_URL, {headers})
+    .then(response => {
+      endLoading(false)
+      const userData = response.data;
+      // setStatus("Информация получена.");
+      setUserData(userData);
+    }).catch((error) => {
+    endLoading(false)
+    setStatus('Извините, проблемы с сервером.');
+  })
 }
 
 function createNotification(data, token, setStatus, clearForm) {
-    const headers = get_headers(token);
-    axios.post(CREATE_NOTIFICATIONS_URL, data, {headers})
-        .then(response => {
-            clearForm();
-            setStatus("Напоминание создано успешно.");
-        }).catch((error) => {
-        setStatus('Извините, проблемы с сервером.');
-    })
+  const headers = get_headers(token);
+  axios.post(CREATE_NOTIFICATIONS_URL, data, {headers})
+    .then(response => {
+      clearForm();
+      setStatus("Напоминание создано успешно.");
+    }).catch((error) => {
+    setStatus('Извините, проблемы с сервером.');
+  })
 }
 
 function updateUser(token, data, setStatus) {
-    let delAvatar = false;
-    const avatar = data.avatar;
-    if (avatar === null || !data.avatar.startsWith('data:image')) {
-        delete data.avatar;
-        delAvatar = true;
-    }
-    const headers = get_headers(token);
-    axios.patch(GET_USER_DATA_URL, data, {headers})
-        .then(response => {
-            setStatus('Информация обновлена.');
-        }).catch((error) => {
-        setStatus(parseResponse(error.response.data));
-    })
-    if (delAvatar) data.avatar = avatar;
+  let delAvatar = false;
+  const avatar = data.avatar;
+  if (avatar === null || !data.avatar.startsWith('data:image')) {
+    delete data.avatar;
+    delAvatar = true;
+  }
+  const headers = get_headers(token);
+  axios.patch(GET_USER_DATA_URL, data, {headers})
+    .then(response => {
+      setStatus('Информация обновлена.');
+    }).catch((error) => {
+    setStatus(parseResponse(error.response.data));
+  })
+  if (delAvatar) data.avatar = avatar;
 }
 
 
 function userRegistration(pass, username, email, navigate, setStatus, offDisabled, onDisabled) {
-    const headers = get_headers();
-    onDisabled();
-    axios.post(USER_REGISTRATION_URL, {username: username, password: pass, email: email}, {headers})
-        .then(response => {
-            navigate("/authorization");
-            setStatus('На вашу почту отправлено письмо с подтверждением регистрации.')
-            offDisabled()
-        }).catch((error) => {
-        setStatus(parseResponse(error.response.data));
-        offDisabled();
-    })
+  const headers = get_headers();
+  onDisabled();
+  axios.post(USER_REGISTRATION_URL, {username: username, password: pass, email: email}, {headers})
+    .then(response => {
+      navigate("/authorization");
+      setStatus('На вашу почту отправлено письмо с подтверждением регистрации.')
+      offDisabled()
+    }).catch((error) => {
+    setStatus(parseResponse(error.response.data));
+    offDisabled();
+  })
 }
 
 function userAuthorization(username, pass, setToken, navigate, setStatus) {
-    const headers = get_headers();
-    axios.post(USER_AUTHORIZATION_URL, {username: username, password: pass}, {headers})
-        .then(response => {
-            const token = response.data.token;
-            set_token_to_storage(token);
-            setToken(token);
-            navigate("/notifications_list");
-        }).catch((error) => {
-        setStatus('Неправильный логин или пароль.');
-    });
+  const headers = get_headers();
+  axios.post(USER_AUTHORIZATION_URL, {username: username, password: pass}, {headers})
+    .then(response => {
+      const token = response.data.token;
+      set_token_to_storage(token);
+      setToken(token);
+      navigate("/notifications_list");
+    }).catch((error) => {
+    setStatus('Неправильный логин или пароль.');
+  });
 }
 
 function disableNotification(token, id, setStatus, clear) {
-    const headers = get_headers(token);
-    axios.delete(`${DISABLE_NOTIFICATION_URL}${id}`, {headers})
-        .then(response => {
-            clear();
-        }).catch((error) => {
-        setStatus(parseResponse(error.response.data))
-    })
+  const headers = get_headers(token);
+  axios.delete(`${DISABLE_NOTIFICATION_URL}${id}`, {headers})
+    .then(response => {
+      clear();
+    }).catch((error) => {
+    setStatus(parseResponse(error.response.data))
+  })
 }
 
 function repeatNotification(token, id, setStatus, clear) {
-    const headers = get_headers(token);
-    axios.patch(`${REPEAT_NOTIFICATION_URL}${id}`, {}, {headers})
-        .then(response => {
-            clear();
-        }).catch((error) => {
-        setStatus(parseResponse(error.response.data))
-    })
+  const headers = get_headers(token);
+  axios.patch(`${REPEAT_NOTIFICATION_URL}${id}`, {}, {headers})
+    .then(response => {
+      clear();
+    }).catch((error) => {
+    setStatus(parseResponse(error.response.data))
+  })
 }
 
-function editNotification(token, id, setStatus, data, correctSave) {
-    console.log("put data: ", data);
-    const headers = get_headers(token);
-    axios.put(`${EDIT_NOTIFICATION_URL}${id}`, data, {headers})
-        .then(response => {
-          correctSave(data);
-          setStatus("Изменения успешно сохранены!");
-        }).catch((error) => {
-        setStatus(parseResponse(error.response.data))
-    })
+function editNotification(token, id, setStatus, data, themeTitle, correctSave) {
+  const headers = get_headers(token);
+  axios.put(`${EDIT_NOTIFICATION_URL}${id}`, data, {headers})
+    .then(response => {
+      correctSave(data, themeTitle);
+      setStatus("Изменения успешно сохранены!");
+    }).catch((error) => {
+    setStatus(parseResponse(error.response.data))
+  })
 }
 
 function userActivation(uid, token, setStatus, navigate) {
-    const headers = get_headers();
-    const url = `${USER_ACTIVATION_URL}${uid}/${token}/`;
-    axios.get(url,{headers})
-        .then(response => {
-            const status = response.status;
-            if (status === 201) {
-                navigate("/authorization");
-                setStatus("Учетная запись подтверждена.<br>Теперь Вы можете авторизоваться.");
-            }
-        }).catch((error) => {
+  const headers = get_headers();
+  const url = `${USER_ACTIVATION_URL}${uid}/${token}/`;
+  axios.get(url, {headers})
+    .then(response => {
+      const status = response.status;
+      if (status === 201) {
         navigate("/authorization");
-        setStatus("Извините, проблемы с сервером или же ссылка уже не действительна.");
-    });
+        setStatus("Учетная запись подтверждена.<br>Теперь Вы можете авторизоваться.");
+      }
+    }).catch((error) => {
+    navigate("/authorization");
+    setStatus("Извините, проблемы с сервером или же ссылка уже не действительна.");
+  });
+}
+
+function createTheme(data, token, saveThemes, setStatus) {
+  const headers = get_headers(token);
+  axios.post(CREATE_THEME_URL, data, {headers})
+    .then(response => {
+      saveThemes(response.data.id);
+      setStatus("Тема создана успешно.");
+    }).catch((error) => {
+    setStatus('Извините, проблемы с сервером.');
+  })
+}
+
+function deleteTheme(id, token, clearTheme, setStatus) {
+  const headers = get_headers(token);
+  const url = `${DELETE_THEME_URL}${id}`;
+  axios.delete(url,{headers})
+    .then(response => {
+      clearTheme(id);
+      setStatus("Тема удалена успешно.");
+    }).catch((error) => {
+    setStatus('Извините, проблемы с сервером.');
+  })
+}
+
+function getThemes(token, saveThemes, setStatus) {
+  const headers = get_headers(token);
+  axios.get(GET_THEMES_URL, {headers})
+    .then(response => {
+      const themes = response.data;
+      saveThemes(themes);
+    }).catch((error) => {
+    setStatus('Извините, проблемы с сервером.')
+  })
 }
 
 
 export {
-    repeatNotification,
-    disableNotification,
-    getUserData,
-    updateUser,
-    getUserNotifications,
-    createNotification,
-    userRegistration,
-    userAuthorization,
-    userActivation,
-    sendBugReport,
-    editNotification
+  repeatNotification,
+  disableNotification,
+  getUserData,
+  updateUser,
+  getUserNotifications,
+  createNotification,
+  userRegistration,
+  userAuthorization,
+  userActivation,
+  sendBugReport,
+  editNotification,
+  createTheme,
+  deleteTheme,
+  getThemes
 };

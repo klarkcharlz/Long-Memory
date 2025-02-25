@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from "react";
 import classes from "./NotificationsList.module.css";
 import useUserContext from "../../hooks/useUserContext";
-import {getUserNotifications} from "../../functions/api";
+import {getThemes, getUserNotifications} from "../../functions/api";
 import {formatDate} from "../../functions/utils";
 import Pagination from '@mui/material/Pagination';
 import usePagination from '../../hooks/usePagination';
@@ -38,15 +38,60 @@ const disable = (id, setStatus, filterNotifications, token) => {
 }
 
 
-const NotificatorEditor = ({origTitle, origDescription, saveData}) => {
+const ThemeSelect = ({themes, theme, saveTheme}) => {
+
+  return (
+    <label style={{position: "relative", display: "flex"}}>
+      <select style={{
+        height: "3em",
+        background: "#155466",
+        border: "none",
+        borderRadius: "10px",
+        color: "white",
+        paddingLeft: "20px",
+        marginTop: "10px",
+        outline: "none",
+        width: "200px"
+      }}
+              value={theme.title}
+              onChange={event => saveTheme(event.target)}
+      >
+        {themes.map(theme =>
+          <option key={theme.id} value={theme.title}>
+            {theme.title}
+          </option>
+        )}
+      </select>
+    </label>
+  );
+};
+
+
+const NotificatorEditor = ({
+                             origTitle,
+                             origDescription,
+                             notifyTheme,
+                             saveData,
+                             themes
+                           }) => {
+  const slicedThemes = themes.slice(1);
   const [title, setTitle] = useState(origTitle || '');
   const [description, setDescription] = useState(origDescription || '');
+
+  const [theme, setTheme] = useState(notifyTheme);
+
+  const saveTheme = (target) => {
+    const selectedTheme = slicedThemes.find(t => t.title === target.value);
+    if (selectedTheme) {
+      setTheme(selectedTheme);
+    }
+  }
 
   return (
     <div className={classes.editor}>
       <form className={classes.card_form}>
         <label className={classes.title_area}>
-          Заголовок
+          Заголовок и тема
           <input className={classes.title_input}
                  type="text"
                  value={title}
@@ -55,6 +100,7 @@ const NotificatorEditor = ({origTitle, origDescription, saveData}) => {
                  }}
                  name="title"/>
         </label>
+        <ThemeSelect themes={slicedThemes} theme={theme} saveTheme={saveTheme}/>
         <br/>
         <label className={classes.text_area}>
           Описание:
@@ -70,7 +116,7 @@ const NotificatorEditor = ({origTitle, origDescription, saveData}) => {
         <button className={classes.edit_button}
                 onClick={(e) => {
                   e.preventDefault();
-                  saveData(title, description);
+                  saveData(title, description, theme);
                 }}
                 type="button">
           Сохранить
@@ -80,25 +126,36 @@ const NotificatorEditor = ({origTitle, origDescription, saveData}) => {
   );
 };
 
-const Notification = ({notification, setStatus, filterNotifications, token}) => {
-  const {title: tO, description: dO, created_at, next_notifications, id} = notification;
+const Notification = ({notification, setStatus, filterNotifications, token, themes}) => {
+  const {title: tO, description: dO, created_at, next_notifications, id, theme_data} = notification;
   const openEditor = useContentModalHook();
 
   const [title, setTitle] = useState(tO || '');
   const [description, setDescription] = useState(dO || '');
+  const [themeData, setThemeData] = useState(theme_data);
 
-  const correctSave = (data) =>{
-    const {title, description} = data;
+  const correctSave = (data, themeTitle) => {
+    const {title, description, theme} = data;
+    const newTheme = {
+      id: theme,
+      title: themeTitle
+    }
     setTitle(title);
     setDescription(description);
-  }
+    if (theme === 0 || theme === null) {
+      setThemeData(null);
+    } else {
+      setThemeData(newTheme);
+    }
+  };
 
-  const saveNewData = (title, description) => {
+  const saveNewData = (title, description, theme) => {
     const data = {
       title,
-      description
+      description,
+      theme: theme.id === 0 ? null : theme.id
     };
-    editNotification(token, id, setStatus, data, correctSave)
+    editNotification(token, id, setStatus, data, theme.title, correctSave);
   };
 
   return (
@@ -107,7 +164,25 @@ const Notification = ({notification, setStatus, filterNotifications, token}) => 
         <p>{title}</p>
         <p>{description}</p>
         <p>создано: {formatDate(created_at)}</p>
-        <p>напоминание: {formatDate(next_notifications)}</p>
+        <p style={{display: "flex"}}>
+          напоминание: {formatDate(next_notifications)}
+        </p>
+        {themeData && (
+          <div
+            style={{
+              justifyContent: "flex-end",
+              backgroundColor: "#dbeafe",
+              color: "#1e40af",
+              padding: "6px 12px",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: "bold",
+              boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            {themeData.title}
+          </div>
+        )}
       </div>
       <div className={classes.button}>
         <button onClick={(e) => {
@@ -121,6 +196,8 @@ const Notification = ({notification, setStatus, filterNotifications, token}) => 
             origTitle={title}
             origDescription={description}
             saveData={saveNewData}
+            notifyTheme={themeData || {id: 0, title: "Нету"}}
+            themes={themes}
           />)
         }}>Изменить
         </button>
@@ -131,8 +208,8 @@ const Notification = ({notification, setStatus, filterNotifications, token}) => 
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const NotificationList = () => {
   const [notifications, setNotifications] = useState([]);
@@ -145,6 +222,20 @@ const NotificationList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [filterText, setFilterText] = useState('');
   const [selectedSort, setSelectedSort] = useState('next_notifications');
+  const [themes, setThemes] = useState([]);
+
+  const [theme, setTheme] = useState({id: -1, title: "Все темы"});
+
+  const saveThemes = (themes) => {
+    setThemes([{id: -1, title: "Все темы"}, {id: 0, title: "Без темы"}, ...themes])
+  }
+
+  const saveTheme = (target) => {
+    const selectedTheme = themes.find(t => t.title === target.value);
+    if (selectedTheme) {
+      setTheme(selectedTheme);
+    }
+  }
 
   const endLoading = () => {
     setIsLoading(false);
@@ -153,7 +244,8 @@ const NotificationList = () => {
   useEffect(() => {
     if (token) {
       setIsLoading(true);
-      getUserNotifications(token, setNotifications, endLoading, setStatus)
+      getUserNotifications(token, setNotifications, endLoading, setStatus);
+      getThemes(token, saveThemes, setStatus)
       // setTimeout(() => {
       //     getUserNotifications(token, setNotifications, endLoading);
       // }, 3000)
@@ -161,11 +253,23 @@ const NotificationList = () => {
   }, [token]);
 
   const filterSortedNotifications = useMemo(() => {
-    return notifications.filter((el) => {
+    let notifications_ = notifications.filter((el) => {
       return el.title.toLowerCase().includes(filterText.toLowerCase()) ||
         el.description.toLowerCase().includes(filterText.toLowerCase());
     })
-  }, [filterText, notifications]);
+
+    if (theme.id >= 1) {
+      notifications_ = notifications.filter((el) => {
+        return el.theme_data && el.theme_data.id === theme.id;
+      });
+    } else if (theme.id === 0) {
+      notifications_ = notifications.filter((el) => {
+        return el.theme_data == undefined || el.theme_data === null;
+      });
+    }
+
+    return notifications_;
+  }, [filterText, notifications, theme]);
 
   const count = Math.ceil(filterSortedNotifications.length / perPage);
   const _DATA = usePagination(filterSortedNotifications, perPage);
@@ -244,6 +348,11 @@ const NotificationList = () => {
               ]}
             />
           </div>
+
+          <div>
+            <ThemeSelect themes={themes} theme={theme} saveTheme={saveTheme}/>
+          </div>
+
           <br/>
 
           <ThemeProvider theme={darkTheme}>
@@ -262,6 +371,7 @@ const NotificationList = () => {
                           filterNotifications={filterNotifications}
                           key={notification.id}
                           token={token}
+                          themes={themes}
             />)
           }
           {_DATA.currentData().length !== 0 ? <ThemeProvider theme={darkTheme}>
