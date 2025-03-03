@@ -154,3 +154,4 @@ dmypy.json
 /backend/long_memory/settings/dev.py
 /test_sentry.py
 backend/long_memory/www/
+/utils

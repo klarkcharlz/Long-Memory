@@ -152,7 +152,7 @@ function editNotification(token, id, setStatus, data, themeTitle, correctSave) {
       correctSave(data, themeTitle);
       setStatus("Изменения успешно сохранены!");
     }).catch((error) => {
-    setStatus(parseResponse(error.response.data))
+    setStatus(parseResponse(error.response.data));
   })
 }
 
@@ -186,7 +186,7 @@ function createTheme(data, token, saveThemes, setStatus) {
 function deleteTheme(id, token, clearTheme, setStatus) {
   const headers = get_headers(token);
   const url = `${DELETE_THEME_URL}${id}`;
-  axios.delete(url,{headers})
+  axios.delete(url, {headers})
     .then(response => {
       clearTheme(id);
       setStatus("Тема удалена успешно.");

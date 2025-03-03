@@ -22,7 +22,7 @@ class NotificationsListCreateView(generics.ListCreateAPIView):
                 theme = Theme.objects.get(id=theme_id, user=request.user)
                 data['theme'] = theme.id
             except Theme.DoesNotExist:
-                data['theme'] = None  # Если тема не найдена или не принадлежит пользователю
+                del data['theme']
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
@@ -87,6 +87,8 @@ class NotificationsDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
             except Theme.DoesNotExist:
                 return Response({"error": "Тема не найдена или не принадлежит пользователю"},
                                 status=status.HTTP_400_BAD_REQUEST)
+        else:
+            notify.theme = None
 
         notify.save()
         return self.retrieve(request, *args, **kwargs)

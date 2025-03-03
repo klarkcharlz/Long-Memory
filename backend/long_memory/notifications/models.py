@@ -39,7 +39,7 @@ class Notifications(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     theme = models.ForeignKey(
         Theme, on_delete=models.SET_NULL, verbose_name='Тема',
-        related_name='theme', null=True, default=None
+        related_name='theme', null=True, default=None, blank=True,
     )
 
     def __str__(self):

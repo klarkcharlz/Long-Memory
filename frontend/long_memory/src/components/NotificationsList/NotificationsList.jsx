@@ -126,7 +126,7 @@ const NotificatorEditor = ({
   );
 };
 
-const Notification = ({notification, setStatus, filterNotifications, token, themes}) => {
+const Notification = ({notification, setStatus, filterNotifications, token, themes, reDraw}) => {
   const {title: tO, description: dO, created_at, next_notifications, id, theme_data} = notification;
   const openEditor = useContentModalHook();
 
@@ -136,16 +136,28 @@ const Notification = ({notification, setStatus, filterNotifications, token, them
 
   const correctSave = (data, themeTitle) => {
     const {title, description, theme} = data;
-    const newTheme = {
-      id: theme,
-      title: themeTitle
-    }
     setTitle(title);
     setDescription(description);
-    if (theme === 0 || theme === null) {
-      setThemeData(null);
-    } else {
+
+    if (themeData != null && themeData.id !== theme) {
+      if (theme == null || theme === 0) {
+        setThemeData(null);
+        reDraw(id, theme, themeTitle);
+      } else {
+        const newTheme = {
+          id: theme,
+          title: themeTitle
+        };
+        setThemeData(newTheme);
+        reDraw(id, theme, themeTitle);
+      }
+    } else if (themeData === null && (theme !== null && theme !== 0)) {
+      const newTheme = {
+        id: theme,
+        title: themeTitle
+      };
       setThemeData(newTheme);
+      reDraw(id, theme, themeTitle);
     }
   };
 
@@ -224,6 +236,26 @@ const NotificationList = () => {
   const [selectedSort, setSelectedSort] = useState('next_notifications');
   const [themes, setThemes] = useState([]);
 
+  const reDraw = (id, themeId, themeTitle) => {
+    const extractedNotification = notifications.find(el => el.id === id);
+
+    if (themeId === 0 || themeId === null) {
+      extractedNotification.theme_data = null;
+    } else {
+      extractedNotification.theme_data = {
+        id: themeId,
+        title: themeTitle
+      }
+    }
+
+    const filteredNotifications = notifications.filter((el) => {
+      return el.id !== id;
+    });
+
+    setNotifications([...filteredNotifications, extractedNotification]);
+
+  }
+
   const [theme, setTheme] = useState({id: -1, title: "Все темы"});
 
   const saveThemes = (themes) => {
@@ -246,9 +278,6 @@ const NotificationList = () => {
       setIsLoading(true);
       getUserNotifications(token, setNotifications, endLoading, setStatus);
       getThemes(token, saveThemes, setStatus)
-      // setTimeout(() => {
-      //     getUserNotifications(token, setNotifications, endLoading);
-      // }, 3000)
     }
   }, [token]);
 
@@ -372,6 +401,7 @@ const NotificationList = () => {
                           key={notification.id}
                           token={token}
                           themes={themes}
+                          reDraw={reDraw}
             />)
           }
           {_DATA.currentData().length !== 0 ? <ThemeProvider theme={darkTheme}>
